@@ -27,6 +27,7 @@ public class AccountController {
 	public String login(MemberVO member, HttpSession session) {		
 		
 		MemberVO member2 = memberService.findMemberByIdAndPasswd(member);
+		System.out.println(member2);
 		if (member2 == null) {
 			return "redirect:/";
 		} else {

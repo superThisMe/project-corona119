@@ -6,11 +6,26 @@
 
 <mapper namespace="com.project.corona.mapper.MemberMapper">
 
-	<select id="selectMemberByEmailAndPasswd" 
-			parameterType="MemberVO" resultType="MemberVO">
-		SELECT member_id
-		FROM member
-		WHERE member_id = #{ id } AND member_psw = #{ passwd }
+	<resultMap type="MemberVO" id="MemberMap">
+		<id column="member_no" property="memberNo" />
+		<result column="member_id" property="memberId" />
+		<result column="member_psw" property="memberPsw" />
+		<result column="member_email" property="memberEmail" />
+		<result column="member_regdate" property="memberRegdate" />
+		<result column="member_type" property="memberType" />
+		<result column="member_deleted" property="memberDeleted" />
+		<result column="member_addr" property="memberAddr" />
+		<result column="member_addr_detail" property="memberAddrDetail" />
+		<result column="member_name" property="memberName" />
+		<result column="member_nickname" property="memberNickname" />
+		<result column="member_point" property="memberPoint" />
+	</resultMap>
+
+	<select id="selectMemberByIdAndPasswd" 
+			parameterType="MemberVO" resultMap="MemberMap">
+		SELECT member_id, member_nickname 
+		FROM MEMBER
+		WHERE member_id = #{ memberId } AND member_psw = #{ memberPsw }
 	</select>	
 
 </mapper>

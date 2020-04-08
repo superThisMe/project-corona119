@@ -14,19 +14,27 @@
             <li class="nav-item active"><a class="nav-link" href="#">Home
                     <span class="sr-only">(current)</span>
                 </a></li>
-            <li class="nav-item">
-                <button type="button" class="btn btn-link" data-toggle="modal"
-                    data-target="#registerModal">회원가입</button>
-                <button type="button" class="btn btn-link" data-toggle="modal" data-target="#loginModal">로그인</button>
-            </li>
-            <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 회원정보(임시) </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">마이페이지</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">쪽지함</a>
-                </div>
-            </li>
+            <c:choose>
+	            <c:when test="${ empty sessionScope.loginuser }">
+		            <li class="nav-item">
+		                <button type="button" class="btn btn-link" data-toggle="modal"
+		                    data-target="#registerModal">회원가입</button>
+		                <button type="button" class="btn btn-link" data-toggle="modal" data-target="#loginModal">로그인</button>
+		            </li>
+	            </c:when>
+	            <c:otherwise>
+		            <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+		                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> ${ loginuser.memberNickname }님 환영합니다 </a>
+		                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+		                    <a class="dropdown-item" href="#">마이페이지</a>
+		                    <div class="dropdown-divider"></div>
+		                    <a class="dropdown-item" href="#">쪽지함</a>
+		                    <div class="dropdown-divider"></div>
+		                    <a class="dropdown-item" href="/corona/logout">로그아웃</a>
+		                </div>
+		            </li>
+	            </c:otherwise>
+            </c:choose>
         </ul>
     </div>
 </nav>
@@ -107,13 +115,13 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form action="/corona/login" method="post">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">아이디</label> <input type="text" class="form-control" id="id">
+                        <label for="exampleInputEmail1">아이디</label> <input type="text" class="form-control" id="id" name="memberId">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">비밀번호</label> <input type="password" class="form-control"
-                            id="exampleInputPassword1">
+                            id="passwd" name="memberPsw">
                     </div>
                     <div align="right">
                         <button type="submit" class="btn btn-primary">로그인</button>

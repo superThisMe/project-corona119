@@ -4,13 +4,17 @@
 	PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
-<!--  oracle null 처리  -->
+<!-- oracle null 처리 -->
 <!-- 
-    <settings>
-        <setting name="cacheEnabled" value="false" />
-        <setting name="jdbcTypeForNull" value="NULL" />
-    </settings>
- -->    
+	<settings>
+		<setting name="cacheEnabled" value="false" />
+		<setting name="jdbcTypeForNull" value="NULL" />
+	</settings>
+ -->
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="false" />
+	</settings>
+	
 	<typeAliases>
 		<typeAlias type="com.project.corona.vo.NoticeVO" alias="NoticeVO" />
 		<typeAlias type="com.project.corona.vo.MemberVO" alias="MemberVO" />
