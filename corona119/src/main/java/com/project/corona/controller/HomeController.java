@@ -22,9 +22,9 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Model model) {
 		
-//		List<NoticeVO> notice = noticeService.findNoticeList();
+		List<NoticeVO> notice = noticeService.findNoticeList();
 		
-//		model.addAttribute("notice", notice);
+		model.addAttribute("notice", notice);
 		
 		return "index";
 	}
