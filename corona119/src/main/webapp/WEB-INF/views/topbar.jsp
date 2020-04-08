@@ -51,7 +51,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="regist">
+                <form id="signUp" action="/corona/account/signup" method="POST">
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="inputEmail4">아이디</label> <input type="text" class="form-control" id="memberId"
@@ -78,11 +78,12 @@
                     </div>
                     <div class="form-group">
                         <label for="inputAddress">Address</label> <input type="text" class="form-control"
-                            id="inputAddress" name="inputAddress" placeholder="1234 Main St">
+                            id="inputAddress" name="memberAddr" placeholder="1234 Main St">
+                            
                     </div>
                     <div class="form-group">
                         <label for="inputAddress2">Address 2</label> <input type="text" class="form-control"
-                            id="inputAddress2" name="inputAddress2" placeholder="Apartment, studio, or floor">
+                            id="inputAddress2" name="memberAddrDetail" placeholder="Apartment, studio, or floor">
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
@@ -94,7 +95,7 @@
                         </div>
                     </div>
                     <div align="right">
-                        <button type="button" class="btn btn-primary">완료</button>
+                        <button type="submit" class="btn btn-primary">완료</button>
                     </div>
                 </form>
             </div>
@@ -132,7 +133,3 @@
         </div>
     </div>
 </div>
-
-</body>
-
-</html>
