@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.corona.mapper.AccountMapper">
+<!-- 
+	<resultMap type="NoticeVO" id="NoticeMap">
+		<id column="notice_no" property="noticeNo" />
+		<result column="notice_title" property="noticeTitle" />
+		<result column="notice_content" property="noticeContent" />
+		<result column="notice_regDate" property="noticeRegDate" />
+		<result column="notice_count" property="noticeCount" />
+		<result column="notice_writer" property="noticeWriter" />
+		<result column="notice_deleted" property="noticeDeleted" />
+		<result column="member_no" property="memberNo" />
+	</resultMap>
+	VALUES (#{memberNo}, #{memberPsw}, #{memberEmail}, #{memberAddr}, #{memberAddrDetail}, #{memberName}, #{memberNickname})
+ -->	
+	<insert id="insertMember" parameterType="MemberVO">
+		INSERT INTO MEMBER(member_id, member_psw, member_email, member_addr, member_addr_detail, member_name, member_nickname)
+		VALUES (#{memberId}, #{memberPsw}, #{memberEmail}, #{memberAddr}, #{memberAddrDetail}, #{memberName}, #{memberNickname})
+	</insert>
+<!-- 	
+	<select id="selectNoticeList" resultMap="NoticeMap">
+		SELECT *
+		FROM NOTICE
+	</select>
+ -->
+
+</mapper>
