@@ -8,19 +8,32 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.project.corona.service.AccountService;
 import com.project.corona.service.MemberService;
 import com.project.corona.vo.MemberVO;
 
 @Controller
 public class AccountController {
+
+	@Autowired
+	@Qualifier("accountService")
+	private AccountService accountService;
 	
 	@Autowired
 	@Qualifier("memberService")
 	private MemberService memberService;
 	
-	@GetMapping(value = "/register")
-	public String home() {		
-		return "register";
+	@PostMapping(value = "/account/signup")
+	public String signUp(MemberVO member) {
+		//System.out.println(member);
+		accountService.registMember(member);
+		
+		return "redirect:/";
+	}
+	
+	@GetMapping(path = "/popup/juso")
+	public String jusoPop() {
+		return "/popup/jusoPopup";
 	}
 	
 	@PostMapping(value = "/login")
