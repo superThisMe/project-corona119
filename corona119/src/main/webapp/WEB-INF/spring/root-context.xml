@@ -41,5 +41,6 @@
 	<mybatis-spring:scan base-package="com.project.corona.mapper" />
 	
 	<import resource="notice-context.xml"/>
+	<import resource="member-context.xml" />
 
 </beans>
