@@ -9,37 +9,6 @@
 		  class="com.project.corona.serviceImpl.NoticeServiceImpl">
 		<property name="noticeMapper" ref="noticeMapper" />
 	</bean>
-	<!--  -->
-	<!-- 
-	<bean id="boardDao"
-		  class="com.springboard.repository.RawJdbcBoardDao">
-	</bean>
-	
-	<bean id="cpBoardDao"
-		  class="com.springboard.repository.RawJdbcWithConnectionPoolBoardDao">
-		<property name="dataSource" ref="apacheDataSource" />
-		<property name="dataSource" ref="hikariDataSource" />
-	</bean>
-	
-	<bean id="templateBoardDao"
-		  class="com.springboard.repository.JdbcTemplateBoardDao">
-		<property name="jdbcTemplate" ref="jdbcTemplate" />
-	</bean>
-	
-	<bean id="jdbcTemplate"
-		  class="org.springframework.jdbc.core.JdbcTemplate">
-		<property name="dataSource" ref="hikariDataSource" />
-	</bean>
-	
-	<bean id="mybatisBoardDao"
-		  class="com.springboard.repository.MyBatisBoardDao">
-		<property name="sessionTemplate" ref="sessionTemplate" />
-	</bean>
-	
-	<bean id="mapperBoardDao"
-		  class="com.springboard.repository.MyBatisMapperBoardDao">
-		<property name="boardMapper" ref="boardMapper" />
-	</bean> -->
 	
 </beans>
 

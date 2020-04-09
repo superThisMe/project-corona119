@@ -23,17 +23,12 @@ public class AccountController {
 	@Qualifier("memberService")
 	private MemberService memberService;
 	
-	@PostMapping(value = "/account/signup")
+	@PostMapping(path = {"/account/signup"})
 	public String signUp(MemberVO member) {
-		//System.out.println(member);
+
 		accountService.registMember(member);
 		
 		return "redirect:/";
-	}
-	
-	@GetMapping(path = "/popup/juso")
-	public String jusoPop() {
-		return "/popup/jusoPopup";
 	}
 	
 	@PostMapping(value = "/login")
