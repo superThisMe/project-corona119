@@ -3,7 +3,8 @@
 
 <!-- Sidebar -->
 <div class="bg-light border-right" id="sidebar-wrapper">
-	<div class="sidebar-heading"><a href="/corona"><b>코로나 119</b></a></div>
+	<!-- <div class="sidebar-heading"><a href="/corona"><b>코로나 119</b></a></div> -->
+	<div class="sidebar-heading"><a href="/corona"><img alt="코로나119" src="/corona/resources/img/logo.png" style="width: 200px"></a></div>
 	<div class="list-group list-group-flush">
 		<a href="#" class="list-group-item list-group-item-action bg-light">공지사항</a>
 		<a href="#" class="list-group-item list-group-item-action bg-light">뉴스&#38;이슈</a>

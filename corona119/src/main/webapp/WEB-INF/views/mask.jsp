@@ -117,7 +117,21 @@
                 $("#menu-toggle").html("메뉴 닫기");
             }
         });
+        
     </script>
+
+	<!-- Daum Map API -->
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cabf55639c1474c9f288939642d439aa"></script>
+	
+	<script type="text/javascript">
+		var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+		var options = { //지도를 생성할 때 필요한 기본 옵션
+			center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+			level: 3 //지도의 레벨(확대, 축소 정도)
+		};
+	
+		var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴	
+	</script>
 
     <script type="text/javascript">
 		$(function() {
@@ -126,8 +140,8 @@
 				$("#address").attr('disabled', true);
 				$("#search-btn").html("다시 검색");
 
-				let addr = $("#address").val().replace(/ /gi, "%20");
-				let rAddr = "https://8oi9s0nnth.apigw.ntruss.com/corona19-masks/v1/storesByAddr/json?address=" + addr;
+				var addr = $("#address").val().replace(/ /gi, "%20");
+				var rAddr = "https://8oi9s0nnth.apigw.ntruss.com/corona19-masks/v1/storesByAddr/json?address=" + addr;
 				console.log(addr);
 				console.log(rAddr);
 				
@@ -136,22 +150,44 @@
 					"method": "get",
 					"async": true,
 					"success": function(data, status, xhr) {
-						console.log(data);
-						console.log(data.stores[0].name);
 
-						let stores = data.stores;
+						var stores = data.stores;
 						console.log(stores);
 						$.each(stores, function(i, data) {
-				            var body = "<tr>";
+							var remain_stat = null;
+							var body = null;
+				            if (data.remain_stat === "plenty") {
+					            remain_stat = "많음";
+					            body = "<tr class='table-success'>";
+					        } else if (data.remain_stat === "some") {
+					        	remain_stat = "보통";
+					        	body = "<tr class='table-warning'>";
+						    } else if (data.remain_stat === "few") {
+						    	remain_stat = "적음";
+						    	body = "<tr class='table-danger'>";
+						    } else if (data.remain_stat === "empty") {
+						    	remain_stat = "없음";
+						    	body = "<tr class='table-dark'>";
+						    } else if (data.remain_stat === "break") {
+						    	remain_stat = "중지";
+						    	body = "<tr>";
+						    }
 				            body    += "<td>" + data.name + "</td>";
 				            body    += "<td>" + data.addr + "</td>";
-				            body    += "<td>" + data.remain_stat + "</td>";
-				            body    += "<td>" + data.stock_at + "</td>";
+				            if (data.remain_stat != null) {
+					            body += "<td>" + remain_stat + "</td>";
+					        } else {
+					        	body += "<td>없음</td>";
+						    }
+				            if (data.stock_at != null) {
+					            body += "<td>" + data.stock_at + "</td>";
+					        } else {
+					        	body += "<td>없음</td>";
+						    }
 				            body    += "</tr>";
 				            $( "tbody" ).append(body);
 				        });
-
-						//$("tbody").append("<tr><td>" + data.stores[0].name + "</td><td></td><td></td><td></td></tr>");
+				        
 						$('#dataTable').DataTable();
 						
 						$("#dataTable_wrapper").children().eq(0).remove();
