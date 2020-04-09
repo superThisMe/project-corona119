@@ -26,7 +26,7 @@
 		            <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
 		                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> ${ loginuser.memberNickname }님 환영합니다 </a>
 		                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-		                    <a class="dropdown-item" href="#">마이페이지</a>
+		                    <a class="dropdown-item" href="/corona/mypage/main">마이페이지</a>
 		                    <div class="dropdown-divider"></div>
 		                    <a class="dropdown-item" href="#">쪽지함</a>
 		                    <div class="dropdown-divider"></div>
