@@ -10,7 +10,7 @@ public class NoticeVO {
 	private int noticeNo;
 	private String noticeTitle;
 	private String noticeContent;
-	private Date noticeRegDate;
+	private Date noticeRegdate;
 	private int noticeCount;
 	private String noticeWriter;
 	private Boolean noticeDeleted;
