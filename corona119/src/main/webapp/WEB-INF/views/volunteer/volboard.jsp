@@ -62,6 +62,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                               	<c:forEach items="${volboardList}" var="vList">
+                               		<tr>
+                               			<td>${vList.boardNo}</td>
+                               			<td>${vList.boardTitle}</td>
+                               			<td>${vList.memberNo}</td>
+                               			<td>location</td>
+                               			<td>dueDate</td>
+                               			<td>confirm</td>
+                           			</tr> 		
+                               	</c:forEach>
+<!--                                 
                                     <tr>
                                         <td>Tiger Nixon</td>
                                         <td>System Architect</td>
@@ -518,6 +529,7 @@
                                         <td>2011/01/25</td>
                                         <td>$112,000</td>
                                     </tr>
+ -->
                                 </tbody>
                             </table>
                         </div>
@@ -548,6 +560,7 @@
 
     <!-- Page level custom scripts -->
     <script src="/corona/resources/datatables/datatables-demo.js"></script>
+    <script src="/corona/resources/js/common.js"></script>
 
     <!-- Menu Toggle Script -->
     <script>
@@ -561,12 +574,16 @@
                 $("#menu-toggle").html("메뉴 닫기");
             }
         });
+
+        /* 
         //$("#dataTable_wrapper > div.row:last-child > div:first-child").empty().remove();
         $("#dataTable_info").text("").css("padding-top", "0");
         $("<button class='btn btn-primary'>").text("글쓰기").appendTo("#dataTable_info");
         $("<div class='col-sm-12 col-md-5'>").attr({"id" : "btnArea"}).appendTo("#dataTable_wrapper > div.row:last-child");
         //$("<button>").text("글쓰기").appendTo("#btnArea");
+ */        
     });
+	//$.fn.DataTable.ext.pager.numbers_length = 9;
     </script>
 
 </body>

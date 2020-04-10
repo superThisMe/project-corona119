@@ -18,6 +18,8 @@
 	<typeAliases>
 		<typeAlias type="com.project.corona.vo.NoticeVO" alias="NoticeVO" />
 		<typeAlias type="com.project.corona.vo.MemberVO" alias="MemberVO" />
+		<typeAlias type="com.project.corona.vo.BoardVO" alias="BoardVO" />
+		<typeAlias type="com.project.corona.vo.VolunteerVO" alias="VolunteerVO" />
 	</typeAliases>
 	
 </configuration>

@@ -43,5 +43,6 @@
 	<import resource="account-context.xml"/>
 	<import resource="notice-context.xml"/>
 	<import resource="member-context.xml" />
+	<import resource="volunteer-context.xml" />
 
 </beans>

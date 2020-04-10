@@ -105,6 +105,7 @@
 
     <!-- Page level custom scripts -->
     <!-- <script src="/corona/resources/datatables/datatables-demo.js"></script> -->
+    <script src="/corona/resources/js/common.js"></script>
 
     <!-- Menu Toggle Script -->
     <script>
