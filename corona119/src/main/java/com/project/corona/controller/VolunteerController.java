@@ -20,7 +20,7 @@ public class VolunteerController {
 	@Qualifier("volunteerService")
 	private VolunteerService volunteerService;
 	
-	@GetMapping(path = "/")
+	@GetMapping(value = {"", "/"})
 	public String volunteer() {		
 		return "/volunteer/volmain";
 	}
@@ -29,8 +29,6 @@ public class VolunteerController {
 	public String volBoard(Model model) {
 		
 		List<BoardVO> volboardList = volunteerService.findVolBoardList();
-		
-		System.out.println(volboardList);
 		
 		model.addAttribute("volboardList", volboardList);
 		

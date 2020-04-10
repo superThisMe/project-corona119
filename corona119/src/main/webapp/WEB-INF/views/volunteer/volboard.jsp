@@ -1,5 +1,6 @@
 <%@ page pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -67,9 +68,9 @@
                                			<td>${vList.boardNo}</td>
                                			<td>${vList.boardTitle}</td>
                                			<td>${vList.memberNo}</td>
-                               			<td>location</td>
-                               			<td>dueDate</td>
-                               			<td>confirm</td>
+                               			<td>${vList.volunteers.volLocation}</td>
+                               			<td><fmt:formatDate value="${vList.volunteers.volDuedate}" pattern="yyyy.MM.dd"/></td>
+                               			<td>${vList.volunteers.volConfirm}</td>
                            			</tr> 		
                                	</c:forEach>
 <!--                                 

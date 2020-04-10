@@ -8,7 +8,7 @@
 	<div class="list-group list-group-flush">
 		<a href="#" class="list-group-item list-group-item-action bg-light">공지사항</a>
 		<a href="#" class="list-group-item list-group-item-action bg-light">뉴스&#38;이슈</a>
-		<a href="#" class="list-group-item list-group-item-action bg-light">봉사활동</a>
+		<a href="/corona/volunteer" class="list-group-item list-group-item-action bg-light">봉사활동</a>
 		<a href="#" class="list-group-item list-group-item-action bg-light">무료나눔</a>
 		<a href="/corona/boards/freeboard" class="list-group-item list-group-item-action bg-light">자유게시판</a>
 		<a href="/corona/mask" class="list-group-item list-group-item-action bg-light">공적마스크 현황</a>

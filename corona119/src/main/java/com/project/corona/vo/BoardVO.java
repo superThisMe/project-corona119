@@ -21,7 +21,7 @@ public class BoardVO {
 	private String boardTag;
 	private int boardSingo;
 	
-	private List<VolunteerVO> voluteers;
+	private VolunteerVO volunteers;
 	private List<BookmarkVO> bookmarks;
 	private List<ReplyVO> replies; 
 	
