@@ -36,7 +36,7 @@
                 <h1 class="mt-4">test text</h1>
                 <p>Notice 테이블 상황 (임시)</p>
                 <c:forEach items="${ notice }" var="nList">
-                    ${ nList.noticeNo } | ${ nList.noticeTitle } | ${ nList.noticeContent } | ${ nList.noticeRegDate } |
+                    ${ nList.noticeNo } | ${ nList.noticeTitle } | ${ nList.noticeContent } | ${ nList.noticeRegdate } |
                     ${ nList.noticeWriter }
                     <br>
                 </c:forEach>
