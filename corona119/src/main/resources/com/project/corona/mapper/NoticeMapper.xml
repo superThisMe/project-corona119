@@ -10,7 +10,7 @@
 		<id column="notice_no" property="noticeNo" />
 		<result column="notice_title" property="noticeTitle" />
 		<result column="notice_content" property="noticeContent" />
-		<result column="notice_regDate" property="noticeRegDate" />
+		<result column="notice_regdate" property="noticeRegdate" />
 		<result column="notice_count" property="noticeCount" />
 		<result column="notice_writer" property="noticeWriter" />
 		<result column="notice_deleted" property="noticeDeleted" />

@@ -12,7 +12,7 @@
 	</settings>
  -->
 	<settings>
-		<setting name="mapUnderscoreToCamelCase" value="false" />
+		<setting name="mapUnderscoreToCamelCase" value="true" />
 	</settings>
 	
 	<typeAliases>

@@ -6,7 +6,7 @@
 
 <mapper namespace="com.project.corona.mapper.MemberMapper">
 
-	<resultMap type="MemberVO" id="MemberMap">
+	<!-- <resultMap type="MemberVO" id="MemberMap">
 		<id column="member_no" property="memberNo" />
 		<result column="member_id" property="memberId" />
 		<result column="member_psw" property="memberPsw" />
@@ -23,6 +23,13 @@
 
 	<select id="selectMemberByIdAndPasswd" 
 			parameterType="MemberVO" resultMap="MemberMap">
+		SELECT member_id, member_nickname 
+		FROM MEMBER
+		WHERE member_id = #{ memberId } AND member_psw = #{ memberPsw }
+	</select> -->
+		
+	<select id="selectMemberByIdAndPasswd" 
+			parameterType="MemberVO" resultType="MemberVO">
 		SELECT member_id, member_nickname 
 		FROM MEMBER
 		WHERE member_id = #{ memberId } AND member_psw = #{ memberPsw }
