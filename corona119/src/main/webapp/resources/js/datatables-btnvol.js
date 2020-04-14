@@ -5,7 +5,7 @@ $(function() {
 		"language" : {
 			"zeroRecords" : "등록된 글이 없습니다",
 //			"info" : "<button class='btn btn-primary' id='volWrite' type='button'>글쓰기</button>",
-			"info" : "<a href='/corona/volunteer/board/write' class='btn btn-primary'>글쓰기</a>",
+			"info" : "<a href='/corona/volunteer/write' class='btn btn-primary'>글쓰기</a>",
 			"infoEmpty" : "",
 			"infoFiltered" : "",
 			"paginate" : {

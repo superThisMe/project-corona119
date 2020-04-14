@@ -26,7 +26,7 @@ public class VolunteerController {
 		return "/volunteer/volmain";
 	}
 	
-	@GetMapping(path = "/board")
+	@GetMapping(path = "/list")
 	public String volBoard(Model model) {
 		
 		List<BoardVO> volboardList = volunteerService.findVolBoardList();
@@ -37,22 +37,19 @@ public class VolunteerController {
 		return "/volunteer/volboard";
 	}
 	
-	@GetMapping(path = "/board/write")
+	@GetMapping(path = "/write")
 	public String volWrite(Model model) {
 		
-		List<BoardVO> volboardList = volunteerService.findVolBoardList();
-		
-		model.addAttribute("volboardList", volboardList);
+
 		
 		return "/volunteer/volwrite";
 	}
 	
-	@GetMapping(path = "/board/detail")
+	@GetMapping(path = "/detail")
+//	public String volDetail(int boardNo, Model model) {
 	public String volDetail(Model model) {
 		
-		List<BoardVO> volboardList = volunteerService.findVolBoardList();
-		
-		model.addAttribute("volboardList", volboardList);
+		//BoardVO volboards = volunteerService.findVolBoardByBoardNo(boardNo);
 		
 		return "/volunteer/voldetail";
 	}

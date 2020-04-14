@@ -47,35 +47,42 @@
             <div class="container-fluid">
 
                 <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">봉사활동 게시판</h1>
+                <h1 class="h3 mb-2 text-gray-800"><!-- 제목 --></h1>
 
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">봉사활동 게시판</h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTableVol" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>번호</th>
+                                        <th>승인</th>
                                         <th>제목</th>
                                         <th>작성자</th>
                                         <th>지역</th>
                                         <th>마감일</th>
-                                        <th>승인</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                	<c:forEach items="${volboardList}" var="vList">
                                		<tr>
+<%-- 
                                			<td>${vList.boardNo}</td>
                                			<td onClick="location.href='/corona/volunteer/board/detail'" style="cursor:pointer;">${vList.boardTitle}</td>
                                			<td>${vList.memberNo}</td>
                                			<td>${vList.volunteers.volLocation}</td>
                                			<td><fmt:formatDate value="${vList.volunteers.volDuedate}" pattern="yyyy.MM.dd"/></td>
                                			<td><c:choose><c:when test="${!vList.volunteers.volConfirm}"><i class="fas fa-exclamation-circle fa-2x" style="color:#f6c23e"></i></c:when><c:otherwise><i class="fas fa-check-circle fa-2x" style="color:#1cc88a"></i></c:otherwise></c:choose></td>
+ --%>
+										<td><c:choose><c:when test="${!vList.volunteers.volConfirm}"><i class="fas fa-exclamation-circle fa-2x" style="color:#f6c23e"></i></c:when><c:otherwise><i class="fas fa-check-circle fa-2x" style="color:#1cc88a"></i></c:otherwise></c:choose></td>
+                               			<td onClick="location.href='/corona/volunteer/detail'" style="cursor:pointer;">${vList.boardTitle}</td>
+                               			<td>${vList.memberNo}</td>
+                               			<td>${vList.volunteers.volLocation}</td>
+                               			<td><fmt:formatDate value="${vList.volunteers.volDuedate}" pattern="yyyy.MM.dd"/></td>
+                               			 
                            			</tr> 		
                                	</c:forEach>
 								
@@ -113,7 +120,7 @@
     <script src="/corona/resources/js/common.js"></script>
 
 	<c:choose>
-		<c:when test="${ loginuser.memberType eq 'ADMIN' }">
+		<c:when test="${ not empty loginuser }">
 		<script src="/corona/resources/js/datatables-btnvol.js"></script>
 		</c:when>
 		<c:otherwise>
