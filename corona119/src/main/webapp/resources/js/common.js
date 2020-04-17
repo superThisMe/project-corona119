@@ -2,6 +2,10 @@ $(function() {
 	$("#inputAddress").on('click', function(){
 		goPopup();
 	})
+	
+	$("#volList").on('click', function(){
+		location.href="/corona/volunteer";
+	})
 
 });
 
@@ -17,8 +21,12 @@ function goPopup(){
 
 function jusoCallBack(roadAddrPart1, addrDetail){
 	console.log(roadAddrPart1);
-//	$("#inputAddress").val() = roadAddrPart1;
-//	$("#inputAddress2").val() = addrDetail;
 	document.getElementById('signUp').memberAddr.value = roadAddrPart1;
 	document.getElementById('signUp').memberAddrDetail.value = addrDetail;
 }	
+
+
+				
+				
+				
+				

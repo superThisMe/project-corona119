@@ -2,11 +2,14 @@ package com.project.corona.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.project.corona.service.VolunteerService;
@@ -22,16 +25,11 @@ public class VolunteerController {
 	private VolunteerService volunteerService;
 	
 	@GetMapping(value = {"", "/"})
-	public String volunteer() {		
-		return "/volunteer/volmain";
-	}
-	
-	@GetMapping(path = "/list")
 	public String volBoard(Model model) {
 		
 		List<BoardVO> volboardList = volunteerService.findVolBoardList();
 		
-		System.out.println(volboardList);
+//		System.out.println(volboardList);
 		model.addAttribute("volboardList", volboardList);
 		
 		return "/volunteer/volboard";
@@ -40,11 +38,31 @@ public class VolunteerController {
 	@GetMapping(path = "/write")
 	public String volWrite(Model model) {
 		
-
-		
 		return "/volunteer/volwrite";
 	}
-	
+
+	@PostMapping(path = "/write")
+	public String volWriteP(BoardVO volBoard, HttpSession session) {
+		
+		MemberVO volMem = (MemberVO) session.getAttribute("loginuser");
+		System.out.println("세션 " + volMem);
+		System.out.println("보드 " + volBoard);
+//		memberNo, Nickname 받아옴 / catNo = 1 / parameter에서 title content location duedate wdate1,2 받아옴
+		
+		volMem.getMemberNo();
+		//volunteerService.writeVolunteer(volMem);
+		
+		
+//		제목 내용 멤노 캣노 볼록 볼마감 볼시작 볼종료
+//    	제목 boardTitle 
+//		내용 boardContent
+//    	활동지역 volLocation
+//    	모집기간 volDuedate
+//    	활동기간 volWdate
+		
+		return "redirect:/volunteer/";
+	}
+
 	@GetMapping(path = "/detail")
 //	public String volDetail(int boardNo, Model model) {
 	public String volDetail(Model model) {

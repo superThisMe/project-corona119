@@ -30,7 +30,7 @@
 		
 	<select id="selectMemberByIdAndPasswd" 
 			parameterType="MemberVO" resultType="MemberVO">
-		SELECT member_id, member_nickname, member_type 
+		SELECT member_id, member_nickname, member_type, member_no
 		FROM MEMBER
 		WHERE member_id = #{ memberId } AND member_psw = #{ memberPsw }
 	</select>	

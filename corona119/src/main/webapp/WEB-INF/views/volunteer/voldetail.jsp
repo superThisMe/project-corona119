@@ -61,14 +61,20 @@
 						</div>
 						<div>
 							<c:if test="${ not empty loginuser }">
-								<button class='btn btn-primary'>수정</button>
-								<button class='btn btn-primary'>삭제</button>
+								<button class='btn btn-primary' id="volUpdate" type="button">수정</button>
+								<button class='btn btn-primary' id="volDelte" type="button">삭제</button>
 							</c:if>
-							<button class='btn btn-primary'>목록</button>
+							<button class='btn btn-primary' id="volList" type="button">목록</button>
 						</div>
 
                     </div>
                 </div>
+              
+      			<div id="applyList">
+      				<jsp:include page="/WEB-INF/views/volunteer/apply/apply.jsp"></jsp:include>
+      			</div>
+              
+
             </div>
         </div>
 

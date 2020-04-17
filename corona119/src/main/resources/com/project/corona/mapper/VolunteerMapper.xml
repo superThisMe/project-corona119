@@ -27,4 +27,7 @@
 		WHERE b.CAT_NO = 1;
 	</select>
 
+	<insert id="insertVolBoard" parameterType="MemberVO">
+		
+	</insert>
 </mapper>
