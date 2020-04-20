@@ -106,6 +106,9 @@ public class HomeController {
 			fileInfo.put("thumburl", imageurl); // 썸네일파일경로(사이즈변환이나 변형된 파일)
 			fileInfo.put("result", 1); // -1, -2를 제외한 아무거나 싣어도 됨
 		}
+		
+		System.out.println("인포" + fileInfo);
+		
 		return fileInfo; // @ResponseBody 어노테이션을 사용하여 Map을 JSON형태로 반환
 
 	}
@@ -175,6 +178,8 @@ public class HomeController {
 	        fileInfo.put("filesize", filesize); // 파일사이즈
 	        fileInfo.put("result", 1); // -1을 제외한 아무거나 싣어도 됨
 	    }
+	    
+	    System.out.println("인포" + fileInfo);
 
 	    return fileInfo;    // @ResponseBody 어노테이션을 사용하여 Map을 JSON형태로 반환
 	}

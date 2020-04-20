@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.corona.service.VolunteerService;
 import com.project.corona.vo.BoardVO;
@@ -42,14 +43,14 @@ public class VolunteerController {
 	}
 
 	@PostMapping(path = "/write")
-	public String volWriteP(BoardVO volBoard, HttpSession session) {
+	public String volWriteP(String content, String title, String ifilename, HttpSession session) {
 		
 		MemberVO volMem = (MemberVO) session.getAttribute("loginuser");
 		System.out.println("세션 " + volMem);
-		System.out.println("보드 " + volBoard);
+		System.out.println("보드 " + title + "\n" + content + "\n" + ifilename);
 //		memberNo, Nickname 받아옴 / catNo = 1 / parameter에서 title content location duedate wdate1,2 받아옴
 		
-		volMem.getMemberNo();
+		//volMem.getMemberNo();
 		//volunteerService.writeVolunteer(volMem);
 		
 		

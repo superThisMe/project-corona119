@@ -179,7 +179,7 @@
 			            if(validation(fileName)) {                                        // 확장자 체크 (jpg, gif, png, bmp)
 			                return false;
 			            }
-			            console.log('비포')
+			            //console.log('비포')
 			        },
 			        success: function(fileInfo) {                                        // fileInfo는 이미지 정보를 리턴하는 객체
 			            if(fileInfo.result===-1) {                                        // 서버단에서 체크 후 수행됨
@@ -191,7 +191,7 @@
 			            } else {
 			                done(fileInfo);                                                // 첨부한 이미지를 에디터에 적용시키고 팝업창을 종료
 			            }
-			            console.log('성공')
+			            //console.log('성공')
 			        }
 			    });
 			});
