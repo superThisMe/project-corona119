@@ -9,25 +9,56 @@
 	<resultMap type="BoardVO" id="BoardMap">
 		<id property="boardNo" column="board_no" />
 		<result property="boardTitle" column="board_title" />
-		<result property="catNo" column="cat_no" />
+		<result property="boardContent" column="board_content" />
+		<result property="boardCount" column="board_count" />
+		<result property="boardRegdate" column="board_regdate" />
+		<result property="boardDeleted" column="board_deleted" />
 		<result property="memberNo" column="member_no" />
+		<result property="catNo" column="cat_no" />
+		<result property="boardReco" column="board_reco" />
+		<result property="boardNreco" column="board_nreco" />
+		<result property="boardTag" column="board_tag" />
+		<result property="boardSingo" column="board_singo" />
 		<association property="volunteers" javaType="VolunteerVO">
 			<id property="volNo" column="vol_no" />
 			<result property="volLocation" column="vol_location" />
 			<result property="volConfirm" column="vol_confirm" />
 			<result property="volDuedate" column="vol_duedate" />
+			<result property="volWdate1" column="vol_wdate1" />
+			<result property="volWdate2" column="vol_wdate2" />
 		</association>
 	</resultMap>
 	
-	<select id="selectVolBoardList" resultMap="BoardMap">
+	<select id="selectBoardList" resultMap="BoardMap">
+		SELECT b.board_no, b.board_title, b.cat_no, b.member_no, v.vol_no, v.vol_location, v.vol_confirm, v.vol_duedate
+		FROM BOARD b
+		INNER JOIN VOLUNTEER v
+		ON b.BOARD_NO = v.VOL_NO
+		WHERE b.CAT_NO = 1 AND b.BOARD_DELETED = 0
+	</select>
+
+	<insert id="insertBoard" parameterType="hashmap">
+		INSERT INTO BOARD (member_no, board_title, board_content, cat_no)
+		VALUES (#{memberNo}, #{board.boardTitle}, #{board.boardContent}, 1)
+	</insert>
+	
+	<insert id="insertVolunteer" parameterType="hashmap" useGeneratedKeys="true" keyProperty="boardNo">
+		INSERT INTO VOLUNTEER (vol_no, vol_location, vol_duedate, vol_wdate1, vol_wdate2)
+		VALUES (#{board.boardNo}, #{board.volunteers.volLocation}, #{board.volunteers.volDuedate}, #{board.volunteers.volWdate1}, #{board.volunteers.volWdate2}) 
+	</insert>
+	
+	<select id="selectBoardListByBoardNo" parameterType="int" resultMap="BoardMap">
 		SELECT *
 		FROM BOARD b
 		INNER JOIN VOLUNTEER v
 		ON b.BOARD_NO = v.VOL_NO
-		WHERE b.CAT_NO = 1;
+		WHERE b.BOARD_NO = #{boardNo}
 	</select>
-
-	<insert id="insertVolBoard" parameterType="MemberVO">
-		
-	</insert>
+	
+	<update id="deleteBoard" parameterType="int">
+		UPDATE BOARD
+		SET board_deleted = 1
+		WHERE board_no = #{boardNo}
+	</update>
+	
 </mapper>

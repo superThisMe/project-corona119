@@ -38,6 +38,9 @@
 <link rel="stylesheet"
 	href="/corona/resources/daumOpenEditor/css/editor.css" type="text/css"
 	charset="utf-8" />
+	
+<link href="/corona/resources/css/common.css"
+	rel="stylesheet">
 
 
 </head>
@@ -56,23 +59,38 @@
 			<div class="container-fluid">
 
 				<!-- Page Heading -->
-				<h1 class="h3 mb-2 text-gray-800">봉사활동 게시판</h1>
+				<h1 class="h3 mb-2 text-gray-800"></h1>
 
 				<!-- DataTales Example -->
 				<div class="card shadow mb-4">
 					<div class="card-header py-3">
-						<h6 class="m-0 font-weight-bold text-primary">${vList.boardTitle}</h6>
+						<h6 class="m-0 font-weight-bold text-primary">봉사활동 모집 글쓰기${vList.boardTitle}</h6>
 					</div>
 					<div class="card-body">
-						제목 본문 조회수 지역 확인여부 마감일
 						<form name="tx_editor_form" id="tx_editor_form"
 							action="/corona/volunteer/write" method="post"
 							accept-charset="utf-8">
 							
-							<div>
-								<input type="text" id="title" name="title" />
+							<div class="voltitle">
+								<p>제목</p>
+								<input type="text" id="boardTitle" name="boardTitle" />
 							</div>
-
+							<div class="volloc">
+								<p>지역</p>
+								<input type="text" id="volLocation" name="volLocation" />
+							</div>
+							<div class="voldate">
+								<p>모집마감</p>
+								<input type="date" id="volDuedate" name="volDuedate" />
+							</div>
+							<div class="voldate">
+								<p>시작일</p>
+								<input type="date" id="volWdate1" name="volWdate1" />
+							</div>
+							<div class="voldate">
+								<p>종료일</p>
+								<input type="date" id="volWdate2" name="volWdate2" />
+							</div>							
 							<jsp:include
 								page="/WEB-INF/views/daumOpenEditor/editor_frame.jsp"></jsp:include>
 
@@ -81,7 +99,7 @@
 							</div>
 
 							<!-- End: Saving Contents -->
-
+							<div><button onclick='loadContent()'>SAMPLE - load contents to editor</button></div>
 
 						</form>
 
@@ -141,6 +159,10 @@
 			//$("<button>").text("글쓰기").appendTo("#btnArea");
 			 */
 
+	    	$("#volList").on('click', function(){
+	    		location.href="/corona/volunteer";
+	    	})
+		    				 
 			$("#submitBtn").on('click', function(){
 				Editor.save();
 				// '수정하기' 모드일 때, 다음과 같이 데이터를 다음오픈에디터에 대입할 수 있다. 
@@ -218,19 +240,58 @@
 			return true;
 		}
 		function setForm(editor) {
-			var i, input;
+//			var i, input;
 			var form = editor.getForm();
 			var content = editor.getContent();
 
 			// 본문 내용을 필드를 생성하여 값을 할당하는 부분
 			var textarea = document.createElement('textarea');
-			textarea.name = 'content'; //name값 수정
+			textarea.name = 'boardContent'; //name값 수정
 			textarea.value = content;
 			form.createField(textarea);
 
 			return true;
 		}
 	</script>
+	
+	<script type="text/javascript">
+	function loadContent() {
+		var attachments = {};
+		attachments['image'] = [];
+		attachments['image'].push({
+			'attacher': 'image',
+			'data': {
+				'imageurl': 'http://cfile273.uf.daum.net/image/2064CD374EE1ACCB0F15C8',
+				'filename': 'github.gif',
+				'filesize': 59501,
+				'originalurl': 'http://cfile273.uf.daum.net/original/2064CD374EE1ACCB0F15C8',
+				'thumburl': 'http://cfile273.uf.daum.net/P150x100/2064CD374EE1ACCB0F15C8'
+			}
+		});
+		attachments['file'] = [];
+		attachments['file'].push({
+			'attacher': 'file',
+			'data': {
+				'attachurl': 'http://cfile297.uf.daum.net/attach/207C8C1B4AA4F5DC01A644',
+				'filemime': 'image/gif',
+				'filename': 'editor_bi.gif',
+				'filesize': 640
+			}
+		});
+		/* 저장된 컨텐츠를 불러오기 위한 함수 호출 */
+		Editor.modify({
+			"attachments": function () { /* 저장된 첨부가 있을 경우 배열로 넘김, 위의 부분을 수정하고 아래 부분은 수정없이 사용 */
+				var allattachments = [];
+				for (var i in attachments) {
+					allattachments = allattachments.concat(attachments[i]);
+				}
+				return allattachments;
+			}(),
+			"content": document.getElementById("sample_contents_source") /* 내용 문자열, 주어진 필드(textarea) 엘리먼트 */
+		});
+	}
+</script>
+
 
 </body>
 

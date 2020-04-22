@@ -2,11 +2,6 @@ $(function() {
 	$("#inputAddress").on('click', function(){
 		goPopup();
 	})
-	
-	$("#volList").on('click', function(){
-		location.href="/corona/volunteer";
-	})
-
 });
 
 //// 주소 API
