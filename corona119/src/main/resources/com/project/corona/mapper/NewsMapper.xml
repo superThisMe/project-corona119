@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		  
+<mapper namespace="com.project.corona.mapper.NewsMapper">
+
+	<resultMap type="BoardVO" id="BoardMap">
+		<id column="board_no" property="boardNo"/>
+	</resultMap>
+
+
+	<select id="selectNewsList" resultMap="BoardMap">
+		SELECT *
+		FROM BOARD b
+		INNER JOIN CATEGORY c
+		ON b.cat_no = c.cat_no
+		WHERE b.cat_no = 0;
+	</select>
+	
+	
+</mapper>
