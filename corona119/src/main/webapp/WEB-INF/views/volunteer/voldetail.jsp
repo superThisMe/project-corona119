@@ -34,7 +34,8 @@
 </head>
 
 <body>
-
+	<jsp:useBean id="now" class="java.util.Date" scope="page" />
+	<fmt:formatDate var="nowTime" value="${now}" pattern="yyyyMMdd" />
     <div class="d-flex" id="wrapper">
 
         <jsp:include page="/WEB-INF/views/sidebar.jsp" />
@@ -63,6 +64,13 @@
       					<div>모집마감일 : <fmt:formatDate value="${vDetail.volunteers.volDuedate}" pattern="yyyy.MM.dd"/></div>
       					<div>시작일 : <fmt:formatDate value="${vDetail.volunteers.volWdate1}" pattern="yyyy.MM.dd"/></div>
       					<div>종료일 : <fmt:formatDate value="${vDetail.volunteers.volWdate2}" pattern="yyyy.MM.dd"/></div>
+      					
+						<fmt:formatDate var="eDate" value="${vDetail.volunteers.volDuedate}" pattern="yyyyMMdd" />
+						
+      					<c:if test="${eDate - nowTime ge 0}">
+      						<div><button id="apply" type="submit">신청하기</button></div>
+      					</c:if>
+      					
       					
       					<div>${vDetail.boardContent}</div>
 						<div>
@@ -128,8 +136,18 @@
     	})
     	
     	$("#volDelete").on('click', function(){
-    		confirm("게시글을 삭제하시겠습니까?");
+        	var check = confirm("게시글을 삭제하시겠습니까?");
+        	if (!check){
+        		event.preventDefault();
+        	}
     	})
+    	
+    	$("#apply").on('click', function(){
+    		var check = confirm("신청하시겠습니까?");
+        	if (!check){
+        		event.preventDefault();
+        	}
+        })
       
         /* 
         //$("#dataTable_wrapper > div.row:last-child > div:first-child").empty().remove();

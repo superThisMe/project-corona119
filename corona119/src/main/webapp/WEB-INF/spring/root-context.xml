@@ -18,11 +18,11 @@
 		<property name="jdbcUrl" value="${jdbcUrl}" />
 		<property name="username" value="${user}" />
 		<property name="password" value="${password}" />
-		<property name="minimumIdle" value="${datasource.minidle}" />
-		<property name="maximumPoolSize"
-			value="${datasource.maxpool}" />
-		<property name="connectionTimeout"
-			value="${datasource.conntimeout}" />
+		<property name="minimumIdle" value="${datasource.hikari.minidle}" />
+		<property name="maximumPoolSize" value="${datasource.hikari.maxpool}" />
+		<property name="connectionTimeout" value="${datasource.hikari.conntimeout}" />
+		<property name="maxLifetime" value="${datasource.hikari.maxlifetime}" />
+		<property name="connectionTestQuery" value="${datasource.hikari.connection-test-query}" />
 	</bean>
 	
 	<!-- beans for mybatis & mybatis-spring -->

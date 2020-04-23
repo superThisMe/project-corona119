@@ -3,6 +3,8 @@ $(function() {
 		"stateSave" : true,
 		"pagingType" : "first_last_numbers",
 		"language" : {
+			"search" : "검색어 ",
+			"lengthMenu" : "페이지 당 게시글 수 _MENU_ ",
 			"zeroRecords" : "등록된 글이 없습니다",
 			"info" : "",
 			"infoEmpty" : "",
