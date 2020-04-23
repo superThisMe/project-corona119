@@ -34,7 +34,8 @@
 </head>
 
 <body>
-
+	<jsp:useBean id="now" class="java.util.Date" scope="page" />
+	<fmt:formatDate var="nowTime" value="${now}" pattern="yyyy-MM-dd" /> 
     <div class="d-flex" id="wrapper">
 
         <jsp:include page="/WEB-INF/views/sidebar.jsp" />
@@ -67,21 +68,30 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                              
                                	<c:forEach items="${volboardList}" var="vList">
+									<fmt:parseDate var="sSetDate" value="${ nowTime }" pattern="yyyy-MM-dd"/>
+									<fmt:formatDate var="endTime" value="${vList.volunteers.volDuedate}" pattern="yyyy-MM-dd" />
+									<fmt:parseDate var="eSetDate" value="${ endTime }" pattern="yyyy-MM-dd"/>
+									<fmt:parseNumber var="sDate" value="${ sSetDate.time/(1000*60*60*24) }" integerOnly="true" />
+									<fmt:parseNumber var="eDate" value="${ eSetDate.time/(1000*60*60*24) }" integerOnly="true" />                               	
                                		<tr>
-<%-- 
-                               			<td>${vList.boardNo}</td>
-                               			<td onClick="location.href='/corona/volunteer/board/detail'" style="cursor:pointer;">${vList.boardTitle}</td>
-                               			<td>${vList.memberNo}</td>
-                               			<td>${vList.volunteers.volLocation}</td>
-                               			<td><fmt:formatDate value="${vList.volunteers.volDuedate}" pattern="yyyy.MM.dd"/></td>
-                               			<td><c:choose><c:when test="${!vList.volunteers.volConfirm}"><i class="fas fa-exclamation-circle fa-2x" style="color:#f6c23e"></i></c:when><c:otherwise><i class="fas fa-check-circle fa-2x" style="color:#1cc88a"></i></c:otherwise></c:choose></td>
- --%>
+
 										<td><c:choose><c:when test="${!vList.volunteers.volConfirm}"><i class="fas fa-exclamation-circle fa-2x" style="color:#f6c23e"></i></c:when><c:otherwise><i class="fas fa-check-circle fa-2x" style="color:#1cc88a"></i></c:otherwise></c:choose></td>
-                               			<td onClick="location.href='/corona/volunteer/detail'" style="cursor:pointer;">${vList.boardTitle}</td>
+                               			<td onClick="location.href='/corona/volunteer/detail/${vList.boardNo}'" style="cursor:pointer;">${vList.boardTitle}</td>
                                			<td>${vList.memberNo}</td>
                                			<td>${vList.volunteers.volLocation}</td>
-                               			<td><fmt:formatDate value="${vList.volunteers.volDuedate}" pattern="yyyy.MM.dd"/></td>
+                               			<c:choose>
+                               				<c:when test="${ (eDate - sDate) lt 0 }">
+                               					<td>모집종료</td>		
+                               				</c:when>
+                               				<c:when test="${ (eDate - sDate) eq 0 }">
+                               					<td><span style="color:red">오늘까지</span></td>		
+                               				</c:when>
+                               				<c:otherwise>
+                               					<td>마감 ${ eDate - sDate}일 전</td>
+                               				</c:otherwise>
+                               			</c:choose>
                                			 
                            			</tr> 		
                                	</c:forEach>

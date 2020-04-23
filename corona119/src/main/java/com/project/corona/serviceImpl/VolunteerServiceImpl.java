@@ -1,5 +1,6 @@
 package com.project.corona.serviceImpl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.project.corona.mapper.VolunteerMapper;
@@ -14,9 +15,33 @@ public class VolunteerServiceImpl implements VolunteerService{
 	private VolunteerMapper volunteerMapper;
 
 	@Override
-	public List<BoardVO> findVolBoardList() {
+	public List<BoardVO> findBoardList() {
 
-		return volunteerMapper.selectVolBoardList();
+		return volunteerMapper.selectBoardList();
+	}
+
+	@Override
+	public void writeBoard(HashMap<String, Object> params) {
+		
+		volunteerMapper.insertBoard(params);
+	}
+
+	@Override
+	public void writeVolunteer(HashMap<String, Object> params) {
+
+		volunteerMapper.insertVolunteer(params);		
+	}
+
+	@Override
+	public BoardVO findBoardListByBoardNo(int boardNo) {
+
+		return volunteerMapper.selectBoardListByBoardNo(boardNo);
+	}
+
+	@Override
+	public void deleteBoard(int boardNo) {
+
+		volunteerMapper.deleteBoard(boardNo);
 	}
 
 }

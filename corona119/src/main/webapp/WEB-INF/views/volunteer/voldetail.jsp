@@ -29,12 +29,13 @@
     <!-- Custom styles for this page -->
     <link href="/corona/resources/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     
-    
+    <link href="/corona/resources/css/common.css" rel="stylesheet">    
 
 </head>
 
 <body>
-
+	<jsp:useBean id="now" class="java.util.Date" scope="page" />
+	<fmt:formatDate var="nowTime" value="${now}" pattern="yyyyMMdd" />
     <div class="d-flex" id="wrapper">
 
         <jsp:include page="/WEB-INF/views/sidebar.jsp" />
@@ -47,22 +48,35 @@
             <div class="container-fluid">
 
                 <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">봉사활동 게시판</h1>
+                <h1 class="h3 mb-2 text-gray-800"></h1>
 
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">${vList.boardTitle}</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">${vDetail.boardTitle}</h6>
                     </div>
                     <div class="card-body">
-
+						<div>글번호 : ${vDetail.boardNo}</div>
+      					<div>작성자 : ${vDetail.memberNo}</div>
+      					<div>조회수 : ${vDetail.boardCount}</div>
+      					<div>승인상태 : ${vDetail.volunteers.volConfirm}</div>
+      					<div>활동지역 : ${vDetail.volunteers.volLocation}</div>
+      					<div>모집마감일 : <fmt:formatDate value="${vDetail.volunteers.volDuedate}" pattern="yyyy.MM.dd"/></div>
+      					<div>시작일 : <fmt:formatDate value="${vDetail.volunteers.volWdate1}" pattern="yyyy.MM.dd"/></div>
+      					<div>종료일 : <fmt:formatDate value="${vDetail.volunteers.volWdate2}" pattern="yyyy.MM.dd"/></div>
+      					
+						<fmt:formatDate var="eDate" value="${vDetail.volunteers.volDuedate}" pattern="yyyyMMdd" />
+						
+      					<c:if test="${eDate - nowTime ge 0}">
+      						<div><button id="apply" type="submit">신청하기</button></div>
+      					</c:if>
+      					
+      					
+      					<div>${vDetail.boardContent}</div>
 						<div>
-							본문 조회수 지역 확인여부 마감일
-						</div>
-						<div>
-							<c:if test="${ not empty loginuser }">
+							<c:if test="${ loginuser.memberNo eq vDetail.memberNo }">
 								<button class='btn btn-primary' id="volUpdate" type="button">수정</button>
-								<button class='btn btn-primary' id="volDelte" type="button">삭제</button>
+								<a href="/corona/volunteer/delete/${vDetail.boardNo}" type="button" class='btn btn-danger' id="volDelete" type="button">삭제</a>
 							</c:if>
 							<button class='btn btn-primary' id="volList" type="button">목록</button>
 						</div>
@@ -71,7 +85,7 @@
                 </div>
               
       			<div id="applyList">
-      				<jsp:include page="/WEB-INF/views/volunteer/apply/apply.jsp"></jsp:include>
+      				<%-- <jsp:include page="/WEB-INF/views/volunteer/apply/apply.jsp"></jsp:include> --%>
       			</div>
               
 
@@ -117,6 +131,24 @@
             }
         });
 
+    	$("#volList").on('click', function(){
+    		location.href="/corona/volunteer";
+    	})
+    	
+    	$("#volDelete").on('click', function(){
+        	var check = confirm("게시글을 삭제하시겠습니까?");
+        	if (!check){
+        		event.preventDefault();
+        	}
+    	})
+    	
+    	$("#apply").on('click', function(){
+    		var check = confirm("신청하시겠습니까?");
+        	if (!check){
+        		event.preventDefault();
+        	}
+        })
+      
         /* 
         //$("#dataTable_wrapper > div.row:last-child > div:first-child").empty().remove();
         $("#dataTable_info").text("").css("padding-top", "0");

@@ -1,5 +1,6 @@
 package com.project.corona.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -9,13 +10,16 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.corona.service.VolunteerService;
 import com.project.corona.vo.BoardVO;
 import com.project.corona.vo.MemberVO;
+import com.project.corona.vo.VolunteerVO;
 
 @Controller
 @RequestMapping(path = {"/volunteer"})
@@ -28,7 +32,7 @@ public class VolunteerController {
 	@GetMapping(value = {"", "/"})
 	public String volBoard(Model model) {
 		
-		List<BoardVO> volboardList = volunteerService.findVolBoardList();
+		List<BoardVO> volboardList = volunteerService.findBoardList();
 		
 //		System.out.println(volboardList);
 		model.addAttribute("volboardList", volboardList);
@@ -43,33 +47,39 @@ public class VolunteerController {
 	}
 
 	@PostMapping(path = "/write")
-	public String volWriteP(String content, String title, String ifilename, HttpSession session) {
+	public String volWriteP(BoardVO board, VolunteerVO volBoard, HttpSession session) {
 		
 		MemberVO volMem = (MemberVO) session.getAttribute("loginuser");
-		System.out.println("세션 " + volMem);
-		System.out.println("보드 " + title + "\n" + content + "\n" + ifilename);
-//		memberNo, Nickname 받아옴 / catNo = 1 / parameter에서 title content location duedate wdate1,2 받아옴
 		
-		//volMem.getMemberNo();
-		//volunteerService.writeVolunteer(volMem);
+		board.setCatNo(1);
+		board.setVolunteers(volBoard);
+		HashMap<String, Object> params = new HashMap<>();
+		params.put("memberNo", volMem.getMemberNo());
+		params.put("board", board);
 		
-		
-//		제목 내용 멤노 캣노 볼록 볼마감 볼시작 볼종료
-//    	제목 boardTitle 
-//		내용 boardContent
-//    	활동지역 volLocation
-//    	모집기간 volDuedate
-//    	활동기간 volWdate
+		volunteerService.writeBoard(params);
+		volunteerService.writeVolunteer(params);
 		
 		return "redirect:/volunteer/";
 	}
 
-	@GetMapping(path = "/detail")
-//	public String volDetail(int boardNo, Model model) {
-	public String volDetail(Model model) {
+	@GetMapping(path = { "/detail/{boardNo}" })
+	public String volDetail(@PathVariable("boardNo") int boardNo, Model model) {
 		
-		//BoardVO volboards = volunteerService.findVolBoardByBoardNo(boardNo);
+		BoardVO volboardDetail = volunteerService.findBoardListByBoardNo(boardNo);
+		if (volboardDetail == null) {
+			return "redirect:/volunteer/";
+		}		
+		model.addAttribute("vDetail", volboardDetail);
 		
 		return "/volunteer/voldetail";
+	}
+	
+	@GetMapping(path = { "/delete/{boardNo}" })
+	public String volDelete(@PathVariable("boardNo") int boardNo) {
+		
+		volunteerService.deleteBoard(boardNo);
+		
+		return "redirect:/volunteer/";
 	}
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.project.corona.common.Sha256;
 import com.project.corona.service.AccountService;
 import com.project.corona.service.MemberService;
 import com.project.corona.vo.MemberVO;
@@ -25,6 +26,8 @@ public class AccountController {
 	
 	@PostMapping(path = {"/account/signup"})
 	public String signUp(MemberVO member) {
+		String encryPassword = Sha256.encrypt(member.getMemberPsw());
+		member.setMemberPsw(encryPassword);
 
 		accountService.registMember(member);
 		
@@ -33,6 +36,8 @@ public class AccountController {
 	
 	@PostMapping(value = "/login")
 	public String login(MemberVO member, HttpSession session) {		
+		String encryPassword = Sha256.encrypt(member.getMemberPsw());
+		member.setMemberPsw(encryPassword);
 		
 		MemberVO member2 = memberService.findMemberByIdAndPasswd(member);
 		System.out.println(member2);

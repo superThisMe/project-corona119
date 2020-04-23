@@ -1,0 +1,30 @@
+@charset "utf-8";
+
+#tx_editor_form div.voltitle {
+	width: 100%;
+}
+
+#tx_editor_form div.volloc {
+	width: 100%;
+}
+
+#tx_editor_form div.voldate {
+	width: 33.333333%;
+	float: left;
+}
+
+#tx_editor_form div input {
+	width: 100%;
+}	
+
+#tx_editor_form div p {
+	margin: 10px 0 0 0;
+}
+
+#tx_trex_container {
+	padding-top: 10px;
+}
+
+.card-body .txc-image {
+	width: 100%;
+}
