@@ -8,12 +8,30 @@
 
 	<resultMap type="BoardVO" id="BoardMap">
 		<id column="board_no" property="boardNo"/>
+		<result column="board_title" property="boardTitle"/>
+		<result column="board_content" property="boardContent"/>
+		<result column="board_count" property="boardCount"/>
+		<result column="board_regdate" property="boardRegdate"/>
+		<result column="board_deleted" property="boardDeleted"/>
+		<result column="board_reco" property="boardReco"/>
+		<result column="board_nreco" property="boardNreco"/>
+		<result column="board_tag" property="boardTag"/>
+		<result column="board_singo" property="boardSingo"/>
+		<association property="mem" column="member_no" resultMap="MemberMap" />
+		<association property="cat" column="cat_no" resultMap="CategoryMap" />
 	</resultMap>
-
+	<resultMap type="MemberVO" id="MemberMap">
+		<result column="member_nickname" property="memberNickname"/>
+	</resultMap>
+	<resultMap type="CategoryVO" id="CategoryMap">
+		<result column="category" property="category"/>
+	</resultMap>
 
 	<select id="selectNewsList" resultMap="BoardMap">
 		SELECT *
 		FROM BOARD b
+		INNER JOIN MEMBER m
+		ON b.member_no = m.member_no
 		INNER JOIN CATEGORY c
 		ON b.cat_no = c.cat_no
 		WHERE b.cat_no = 0;
