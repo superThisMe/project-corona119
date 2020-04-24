@@ -90,7 +90,6 @@
 	<!-- Bootstrap core JavaScript -->
 	<script src="/corona/resources/vendor/jquery/jquery.min.js"></script>
 	<script src="/corona/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
 	<!-- Core plugin JavaScript-->
 	<script src="/corona/resources/datatables/jquery.easing.min.js"></script>
@@ -108,10 +107,10 @@
 	
 	<c:choose>
 		<c:when test="${ not empty loginuser }">
-			<script src="/corona/resources/js/datatables-btnvol.js"></script>
+			<script src="/corona/resources/js/datatables-btnvol2.js"></script>
 		</c:when>
 		<c:otherwise>
-			<script src="/corona/resources/js/datatables-vol.js"></script>
+			<script src="/corona/resources/js/datatables-btnvol2.js"></script>
 		</c:otherwise>
 	</c:choose>
 
