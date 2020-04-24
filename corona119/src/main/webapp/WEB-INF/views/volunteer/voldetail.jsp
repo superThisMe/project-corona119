@@ -74,12 +74,13 @@
 							<c:otherwise>
 							</c:otherwise>
 						</c:choose>
-      					
-      					<div>${vDetail.boardContent}</div>
-      					
-      					<div id="map" style="width:500px;height:400px;"></div>
-      					
-						<div>
+      					<input type="hidden" id="detailAddr" value="${vDetail.volunteers.volLocation2}">
+      					<div>${vDetail.boardContent}
+      						<div id="volMap" style="width:100%;height:400px;"></div>
+      						<div id="roadview" style="width:100%;height:400px;"></div>
+      					</div>
+						      					
+						<div style="padding-top:10px">
 							<c:if test="${ loginuser.memberNo eq vDetail.memberNo }">
 								<button class='btn btn-primary' id="volUpdate" type="button">수정</button>
 								<a href="/corona/volunteer/delete/${vDetail.boardNo}" type="button" class='btn btn-danger' id="volDelete" type="button">삭제</a>
@@ -123,8 +124,8 @@
     <script src="/corona/resources/datatables/datatables-demo.js"></script>
     <script src="/corona/resources/js/common.js"></script>
 
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cabf55639c1474c9f288939642d439aa&libraries=services"></script>
-	
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6013e82693c4074b861da547ceb13186&libraries=services"></script>
+	<script type="text/javascript" src="/corona/resources/js/volmap.js"></script>
     <!-- Menu Toggle Script -->
     <script>
     $(function(){
@@ -164,14 +165,7 @@
         //$("<button>").text("글쓰기").appendTo("#btnArea");
  */    
 
-		 var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-		 var options = { //지도를 생성할 때 필요한 기본 옵션
-		 	center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-		 	level: 3 //지도의 레벨(확대, 축소 정도)
-		 };
-		
-		 var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-            
+ 
     });
 	//$.fn.DataTable.ext.pager.numbers_length = 9;
     </script>

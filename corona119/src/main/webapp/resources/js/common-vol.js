@@ -17,8 +17,8 @@ function goPopupVol(){
 function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAddr, jibunAddr, zipNo, admCd, rnMgtSn, bdMgtSn,detBdNmList,bdNm,bdKdcd,siNm,sggNm,emdNm,liNm,rn,udrtYn,buldMnnm,buldSlno,mtYn,lnbrMnnm,lnbrSlno,emdNo,entX,entY){
 	document.getElementById('tx_editor_form').volLocation.value = roadFullAddr;
 	document.getElementById('tx_editor_form').volLocshort.value = sggNm;
-	document.getElementById('tx_editor_form').volLocx.value = entX;
-	document.getElementById('tx_editor_form').volLocy.value = entY;
+	document.getElementById('tx_editor_form').volLocaction2.value = roadAddrPart1;
+
 }	
 
 

@@ -103,8 +103,7 @@
 							<div><button onclick='loadContent()'>SAMPLE - load contents to editor</button></div>
 							
 							<input type="hidden" id="volLocshort" name="volLocshort"/>
-							<input type="hidden" id="volLocx" name="volLocx"/>
-							<input type="hidden" id="volLocy" name="volLocy"/>
+							<input type="hidden" id="volLocation2" name="volLocation2"/>
 						</form>
 
 					</div>
