@@ -49,7 +49,7 @@
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4">
                                         
-                    <ul class="tabs">
+                    <ul class="tabs" id="tabs">
 						<li class="tab-link current" data-tab="tab-1">메뉴_하나</li>
 						<li class="tab-link" data-tab="tab-2">메뉴_둘</li>
 						<li class="tab-link" data-tab="tab-3">메뉴_셋</li>
@@ -133,14 +133,25 @@
 			$(this).addClass('current');
 			$("#"+tab_id).addClass('current');
 		})
-
 		
 		$('table').DataTable();
-		
 
 	})
 		
 	</script>
+	<script type="text/javascript">
+	
+	 $(document).ready(function() {
+		       var noSort = $('#dataTable1').dataTable();
+		 
+		       noSort.fnSort( [ [0,'desc'] ] );
+		     } );
+	
+		
+	</script>
+	
+	 
+
 	
 
 </body>

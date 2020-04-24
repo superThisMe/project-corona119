@@ -16,4 +16,6 @@ public interface FreeboardService {
 
 	int updateFreebd(BoardVO board);
 
+	void freeDel(int boardNo);
+
 }
