@@ -23,6 +23,7 @@ public class BoardVO {
 	
 	private VolunteerVO volunteers;
 	private List<BookmarkVO> bookmarks;
-	private List<ReplyVO> replies; 
+	private List<ReplyVO> replies;
+	private List<MemberVO> member;
 	
 }

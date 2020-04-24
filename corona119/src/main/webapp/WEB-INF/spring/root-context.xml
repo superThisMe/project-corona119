@@ -45,5 +45,6 @@
 	<import resource="member-context.xml" />
 	<import resource="volunteer-context.xml" />
 	<import resource="news-context.xml" />
+	<import resource="freeboard-context.xml" />
 
 </beans>

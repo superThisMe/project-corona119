@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.corona.mapper.FreeboardMapper">
+
+	<resultMap type="BoardVO" id="BoardMap">
+		<id property="boardNo" column="board_no" />
+		<result property="boardTitle" column="board_title" />
+		<result property="boardContent" column="board_content" />
+		<result property="boardCount" column="board_count" />
+		<result property="boardRegdate" column="board_regdate" />
+		<result property="boardDeleted" column="board_deleted" />
+		<result property="memberNo" column="member_no" />
+		<result property="catNo" column="cat_no" />
+		<result property="boardReco" column="board_reco" />
+		<result property="boardNreco" column="board_nreco" />
+		<result property="boardTag" column="board_tag" />
+		<result property="boardSingo" column="board_singo" />
+		<association property="member" column="member_no" resultMap="memberMap" />
+	</resultMap>
+	<resultMap type="MemberVO" id="memberMap">
+		<id property="memberNo" column="member_no" />
+		<result property="memberNickname" column="member_nickname" />
+	</resultMap>
+	
+	<select id="freeList" resultMap="BoardMap">
+		SELECT b.board_no, b.board_title, b.board_count, b.board_regdate, b.board_reco, b.member_no, m.member_nickname
+		FROM BOARD b		
+		INNER JOIN MEMBER m 
+		ON b.member_no = m.member_no
+		WHERE b.CAT_NO = 3;
+	</select>
+	
+	<insert id="saveFreebd" parameterType="BoardVo">
+		INSERT INTO BOARD (board_title, board_content, member_no, cat_no)
+		VALUES (#{boardTitle}, #{boardContent}, #{memberNo}, #{catNo} )
+	</insert>
+	
+	<select id="detailFreebd" parameterType="int" resultType="BoardVO">
+		SELECT *
+		FROM BOARD	
+		WHERE board_no = #{ boardNo } AND board_deleted = '0'
+	</select>
+	
+	<select id="updateFreebdV" parameterType="int" resultType="BoardVO">
+		SELECT *
+		FROM BOARD 
+		WHERE board_no = #{ boardNo }
+	</select>
+	
+	<update id="updateFreebd" parameterType="boardVO" >
+		UPDATE BOARD 
+		SET board_title = #{ boardTitle }, board_content = #{ boardContent } 
+		WHERE board_no = #{ boardNo }
+	</update>
+
+</mapper>

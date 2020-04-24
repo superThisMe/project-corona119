@@ -112,21 +112,20 @@
     <script type="text/javascript">
 		$(function() {
 
-			var options = null;	//kakao.maps.Map()에 들어갈 parameter
+			var options = null;
 			
-			var markers = []; //marker를 담을 배열 객체
-			var contents = []; //content를 담을 배열 객체
-			var overlays = []; //CustomOverlay를 담을 배열 객체
+			var markers = [];
 
 			var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
 
-			var content = null; //CustomOverlay에 표시할 내용
+			var iwContent = null;
+            var iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
 			
 			$("#collapseExample").on("show.bs.collapse", function() {
 				$("#address").attr('disabled', true);
 				$("#search-btn").html("다시 검색");
 
-				var addr = $("#address").val().replace(/ /gi, "%20");	// addr에서 공백 변환("%20")
+				var addr = $("#address").val().replace(/ /gi, "%20");
 				var rAddr = "https://8oi9s0nnth.apigw.ntruss.com/corona19-masks/v1/storesByAddr/json?address=" + addr;
 
 				// Ajax로 JSON 비동기 처리
@@ -136,7 +135,8 @@
 					"async": true,
 					"success": function(data, status, xhr) {
 
-						var stores = data.stores;					
+						var stores = data.stores;
+						console.log(stores);							
 						options = { //지도를 생성할 때 필요한 기본 옵션
 							center: new kakao.maps.LatLng(stores[0].lat, stores[0].lng), //지도의 중심좌표.
 							level: 3 //지도의 레벨(확대, 축소 정도)
@@ -154,13 +154,22 @@
 					        minLevel: 3 // 클러스터 할 최소 지도 레벨 
 					    });
 						
-						$.each(stores, function(i, data) {
+						$.each(stores, function(i, data) {	
+							
+							// 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
+				            iwContent = '<div class="card" style="width: 18rem;">'
+			            	iwContent += '<div class="card-body">'
+			            	iwContent += '<h5 class="card-title">' + data.name + '</h5>'
+			            	iwContent += '<p class="card-text">' + data.addr + '</p>'
+			            	iwContent += '<a href="#" class="btn btn-primary">번호표</a>'
+			            	iwContent += '</div>'
+			            	iwContent += '</div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
 													
 							var remain_stat = null;
 							var body = null;
 				            if (data.remain_stat === "plenty") {	// 재고 많음
 					            
-					            data.remain_stat = "많음";
+					            remain_stat = "많음";
 					            body = "<tr class='table-success'>";
 					            
 					            imageSrc = "/corona/resources/img/marker_green.png";
@@ -168,114 +177,115 @@
 					            
 					            var plentyMarker = new kakao.maps.Marker({
 					                    position : new kakao.maps.LatLng(data.lat, data.lng),
-			                    		image : markerImage	// 마커이미지 연결
+			                    		image : markerImage,	// 마커이미지 연결
+			                    		clickable: true // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
 					                });
 
-								markers[i] = plentyMarker;
+								clusterer.addMarker(plentyMarker);
+								
+								// 인포윈도우를 생성합니다
+								var infowindow = new kakao.maps.InfoWindow({
+								    content : iwContent,
+								    removable : iwRemoveable
+								});
 
-								// 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
-					            content = '<div class="card">'
-				            			+ 	'<div class="card-body" style="width: 18rem;">'
-				            			+ 		'<h5 class="card-title">' + data.name + '(' + data.remain_stat + ')'
-				            			+ 		'<div class="close">X</div></h5>'
-				            			+ 		'<p class="card-text">' + data.addr + '</p>'
-				            			+ 		'<a href="#" class="btn btn-primary">번호표</a>'
-				            			+ 	'</div>'
-				            			+ '</div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-				            			
-				            	contents[i] = content;
+								kakao.maps.event.addListener(plentyMarker, 'click', function() {
+								      // 마커 위에 인포윈도우를 표시합니다
+								      infowindow.open(map, plentyMarker);
+								      $('.card-title').html(data.name + "(많음)").attr('style', "color:green");
+								});
 				                
 					        } else if (data.remain_stat === "some") {	// 재고 보통
 						        
-					        	data.remain_stat = "보통";
+					        	remain_stat = "보통";
 					        	body = "<tr class='table-warning'>";
 					            imageSrc = "/corona/resources/img/marker_yellow.png"
 					            markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize)
 					            var someMarker = new kakao.maps.Marker({
 					                    position : new kakao.maps.LatLng(data.lat, data.lng),
-			                    		image : markerImage	// 마커이미지 연결
+			                    		image : markerImage,	// 마커이미지 연결
+			                    		clickable: true // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
 					                });
 
-					            markers[i] = someMarker;
+								clusterer.addMarker(someMarker);
+								
+								// 인포윈도우를 생성합니다
+								var infowindow = new kakao.maps.InfoWindow({
+								    content : iwContent,
+								    removable : iwRemoveable
+								});
 
-					         	// 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
-					            content = '<div class="card">'
-				            			+ 	'<div class="card-body">'
-				            			+ 		'<h5 class="card-title">' + data.name + '(' + data.remain_stat + ')'
-				            			+ 		'<div class="close">X</div></h5>'
-				            			+ 		'<p class="card-text">' + data.addr + '</p>'
-				            			+ 		'<a href="#" class="btn btn-primary">번호표</a>'
-				            			+ 	'</div>'
-				            			+ '</div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-				            	
-				            	contents[i] = content;
+								kakao.maps.event.addListener(someMarker, 'click', function() {
+								      // 마커 위에 인포윈도우를 표시합니다
+								      infowindow.open(map, someMarker);
+								      $('.card-title').html(data.name + "(보통)").attr('style', "color:orange");
+								});
 								
 						    } else if (data.remain_stat === "few") {	// 재고 적음
 							    
-						    	data.remain_stat = "적음";
+						    	remain_stat = "적음";
 						    	body = "<tr class='table-danger'>";
 					            imageSrc = "/corona/resources/img/marker_red.png"
 						            markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize)
 						            var fewMarker = new kakao.maps.Marker({
 						                    position : new kakao.maps.LatLng(data.lat, data.lng),
-				                    		image : markerImage	// 마커이미지 연결
+				                    		image : markerImage,	// 마커이미지 연결
+				                    		clickable: true // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
 						                });
 
-					            markers[i] = fewMarker;
+								clusterer.addMarker(fewMarker);
+								
+								// 인포윈도우를 생성합니다
+								var infowindow = new kakao.maps.InfoWindow({
+								    content : iwContent,
+								    removable : iwRemoveable
+								});
 
-					         	// 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
-					            content = '<div class="card">'
-				            			+ 	'<div class="card-body">'
-				            			+ 		'<h5 class="card-title">' + data.name + '(' + data.remain_stat + ')'
-				            			+ 		'<div class="close">X</div></h5>'
-				            			+ 		'<p class="card-text">' + data.addr + '</p>'
-				            			+ 		'<a href="#" class="btn btn-primary">번호표</a>'
-				            			+ 	'</div>'
-				            			+ '</div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-				            	
-				            	contents[i] = content;
+								kakao.maps.event.addListener(fewMarker, 'click', function() {
+								      // 마커 위에 인포윈도우를 표시합니다
+								      infowindow.open(map, fewMarker);
+								      $('.card-title').html(data.name + "(적음)").attr('style', "color:red");
+								});
 								
 						    } else if (data.remain_stat === "empty") {	// 재고 없음
 							    
-						    	data.remain_stat = "없음";
+						    	remain_stat = "없음";
 						    	body = "<tr class='table-dark'>";
 					            imageSrc = "/corona/resources/img/marker_grey.png"
 						            markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize)
 						            var emptyMarker = new kakao.maps.Marker({
 						                    position : new kakao.maps.LatLng(data.lat, data.lng),
-				                    		image : markerImage	// 마커이미지 연결
+				                    		image : markerImage,	// 마커이미지 연결
+				                    		clickable: true // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
 						                });
 
-					            markers[i] = emptyMarker;
+								clusterer.addMarker(emptyMarker);
+								
+								// 인포윈도우를 생성합니다
+								var infowindow = new kakao.maps.InfoWindow({
+								    content : iwContent,
+								    removable : iwRemoveable
+								});
 
-								// 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
-					            content = '<div class="card">'
-				            			+ 	'<div class="card-body">'
-				            			+ 		'<h5 class="card-title">' + data.name + '(' + data.remain_stat + ')'
-				            			+ 		'<div class="close">X</div></h5>'
-				            			+ 		'<p class="card-text">' + data.addr + '</p>'
-				            			+ 		'<a href="#" class="btn btn-primary">번호표</a>'
-				            			+ 	'</div>'
-				            			+ '</div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-
-					            contents[i] = content;
+								kakao.maps.event.addListener(emptyMarker, 'click', function() {
+								      // 마커 위에 인포윈도우를 표시합니다
+								      infowindow.open(map, emptyMarker);
+								      $('.card-title').html(data.name + "(없음)").attr('style', "color:grey");
+								      
+								});
 								
 						    } else if (data.remain_stat === "break") {	// 판매중지
 							    
-						    	data.remain_stat = "중지";
+						    	remain_stat = "중지";
 						    	body = "<tr>";
 						    	
 						    }
-
-							contents = contents.filter(n => n);
-						    markers = markers.filter(n => n);						    
-						    clusterer.addMarkers(markers);
 						    
 				            body    += "<td>" + data.name + "</td>";
 				            body    += "<td>" + data.addr + "</td>";
 				            
 				            if (data.remain_stat != null) {
-					            body += "<td>" + data.remain_stat + "</td>";
+					            body += "<td>" + remain_stat + "</td>";
 					        } else {
 					        	body += "<td>없음</td>";
 						    }
@@ -294,32 +304,10 @@
 
 							$("#collapseExample").on("hide.bs.collapse", function() {
 								location.reload();
-							});						
-
-							$.each(markers, function(i, marker) {
-								
-								var overlay = new kakao.maps.CustomOverlay({
-								    content: contents[i],
-								    map: map,
-								    position: marker.getPosition()       
-								});
-								
-								overlays[i] = overlay;
-								overlays[i].setMap(null);
-
-								kakao.maps.event.addListener(marker, 'click', function() {
-								    overlays[i].setMap(map);
-								    $('.close').on('click', function() {
-									    overlays[i].setMap(null);
-									});
-								});
-								
 							});
-							
-						});
 
-						$('.close').on('click', function() {
-							overlay.setMap(null);
+							$.each(Markers, function(i, marker) {
+							});
 						});
 				        
 						$('#dataTable').DataTable();
