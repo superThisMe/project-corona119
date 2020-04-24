@@ -26,11 +26,14 @@
 			<result property="volDuedate" column="vol_duedate" />
 			<result property="volWdate1" column="vol_wdate1" />
 			<result property="volWdate2" column="vol_wdate2" />
+			<result property="volLocx" column="vol_locx" />
+			<result property="volLocy" column="vol_locy" />
+			<result property="volLocshort" column="vol_locshort" />
 		</association>
 	</resultMap>
 	
 	<select id="selectBoardList" resultMap="BoardMap">
-		SELECT b.board_no, b.board_title, b.cat_no, b.member_no, v.vol_no, v.vol_location, v.vol_confirm, v.vol_duedate
+		SELECT b.board_no, b.board_title, b.cat_no, b.member_no, v.vol_no, v.vol_locshort, v.vol_confirm, v.vol_duedate
 		FROM BOARD b
 		INNER JOIN VOLUNTEER v
 		ON b.BOARD_NO = v.VOL_NO
@@ -43,8 +46,8 @@
 	</insert>
 	
 	<insert id="insertVolunteer" parameterType="hashmap" useGeneratedKeys="true" keyProperty="boardNo">
-		INSERT INTO VOLUNTEER (vol_no, vol_location, vol_duedate, vol_wdate1, vol_wdate2)
-		VALUES (#{board.boardNo}, #{board.volunteers.volLocation}, #{board.volunteers.volDuedate}, #{board.volunteers.volWdate1}, #{board.volunteers.volWdate2}) 
+		INSERT INTO VOLUNTEER (vol_no, vol_location, vol_duedate, vol_wdate1, vol_wdate2, vol_locx, vol_locy, vol_locshort)
+		VALUES (#{board.boardNo}, #{board.volunteers.volLocation}, #{board.volunteers.volDuedate}, #{board.volunteers.volWdate1}, #{board.volunteers.volWdate2}, #{board.volunteers.volLocx}, #{board.volunteers.volLocy}, #{board.volunteers.volLocshort}) 
 	</insert>
 	
 	<select id="selectBoardListByBoardNo" parameterType="int" resultMap="BoardMap">

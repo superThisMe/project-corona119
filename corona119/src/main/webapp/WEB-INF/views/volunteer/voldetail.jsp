@@ -68,7 +68,7 @@
 						<fmt:formatDate var="eDate" value="${vDetail.volunteers.volDuedate}" pattern="yyyyMMdd" />
 						
 						<c:choose>
-							<c:when test="${eDate - nowTime ge 0}">
+							<c:when test="${eDate - nowTime ge 0 && loginuser.memberNo ne vDetail.memberNo}">
 							<div><button id="apply" type="submit">신청하기</button></div>
 							</c:when>
 							<c:otherwise>
@@ -76,6 +76,9 @@
 						</c:choose>
       					
       					<div>${vDetail.boardContent}</div>
+      					
+      					<div id="map" style="width:500px;height:400px;"></div>
+      					
 						<div>
 							<c:if test="${ loginuser.memberNo eq vDetail.memberNo }">
 								<button class='btn btn-primary' id="volUpdate" type="button">수정</button>
@@ -120,6 +123,7 @@
     <script src="/corona/resources/datatables/datatables-demo.js"></script>
     <script src="/corona/resources/js/common.js"></script>
 
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cabf55639c1474c9f288939642d439aa&libraries=services"></script>
 	
     <!-- Menu Toggle Script -->
     <script>
@@ -158,7 +162,16 @@
         $("<button class='btn btn-primary'>").text("글쓰기").appendTo("#dataTable_info");
         $("<div class='col-sm-12 col-md-5'>").attr({"id" : "btnArea"}).appendTo("#dataTable_wrapper > div.row:last-child");
         //$("<button>").text("글쓰기").appendTo("#btnArea");
- */        
+ */    
+
+		 var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+		 var options = { //지도를 생성할 때 필요한 기본 옵션
+		 	center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+		 	level: 3 //지도의 레벨(확대, 축소 정도)
+		 };
+		
+		 var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+            
     });
 	//$.fn.DataTable.ext.pager.numbers_length = 9;
     </script>
