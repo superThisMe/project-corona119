@@ -67,10 +67,13 @@
       					
 						<fmt:formatDate var="eDate" value="${vDetail.volunteers.volDuedate}" pattern="yyyyMMdd" />
 						
-      					<c:if test="${eDate - nowTime ge 0}">
-      						<div><button id="apply" type="submit">신청하기</button></div>
-      					</c:if>
-      					
+						<c:choose>
+							<c:when test="${eDate - nowTime ge 0}">
+							<div><button id="apply" type="submit">신청하기</button></div>
+							</c:when>
+							<c:otherwise>
+							</c:otherwise>
+						</c:choose>
       					
       					<div>${vDetail.boardContent}</div>
 						<div>

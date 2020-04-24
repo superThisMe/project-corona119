@@ -42,6 +42,7 @@
 <link href="/corona/resources/css/common.css"
 	rel="stylesheet">
 
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 </head>
 
@@ -77,19 +78,19 @@
 							</div>
 							<div class="volloc">
 								<p>지역</p>
-								<input type="text" id="volLocation" name="volLocation" />
+								<input type="text" id="volLocation" name="volLocation" autocomplete="off"/>
 							</div>
 							<div class="voldate">
 								<p>모집마감</p>
-								<input type="date" id="volDuedate" name="volDuedate" />
+								<input type="text" id="volDuedate" name="volDuedate" placeholder="2020-01-01" autocomplete="off"/>
 							</div>
 							<div class="voldate">
 								<p>시작일</p>
-								<input type="date" id="volWdate1" name="volWdate1" />
+								<input type="text" id="volWdate1" name="volWdate1" placeholder="2020-01-01" autocomplete="off"/>
 							</div>
 							<div class="voldate">
 								<p>종료일</p>
-								<input type="date" id="volWdate2" name="volWdate2" />
+								<input type="text" id="volWdate2" name="volWdate2" placeholder="2020-01-01" autocomplete="off"/>
 							</div>							
 							<jsp:include
 								page="/WEB-INF/views/daumOpenEditor/editor_frame.jsp"></jsp:include>
@@ -136,11 +137,17 @@
 
 	<script src="/corona/resources/daumOpenEditor/js/editor_loader.js"
 		type="text/javascript" charset="utf-8"></script>
+	
+<!-- 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="/corona/resources/js/datepicker.js"></script>
+	
+
 	<!-- <script src="/corona/resources/js/editor.js"></script> -->
 
 	<!-- Menu Toggle Script -->
 	<script>
-		$(function() {
+	$(function() {
 			$("#menu-toggle").click(function(e) {
 				e.preventDefault();
 				$("#wrapper").toggleClass("toggled");
@@ -150,6 +157,12 @@
 					$("#menu-toggle").html("메뉴 닫기");
 				}
 			});
+
+			$(".voldate input").datepicker();
+
+			$(".voldate input").focus(function(){
+				$("#ui-datepicker-div").css("z-index", "100");
+			})
 
 			/* 
 			//$("#dataTable_wrapper > div.row:last-child > div:first-child").empty().remove();

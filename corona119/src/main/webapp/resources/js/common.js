@@ -1,5 +1,5 @@
 $(function() {
-	$("#inputAddress").on('click', function(){
+	$("#inputAddress").focus(function(){
 		goPopup();
 	})
 });
