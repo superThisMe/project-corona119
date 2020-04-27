@@ -17,25 +17,27 @@
 		<result column="board_nreco" property="boardNreco"/>
 		<result column="board_tag" property="boardTag"/>
 		<result column="board_singo" property="boardSingo"/>
-		<association property="mem" column="member_no" resultMap="MemberMap" />
-		<association property="cat" column="cat_no" resultMap="CategoryMap" />
+		<collection property="memberNo" column="member_no" resultMap="MemberMap" />
+		<!-- <association property="cat" column="cat_no" resultMap="CategoryMap" /> -->
 	</resultMap>
 	<resultMap type="MemberVO" id="MemberMap">
 		<result column="member_nickname" property="memberNickname"/>
 	</resultMap>
-	<resultMap type="CategoryVO" id="CategoryMap">
+	<!-- <resultMap type="CategoryVO" id="CategoryMap">
 		<result column="category" property="category"/>
-	</resultMap>
+	</resultMap> -->
 
 	<select id="selectNewsList" resultMap="BoardMap">
-		SELECT *
+		SELECT b.board_no, b.board_title, b.board_count, b.board_regdate, b.board_reco, b.member_no, m.member_nickname
 		FROM BOARD b
 		INNER JOIN MEMBER m
 		ON b.member_no = m.member_no
-		INNER JOIN CATEGORY c
-		ON b.cat_no = c.cat_no
-		WHERE b.cat_no = 0;
+		WHERE b.cat_no = 0 AND b.board_deleted = 0;
 	</select>
 	
+	<insert id="insertBoard" parameterType="BoardVO">
+		INSERT INTO BOARD (member_no, board_title, board_content, board_tag, cat_no)
+		VALUES (#{memberNo}, #{boardTitle}, #{boardContent}, #{boardTag}, 0)
+	</insert>
 	
 </mapper>

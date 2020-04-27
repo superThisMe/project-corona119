@@ -17,6 +17,14 @@ public class NewsServiceImpl implements NewsService {
 	public List<BoardVO> findNewsList() {
 		
 		return newsMapper.selectNewsList();
+		
+	}
+
+	@Override
+	public void insertBoard(BoardVO board) {
+		
+		newsMapper.insertBoard(board);
+		
 	}
 	
 	

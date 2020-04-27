@@ -10,4 +10,5 @@ import com.project.corona.vo.BoardVO;
 public interface NewsMapper {
 
 	List<BoardVO> selectNewsList();
+	void insertBoard(BoardVO board);
 }

@@ -70,7 +70,7 @@
 											<td>${nlist.boardNo}</td>
 											<td onclick="location.href='#'" style="cursor:pointer">${nlist.boardTitle}</td>
 											<td>${nlist.boardCount}</td>
-											<td>${nlist.mem.memberNickname}</td>
+											<td>${nlist.memberNo.memberNickname}</td>
 											<td>${nlist.boardRegdate}</td>
 										</tr>
 									</c:forEach>

@@ -26,7 +26,7 @@
 
 <!-- Custom styles for this page -->
 <link href="/corona/resources/datatables/dataTables.bootstrap4.min.css"
-	rel="stylesheet">
+	  rel="stylesheet">
 
 </head>
 
@@ -52,15 +52,20 @@
 				    <span class="m-0 font-weight-bold text-primary">글 쓰기</span>
 				  </div>
 				  <div class="card-body">
-				     <form id="write-form" role="form" action="write" method="post">
+				     <form id="write-form" role="form" action="/corona/news/write" method="post" enctype="multipart/form-data">
 					  <div class="form-group">
 					    <label>제목</label> 
-					    <input class="form-control" id='title' name='title'>
+					    <input class="form-control" id='boardTitle' name='boardTitle'>
+					  </div>
+					  
+					  <div class="form-group">
+					    <label>태그</label> 
+					    <input class="form-control" id='boardTag' name='boardTag'>
 					  </div>
 					
 					  <div class="form-group">
 					    <label>내용</label>
-					    <textarea class="form-control" rows="3" id='content' name='content'></textarea>
+					    <textarea class="form-control" id='newsContent' name='boardContent' rows="10" cols="100"></textarea>
 					  </div>
 					  
 					  <button id="cancel-button" type="button" class="btn btn-success">취소</button>
@@ -96,6 +101,10 @@
 	<!-- Page level custom scripts -->
 	<script src="/corona/resources/datatables/datatables-demo.js"></script>
 	<script src="/corona/resources/js/common.js"></script>
+	
+	
+	<!-- Smart Editor -->
+	<script type="text/javascript" src="/corona/resources/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
 
 	<!-- Menu Toggle Script -->
 	<script>
@@ -110,20 +119,41 @@
 		});
 
 		$(function() {
+
+			var oEditors = [];
+			
+			nhn.husky.EZCreator.createInIFrame({
+				
+				oAppRef: oEditors,
+				elPlaceHolder: "newsContent",
+				sSkinURI: "/corona/resources/smarteditor/SmartEditor2Skin.html",
+				htParams : {
+				          // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+				          bUseToolbar : true,             
+				          // 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+				          bUseVerticalResizer : true,     
+				          // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+				          bUseModeChanger : true, 
+				          }
+			});
+			
 			$('#cancel-button').on('click', function(event) {
-				location.href = "list";
+				location.href = "/corona/news/list";
 			});
 
 			$('#write-button').on('click', function(event) {
 				//1. 유효성 검사
-				if ($('#title').val() == '') {
+				if ($('#boardTitle').val() == '') {
 					alert('제목을 입력하세요');
-					$('#title').focus();
+					$('#boardTitle').focus();
 					return;
 				}
-				/* if ($('#writer').val() == '') {
-					alert('작성자를 입력하세요');
-					$('#writer').focus();
+				
+				oEditors.getById["newsContent"].exec("UPDATE_CONTENTS_FIELD", []);
+		        
+				/* if ($('#newsContent').val() == '') {
+					alert('내용을 입력하세요');
+					$('#newsContent').focus();
 					return;
 				} */
 
