@@ -6,8 +6,9 @@ import lombok.Data;
 public class ApplyVO {
 	
 	private int applyNo;
-	private String ApplyId;
-	private String ApplyPhone;
+	private String applyId;
+	private String applyPhone;
+	private String applyBirth;
 	private int memberNo;
 	private int volNo;
 	

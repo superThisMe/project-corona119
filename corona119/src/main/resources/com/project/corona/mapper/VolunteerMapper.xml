@@ -63,4 +63,42 @@
 		WHERE board_no = #{boardNo}
 	</update>
 	
+	<insert id="insertApply" parameterType="ApplyVO">
+		INSERT INTO APPLY (apply_id, apply_phone, apply_birth, member_no, vol_no)
+		VALUES (#{applyId}, #{applyPhone}, #{applyBirth}, #{memberNo}, #{volNo})
+	</insert>
+<!-- 	
+	<resultMap type="VolunteerVO" id="VolunteerMap">
+		<id property="volNo" column="vol_no" />
+		<result property="volLocation" column="vol_location" />
+		<result property="volConfirm" column="vol_confirm" />
+		<result property="volDuedate" column="vol_duedate" />
+		<result property="volWdate1" column="vol_wdate1" />
+		<result property="volWdate2" column="vol_wdate2" />
+		<result property="volLocation2" column="vol_location2" />
+		<result property="volLocshort" column="vol_locshort" />		
+		<collection property="applies" column="applyNo" resultMap="ApplyMap" />
+	</resultMap>
+	<resultMap type="ApplyVO" id="ApplyMap">
+		<id property="applyNo" column="apply_no" />
+		<result property="applyId" column="apply_id" />
+		<result property="applyPhone" column="apply_phone"/>
+		<result property="applyBirth" column="apply_birth"/>
+		<result property="memberNo" column="member_no" />
+		<result property="volNo" column="vol_no" />
+	</resultMap>
+	<select id="selectApplyByBoardNo" parameterType="int" resultMap="VolunteerMap">
+		SELECT *
+		FROM VOLUNTEER v
+		INNER JOIN APPLY a
+		ON v.VOL_NO = a.VOL_NO
+		WHERE v.VOL_NO = #{volNo};
+	</select>
+ -->	
+ 	<select id="selectApplyByBoardNo" parameterType="int" resultType="ApplyVO">
+ 		SELECT *
+ 		FROM APPLY
+ 		WHERE vol_no = #{volNo};
+ 	</select>
+ 
 </mapper>

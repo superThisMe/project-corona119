@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.corona.service.VolunteerService;
+import com.project.corona.vo.ApplyVO;
 import com.project.corona.vo.BoardVO;
 import com.project.corona.vo.MemberVO;
 import com.project.corona.vo.VolunteerVO;
@@ -81,5 +83,25 @@ public class VolunteerController {
 		volunteerService.deleteBoard(boardNo);
 		
 		return "redirect:/volunteer/";
+	}
+	
+	@GetMapping(path = { "/apply/{boardNo}" })
+	public String volApply(@PathVariable("boardNo") int boardNo, Model model) {
+
+		List<ApplyVO> applyList = volunteerService.findApplyByBoardNo(boardNo);
+		System.out.println(applyList);
+		model.addAttribute("applyList", applyList);
+		return "/volunteer/apply/apply";
+	}
+	
+	@PostMapping(path = {"/apply/write/{boardNo}"})
+	@ResponseBody
+	public void writeRe(@PathVariable("boardNo") int boardNo, ApplyVO apply, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("loginuser");
+		apply.setMemberNo(member.getMemberNo());
+		apply.setVolNo(boardNo);
+		
+		volunteerService.writeApply(apply);
+
 	}
 }

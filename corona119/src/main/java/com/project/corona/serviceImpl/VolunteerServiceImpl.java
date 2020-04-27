@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.project.corona.mapper.VolunteerMapper;
 import com.project.corona.service.VolunteerService;
+import com.project.corona.vo.ApplyVO;
 import com.project.corona.vo.BoardVO;
 
 import lombok.Setter;
@@ -42,6 +43,19 @@ public class VolunteerServiceImpl implements VolunteerService{
 	public void deleteBoard(int boardNo) {
 
 		volunteerMapper.deleteBoard(boardNo);
+	}
+
+	@Override
+	public void writeApply(ApplyVO apply) {
+
+		volunteerMapper.insertApply(apply);
+		
+	}
+
+	@Override
+	public List<ApplyVO> findApplyByBoardNo(int boardNo) {
+
+		return volunteerMapper.selectApplyByBoardNo(boardNo);
 	}
 
 }
