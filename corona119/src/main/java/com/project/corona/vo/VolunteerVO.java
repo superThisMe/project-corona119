@@ -19,6 +19,8 @@ public class VolunteerVO {
 	private Date volWdate1;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date volWdate2;
+	private String volLocshort;
+	private String volLocation2;
 	
 	private List<ApplyVO> applies;
 

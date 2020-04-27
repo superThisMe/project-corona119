@@ -42,6 +42,7 @@
 <link href="/corona/resources/css/common.css"
 	rel="stylesheet">
 
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 </head>
 
@@ -77,19 +78,19 @@
 							</div>
 							<div class="volloc">
 								<p>지역</p>
-								<input type="text" id="volLocation" name="volLocation" />
+								<input type="text" id="volLocation" name="volLocation" autocomplete="off"/>
 							</div>
 							<div class="voldate">
 								<p>모집마감</p>
-								<input type="date" id="volDuedate" name="volDuedate" />
+								<input type="text" id="volDuedate" name="volDuedate" placeholder="2020-01-01" autocomplete="off"/>
 							</div>
 							<div class="voldate">
 								<p>시작일</p>
-								<input type="date" id="volWdate1" name="volWdate1" />
+								<input type="text" id="volWdate1" name="volWdate1" placeholder="2020-01-01" autocomplete="off"/>
 							</div>
 							<div class="voldate">
 								<p>종료일</p>
-								<input type="date" id="volWdate2" name="volWdate2" />
+								<input type="text" id="volWdate2" name="volWdate2" placeholder="2020-01-01" autocomplete="off"/>
 							</div>							
 							<jsp:include
 								page="/WEB-INF/views/daumOpenEditor/editor_frame.jsp"></jsp:include>
@@ -97,10 +98,12 @@
 							<div>
 								<input id="submitBtn" class="btn btn-success" type="button" value="전송">
 							</div>
-
+							
 							<!-- End: Saving Contents -->
 							<div><button onclick='loadContent()'>SAMPLE - load contents to editor</button></div>
-
+							
+							<input type="hidden" id="volLocshort" name="volLocshort"/>
+							<input type="hidden" id="volLocation2" name="volLocation2"/>
 						</form>
 
 					</div>
@@ -133,14 +136,22 @@
 	<!-- Page level custom scripts -->
 	<script src="/corona/resources/datatables/datatables-demo.js"></script>
 	<script src="/corona/resources/js/common.js"></script>
+	<script src="/corona/resources/js/common-vol.js"></script>
 
 	<script src="/corona/resources/daumOpenEditor/js/editor_loader.js"
 		type="text/javascript" charset="utf-8"></script>
+	
+<!-- 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="/corona/resources/js/datepicker.js"></script>
+	<script src="/corona/resources/js/editor.js"></script>
+	
+
 	<!-- <script src="/corona/resources/js/editor.js"></script> -->
 
 	<!-- Menu Toggle Script -->
 	<script>
-		$(function() {
+	$(function() {
 			$("#menu-toggle").click(function(e) {
 				e.preventDefault();
 				$("#wrapper").toggleClass("toggled");
@@ -150,6 +161,12 @@
 					$("#menu-toggle").html("메뉴 닫기");
 				}
 			});
+
+			$(".voldate input").datepicker();
+
+			$(".voldate input").focus(function(){
+				$("#ui-datepicker-div").css("z-index", "100");
+			})
 
 			/* 
 			//$("#dataTable_wrapper > div.row:last-child > div:first-child").empty().remove();
@@ -177,83 +194,6 @@
 		//$.fn.DataTable.ext.pager.numbers_length = 9;
 	</script>
 
-	<script type="text/javascript">
-		var config = {
-			txHost : '', /* 런타임 시 리소스들을 로딩할 때 필요한 부분으로, 경로가 변경되면 이 부분 수정이 필요. ex) http://xxx.xxx.com */
-			txPath : '', /* 런타임 시 리소스들을 로딩할 때 필요한 부분으로, 경로가 변경되면 이 부분 수정이 필요. ex) /xxx/xxx/ */
-			txService : 'sample', /* 수정필요없음. */
-			txProject : 'sample', /* 수정필요없음. 프로젝트가 여러개일 경우만 수정한다. */
-			initializedId : "", /* 대부분의 경우에 빈문자열 */
-			wrapper : "tx_trex_container", /* 에디터를 둘러싸고 있는 레이어 이름(에디터 컨테이너) */
-			form : 'tx_editor_form' + "", /* 등록하기 위한 Form 이름 */
-			txIconPath : "/corona/resources/daumOpenEditor/images/icon/editor/", /* 에디터에 사용되는 이미지 디렉터리, 필요에 따라 수정한다. */
-			txDecoPath : "/corona/resources/daumOpenEditor/images/deco/contents/", /* 본문에 사용되는 이미지 디렉터리, 서비스에서 사용할 때는 완성된 컨텐츠로 배포되기 위해 절대경로로 수정한다. */
-			canvas : {
-				exitEditor : { /* desc:'빠져 나오시려면 shift+b를 누르세요.', hotKey: { shiftKey:true, keyCode:66 }, nextElement: document.getElementsByTagName('button')[0] */},
-				styles : {
-					color : "#123456", /* 기본 글자색 */
-					fontFamily : "굴림", /* 기본 글자체 */
-					fontSize : "10pt", /* 기본 글자크기 */
-					backgroundColor : "#fff", /*기본 배경색 */
-					lineHeight : "1.5", /*기본 줄간격 */
-					padding : "8px" /* 위지윅 영역의 여백 */
-				},
-				showGuideArea : false
-			},
-			events : {
-				preventUnload : false
-			},
-			sidebar : {
-				attachbox : {
-					show : true,
-					confirmForDeleteAll : true
-				},
-				// 이미지첨부 관련 추가 config 
-				attacher : { 
-					image : { 
-						features : { left : 250, top : 65, width : 400, height : 190, scrollbars : 0 }, //팝업창 사이즈 
-						popPageUrl : '/corona/daumOpenEditor/imagePopup' //팝업창 주소 
-					},
-					file:{ 
-						features : { left : 250, top : 65, width : 400, height : 190, scrollbars : 0 }, // 팝업창 사이즈 
-						popPageUrl:'/corona/daumOpenEditor/filePopup' // 팝업창 주소 
-					}
-				},
-				capacity : { 
-					maximum : 5*1024*1024 // 최대 첨부 용량 (5MB) 
-				}
-			},
-			size : {
-				contentWidth : 700
-			/* 지정된 본문영역의 넓이가 있을 경우에 설정 */}
-		};
-		EditorJSLoader.ready(function(Editor) {
-			var editor = new Editor(config);
-		});
-		function validForm(editor) {
-			var validator = new Trex.Validator();
-			var content = editor.getContent();
-			if (!validator.exists(content)) {
-				alert('내용을 입력하세요');
-				return false;
-			}
-			return true;
-		}
-		function setForm(editor) {
-//			var i, input;
-			var form = editor.getForm();
-			var content = editor.getContent();
-
-			// 본문 내용을 필드를 생성하여 값을 할당하는 부분
-			var textarea = document.createElement('textarea');
-			textarea.name = 'boardContent'; //name값 수정
-			textarea.value = content;
-			form.createField(textarea);
-
-			return true;
-		}
-	</script>
-	
 	<script type="text/javascript">
 	function loadContent() {
 		var attachments = {};

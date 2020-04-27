@@ -67,13 +67,20 @@
       					
 						<fmt:formatDate var="eDate" value="${vDetail.volunteers.volDuedate}" pattern="yyyyMMdd" />
 						
-      					<c:if test="${eDate - nowTime ge 0}">
-      						<div><button id="apply" type="submit">신청하기</button></div>
-      					</c:if>
-      					
-      					
-      					<div>${vDetail.boardContent}</div>
-						<div>
+						<c:choose>
+							<c:when test="${eDate - nowTime ge 0 && loginuser.memberNo ne vDetail.memberNo}">
+							<div><button id="apply" type="submit">신청하기</button></div>
+							</c:when>
+							<c:otherwise>
+							</c:otherwise>
+						</c:choose>
+      					<input type="hidden" id="detailAddr" value="${vDetail.volunteers.volLocation2}">
+      					<div>${vDetail.boardContent}
+      						<div id="volMap" style="width:100%;height:400px;"></div>
+      						<div id="roadview" style="width:100%;height:400px;"></div>
+      					</div>
+						      					
+						<div style="padding-top:10px">
 							<c:if test="${ loginuser.memberNo eq vDetail.memberNo }">
 								<button class='btn btn-primary' id="volUpdate" type="button">수정</button>
 								<a href="/corona/volunteer/delete/${vDetail.boardNo}" type="button" class='btn btn-danger' id="volDelete" type="button">삭제</a>
@@ -117,7 +124,8 @@
     <script src="/corona/resources/datatables/datatables-demo.js"></script>
     <script src="/corona/resources/js/common.js"></script>
 
-	
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6013e82693c4074b861da547ceb13186&libraries=services"></script>
+	<script type="text/javascript" src="/corona/resources/js/volmap.js"></script>
     <!-- Menu Toggle Script -->
     <script>
     $(function(){
@@ -155,7 +163,9 @@
         $("<button class='btn btn-primary'>").text("글쓰기").appendTo("#dataTable_info");
         $("<div class='col-sm-12 col-md-5'>").attr({"id" : "btnArea"}).appendTo("#dataTable_wrapper > div.row:last-child");
         //$("<button>").text("글쓰기").appendTo("#btnArea");
- */        
+ */    
+
+ 
     });
 	//$.fn.DataTable.ext.pager.numbers_length = 9;
     </script>

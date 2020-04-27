@@ -31,7 +31,7 @@
 		FROM BOARD b		
 		INNER JOIN MEMBER m 
 		ON b.member_no = m.member_no
-		WHERE b.CAT_NO = 3;
+		WHERE b.CAT_NO = 3 AND board_deleted = '0';
 	</select>
 	
 	<insert id="saveFreebd" parameterType="BoardVo">
@@ -55,6 +55,13 @@
 		UPDATE BOARD 
 		SET board_title = #{ boardTitle }, board_content = #{ boardContent } 
 		WHERE board_no = #{ boardNo }
+	</update>
+	
+	<update id="freeDel" parameterType="int">
+		UPDATE BOARD
+		SET board_deleted = '1'
+		WHERE board_no = #{ boardNo }
+		
 	</update>
 
 </mapper>

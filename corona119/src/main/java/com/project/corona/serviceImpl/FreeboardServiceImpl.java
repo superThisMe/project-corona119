@@ -47,6 +47,14 @@ public class FreeboardServiceImpl implements FreeboardService{
 		return board.getBoardNo();
 	}
 
+	@Override
+	public void freeDel(int boardNo) {
+		
+		freeboardMapper.freeDel(boardNo);
+		
+	}
+
+
 	
 
 }

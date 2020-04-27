@@ -19,4 +19,6 @@ public interface FreeboardMapper {
 
 	void updateFreebd(BoardVO board);
 
+	void freeDel(int boardNo);
+
 }

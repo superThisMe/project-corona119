@@ -63,7 +63,7 @@
                                         <th>승인</th>
                                         <th>제목</th>
                                         <th>작성자</th>
-                                        <th>지역</th>
+                                        <th>지역구</th>
                                         <th>마감일</th>
                                     </tr>
                                 </thead>
@@ -80,7 +80,7 @@
 										<td><c:choose><c:when test="${!vList.volunteers.volConfirm}"><i class="fas fa-exclamation-circle fa-2x" style="color:#f6c23e"></i></c:when><c:otherwise><i class="fas fa-check-circle fa-2x" style="color:#1cc88a"></i></c:otherwise></c:choose></td>
                                			<td onClick="location.href='/corona/volunteer/detail/${vList.boardNo}'" style="cursor:pointer;">${vList.boardTitle}</td>
                                			<td>${vList.memberNo}</td>
-                               			<td>${vList.volunteers.volLocation}</td>
+                               			<td>${vList.volunteers.volLocshort}</td>
                                			<c:choose>
                                				<c:when test="${ (eDate - sDate) lt 0 }">
                                					<td>모집종료</td>		

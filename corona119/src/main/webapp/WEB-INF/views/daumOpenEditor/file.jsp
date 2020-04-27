@@ -101,7 +101,7 @@
 		</div>
 		<div class="body">
 			<dl class=alert>
-				<dt>nbsp;5MB이하만 가능합니다.</dt>
+				<dt>&nbsp;5MB이하만 가능합니다.</dt>
 				<dd>
 					<form id=daumOpenEditorForm encType=multipart/form-data method=post
 						action="">

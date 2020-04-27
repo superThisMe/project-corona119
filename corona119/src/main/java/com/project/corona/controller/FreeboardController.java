@@ -81,6 +81,14 @@ public class FreeboardController {
 		return "redirect:free-list";
 	}
 	
+	@GetMapping(path= {"/freeDel"})
+	public String delFreebd(int boardNo) {
+		
+		freeboardService.freeDel(boardNo);
+				
+		return "redirect:free-list";
+	}
+	
 	
 
 }
