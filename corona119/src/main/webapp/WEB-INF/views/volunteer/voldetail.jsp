@@ -141,20 +141,25 @@
 					</div>
 					<div class="modal-body">
 						<form id="apply">
+		                    <div class="form-row">
+		                        <div class="form-group col-md-6">
+		                            <label for="volName">실명</label> <input type="text" class="form-control" id="volName"
+		                                name="volName" placeholder="홍길동">
+		                        </div>
+		                        <div class="form-group col-md-6">
+		                            <label for="volBirth">출생년도</label>
+		                            <div class="form-control">
+										<select name="volBirth" id="volBirth">
+											<option value="1900" selected="selected">1900</option>
+										</select>
+									</div>
+		                        </div>
+		                    </div>
 
-							<div class="form-group">
-								<label for="volBirth">실명</label>
-								<input type="text" class="form-control" id="volName" name="volName" placeholder="홍길동">
-								<label for="volBirth">출생년도</label>
-								<select name="volBirth" id="volBirth">
-									<option value="1900" selected="selected">1900</option>
-								</select>
-							</div>
 							<div class="form-group">
 								<label for="volPhone">연락처</label>
 								<input type="text" class="form-control" id="volPhone" name="volPhone" placeholder="010-0000-0000">
 							</div>
-
 
 							<div align="right">
 								<button type="button" id="modalApply" class="btn btn-primary">신청하기</button>
@@ -226,13 +231,12 @@
 				if ($('#volPhone').val().length == 0) {
 					alert("휴대폰 번호를 입력하세요.")
 				} else if ($('#volName').val().length == 0) {
-					
+					alert("실명을 입력하세요.")
 				} else {
 					var check = confirm("신청하시겠습니까?");
 					if (!check){
 						event.preventDefault();
 					} else {
-						//var values = $('#apply').serializeArray();
 						var applyPhone = $('#volPhone').val();
 						var applyBirth = $('select#volBirth').val();
 						var applyId = $('#volName').val();

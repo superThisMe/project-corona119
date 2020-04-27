@@ -89,7 +89,7 @@ public class VolunteerController {
 	public String volApply(@PathVariable("boardNo") int boardNo, Model model) {
 
 		List<ApplyVO> applyList = volunteerService.findApplyByBoardNo(boardNo);
-		System.out.println(applyList);
+
 		model.addAttribute("applyList", applyList);
 		return "/volunteer/apply/apply";
 	}
