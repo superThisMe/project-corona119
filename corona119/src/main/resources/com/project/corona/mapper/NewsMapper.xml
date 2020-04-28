@@ -39,9 +39,9 @@
 	</insert>
 	
 	<select id="selectBoardByBno" parameterType="int" resultMap="BoardMap">
-		SELECT b.board_no, b.board_title, b.board_count, 
-			   b.board_regdate, b.board_reco, b.board_nreco, 
-			   b.board_tag, b.board_singo,
+		SELECT b.board_no, b.board_title, b.board_content, b.board_count, 
+			   b.board_regdate, b.board_deleted, b.board_reco, 
+			   b.board_nreco, b.board_tag, b.board_singo,
 			   b.member_no, m.member_nickname
 		  FROM BOARD b
 	INNER JOIN MEMBER m

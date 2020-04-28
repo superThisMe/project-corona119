@@ -44,7 +44,8 @@
 			<div class="container-fluid">
 
 				<!-- Page Heading -->
-				<h1 class="h3 mb-2 text-gray-800">뉴스 & 이슈</h1>
+				<br />
+				<h1 class="h4 m-0 font-weight-bold text-primary">뉴스 & 이슈</h1>
 				<br />
           
 				<div class="card shadow mb-4">
