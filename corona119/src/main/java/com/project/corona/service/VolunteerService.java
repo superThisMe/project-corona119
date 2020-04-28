@@ -3,6 +3,7 @@ package com.project.corona.service;
 import java.util.HashMap;
 import java.util.List;
 
+import com.project.corona.vo.ApplyVO;
 import com.project.corona.vo.BoardVO;
 
 public interface VolunteerService {
@@ -16,5 +17,9 @@ public interface VolunteerService {
 	BoardVO findBoardListByBoardNo(int boardNo);
 
 	void deleteBoard(int boardNo);
+
+	void writeApply(ApplyVO apply);
+
+	List<ApplyVO> findApplyByBoardNo(int boardNo);
 
 }

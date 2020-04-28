@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.project.corona.vo.ApplyVO;
 import com.project.corona.vo.BoardVO;
 
 @Mapper
@@ -19,5 +20,9 @@ public interface VolunteerMapper {
 	BoardVO selectBoardListByBoardNo(int boardNo);
 
 	void deleteBoard(int boardNo);
+
+	void insertApply(ApplyVO apply);
+
+	List<ApplyVO> selectApplyByBoardNo(int boardNo);
 
 }

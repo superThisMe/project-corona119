@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.corona.service.VolunteerService;
+import com.project.corona.vo.ApplyVO;
 import com.project.corona.vo.BoardVO;
 import com.project.corona.vo.MemberVO;
 import com.project.corona.vo.VolunteerVO;
@@ -47,17 +49,19 @@ public class VolunteerController {
 	}
 
 	@PostMapping(path = "/write")
-	public String volWriteP(BoardVO board, VolunteerVO volBoard, HttpSession session) {
+	public String volWriteP(HashMap<String, Object> params, BoardVO board, VolunteerVO volBoard, HttpSession session) {
 		
 		MemberVO volMem = (MemberVO) session.getAttribute("loginuser");
 		
 		board.setCatNo(1);
 		board.setVolunteers(volBoard);
-		HashMap<String, Object> params = new HashMap<>();
 		params.put("memberNo", volMem.getMemberNo());
 		params.put("board", board);
-		
 		volunteerService.writeBoard(params);
+		
+		int bno = Integer.parseInt((String.valueOf(params.get("bNo"))));
+		board.setBoardNo(bno);
+		params.put("board", board);
 		volunteerService.writeVolunteer(params);
 		
 		return "redirect:/volunteer/";
@@ -81,5 +85,25 @@ public class VolunteerController {
 		volunteerService.deleteBoard(boardNo);
 		
 		return "redirect:/volunteer/";
+	}
+	
+	@GetMapping(path = { "/apply/{boardNo}" })
+	public String volApply(@PathVariable("boardNo") int boardNo, Model model) {
+
+		List<ApplyVO> applyList = volunteerService.findApplyByBoardNo(boardNo);
+
+		model.addAttribute("applyList", applyList);
+		return "/volunteer/apply/apply";
+	}
+	
+	@PostMapping(path = {"/apply/write/{boardNo}"})
+	@ResponseBody
+	public void writeRe(@PathVariable("boardNo") int boardNo, ApplyVO apply, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("loginuser");
+		apply.setMemberNo(member.getMemberNo());
+		apply.setVolNo(boardNo);
+		
+		volunteerService.writeApply(apply);
+
 	}
 }
