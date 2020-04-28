@@ -11,4 +11,5 @@ public interface NewsMapper {
 
 	List<BoardVO> selectNewsList();
 	void insertBoard(BoardVO board);
+	BoardVO selectBoardByBno(int bno);
 }

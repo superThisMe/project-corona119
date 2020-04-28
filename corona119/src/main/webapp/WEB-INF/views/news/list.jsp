@@ -1,5 +1,6 @@
 <%@ page pageEncoding="utf-8" contentType="text/html; charset=utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -68,10 +69,10 @@
 									<c:forEach items="${newsList}" var="nlist">
 										<tr>
 											<td>${nlist.boardNo}</td>
-											<td onclick="location.href='#'" style="cursor:pointer">${nlist.boardTitle}</td>
+											<td onclick="location.href='/corona/news/detail?bno=${ nlist.boardNo }'" style="cursor:pointer">${nlist.boardTitle}</td>
 											<td>${nlist.boardCount}</td>
-											<td>${nlist.memberNo.memberNickname}</td>
-											<td>${nlist.boardRegdate}</td>
+											<td>${nlist.member.memberNickname}</td>
+											<td><fmt:formatDate value="${nlist.boardRegdate}" pattern="yyyy-MM-dd" /></td>
 										</tr>
 									</c:forEach>
 								</tbody>

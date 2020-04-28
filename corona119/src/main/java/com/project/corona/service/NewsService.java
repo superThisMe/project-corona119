@@ -7,5 +7,6 @@ import com.project.corona.vo.BoardVO;
 public interface NewsService {
 	
 	List<BoardVO> findNewsList();
-	void insertBoard(BoardVO board);
+	int insertBoard(BoardVO board);
+	BoardVO findBoardByBno(int bno);
 }

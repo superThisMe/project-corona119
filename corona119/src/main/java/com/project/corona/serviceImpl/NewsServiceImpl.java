@@ -21,10 +21,16 @@ public class NewsServiceImpl implements NewsService {
 	}
 
 	@Override
-	public void insertBoard(BoardVO board) {
+	public int insertBoard(BoardVO board) {
 		
 		newsMapper.insertBoard(board);
+		return board.getBoardNo();		
+	}
+
+	@Override
+	public BoardVO findBoardByBno(int bno) {
 		
+		return newsMapper.selectBoardByBno(bno);
 	}
 	
 	

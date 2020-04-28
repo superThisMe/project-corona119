@@ -17,27 +17,37 @@
 		<result column="board_nreco" property="boardNreco"/>
 		<result column="board_tag" property="boardTag"/>
 		<result column="board_singo" property="boardSingo"/>
-		<collection property="memberNo" column="member_no" resultMap="MemberMap" />
-		<!-- <association property="cat" column="cat_no" resultMap="CategoryMap" /> -->
+		<association property="member" column="member_no" resultMap="MemberMap" />
 	</resultMap>
 	<resultMap type="MemberVO" id="MemberMap">
+		<id column="member_no" property="memberNo"/>
 		<result column="member_nickname" property="memberNickname"/>
 	</resultMap>
-	<!-- <resultMap type="CategoryVO" id="CategoryMap">
-		<result column="category" property="category"/>
-	</resultMap> -->
 
 	<select id="selectNewsList" resultMap="BoardMap">
 		SELECT b.board_no, b.board_title, b.board_count, b.board_regdate, b.board_reco, b.member_no, m.member_nickname
-		FROM BOARD b
-		INNER JOIN MEMBER m
-		ON b.member_no = m.member_no
-		WHERE b.cat_no = 0 AND b.board_deleted = 0;
+		  FROM BOARD b
+	INNER JOIN MEMBER m
+			ON b.member_no = m.member_no
+		 WHERE b.cat_no = 0 
+		   AND b.board_deleted = 0;
 	</select>
 	
 	<insert id="insertBoard" parameterType="BoardVO">
 		INSERT INTO BOARD (member_no, board_title, board_content, board_tag, cat_no)
-		VALUES (#{memberNo}, #{boardTitle}, #{boardContent}, #{boardTag}, 0)
+		VALUES (#{memberNo}, #{boardTitle}, #{boardContent}, #{boardTag}, #{catNo})
 	</insert>
+	
+	<select id="selectBoardByBno" parameterType="int" resultMap="BoardMap">
+		SELECT b.board_no, b.board_title, b.board_count, 
+			   b.board_regdate, b.board_reco, b.board_nreco, 
+			   b.board_tag, b.board_singo,
+			   b.member_no, m.member_nickname
+		  FROM BOARD b
+	INNER JOIN MEMBER m
+			ON b.member_no = m.member_no
+		 WHERE b.board_no = #{ bno } 
+		   AND b.board_deleted = 0;
+	</select>
 	
 </mapper>

@@ -52,7 +52,8 @@
 				    <span class="m-0 font-weight-bold text-primary">글 쓰기</span>
 				  </div>
 				  <div class="card-body">
-				     <form id="write-form" role="form" action="/corona/news/write" method="post" enctype="multipart/form-data">
+				     <form id="write-form" role="form" action="/corona/news/write" method="post" accept-charset="utf-8">
+				     <!-- enctype="multipart/form-data" -->
 					  <div class="form-group">
 					    <label>제목</label> 
 					    <input class="form-control" id='boardTitle' name='boardTitle'>
@@ -67,6 +68,9 @@
 					    <label>내용</label>
 					    <textarea class="form-control" id='newsContent' name='boardContent' rows="10" cols="100"></textarea>
 					  </div>
+					  
+						<input name="memberNo" type="hidden" value="${ loginuser.memberNo }">
+						<input name="catNo" type="hidden" value="0">
 					  
 					  <button id="cancel-button" type="button" class="btn btn-success">취소</button>
 					  <button id="write-button" class="btn btn-success">등록</button>
