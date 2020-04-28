@@ -69,8 +69,8 @@
 				  </div>
 				  <div class="card-body">
 				  	<c:if test="${ loginuser.memberNo == ndtl.member.memberNo }">
-					<button id="update" class="btn btn-success" type="button">취소</button>
-					<button id="delete" class="btn btn-success" type="button">등록</button>
+					<button id="update" class="btn btn-success" type="button">수정</button>
+					<button id="delete" class="btn btn-success" type="button">삭제</button>
 					</c:if>
 					<button id="tolist" class="btn btn-success" type="button">목록</button>
 				  </div>
