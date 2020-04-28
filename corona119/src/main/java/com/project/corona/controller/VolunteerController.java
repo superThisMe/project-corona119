@@ -49,17 +49,19 @@ public class VolunteerController {
 	}
 
 	@PostMapping(path = "/write")
-	public String volWriteP(BoardVO board, VolunteerVO volBoard, HttpSession session) {
+	public String volWriteP(HashMap<String, Object> params, BoardVO board, VolunteerVO volBoard, HttpSession session) {
 		
 		MemberVO volMem = (MemberVO) session.getAttribute("loginuser");
 		
 		board.setCatNo(1);
 		board.setVolunteers(volBoard);
-		HashMap<String, Object> params = new HashMap<>();
 		params.put("memberNo", volMem.getMemberNo());
 		params.put("board", board);
-		
 		volunteerService.writeBoard(params);
+		
+		int bno = Integer.parseInt((String.valueOf(params.get("bNo"))));
+		board.setBoardNo(bno);
+		params.put("board", board);
 		volunteerService.writeVolunteer(params);
 		
 		return "redirect:/volunteer/";
