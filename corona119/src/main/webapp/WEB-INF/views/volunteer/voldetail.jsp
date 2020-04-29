@@ -114,11 +114,14 @@
 
 					</div>
 				</div>
-
-				<div id="applyList">
-					<jsp:include page="/WEB-INF/views/volunteer/apply/apply.jsp"></jsp:include>
+				
+				<div class="card shadow mb-4">
+					<div class="card-body">
+						<div id="applyList">
+							<jsp:include page="/WEB-INF/views/volunteer/apply/apply.jsp"></jsp:include>
+						</div>
+					</div>
 				</div>
-
 
 			</div>
 		</div>

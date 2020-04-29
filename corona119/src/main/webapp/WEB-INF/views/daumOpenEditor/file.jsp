@@ -76,8 +76,7 @@
 				'attachurl' : fileInfo.attachurl,
 				'filemime' : fileInfo.filemime,
 				'filename' : fileInfo.filename,
-				'filesize' : fileInfo.filesize,
-				'originalname' : fileInfo.originalname
+				'filesize' : fileInfo.filesize
 			};
 			execAttach(_mockdata); // 다음오픈에디터에 붙이기
 			closeWindow(); // 파일 팝업 종료

@@ -174,10 +174,10 @@ public class HomeController {
 	        String attachurl = httpSession.getServletContext().getContextPath() + "/upload/board/files/" + modifyName; // separator와는 다름!
 	        fileInfo.put("attachurl", attachurl); // 상대파일경로(사이즈변환이나 변형된 파일)
 	        fileInfo.put("filemime", fileMime); // mime
-	        fileInfo.put("filename", modifyName); // 파일명
+	        //fileInfo.put("filename", modifyName); // 파일명
+	        fileInfo.put("filename", originalName); // 파일명
 	        fileInfo.put("filesize", filesize); // 파일사이즈
 	        fileInfo.put("result", 1); // -1을 제외한 아무거나 싣어도 됨
-	        fileInfo.put("originalname", originalName);
 	    }
 	    
 	    System.out.println("인포" + fileInfo);

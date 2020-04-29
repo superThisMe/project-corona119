@@ -78,10 +78,8 @@ function setForm(editor) {
 		if (images[i].existStage) {
        // data는 팝업에서 execAttach 등을 통해 넘긴 데이터
 //			alert('attachment information - image[' + i + '] \r\n' + JSON.stringify(images[i].data));
-		//originalname	filesize
 			inputurl = document.createElement('input');
 			inputurl.type = 'hidden';
-			//inputurl.name = 'attach_image';
 			inputurl.name = 'imagePath';
 			inputurl.value = images[i].data.imageurl;  // 예에서는 이미지경로만 받아서 사용
 			form.createField(inputurl);
@@ -102,11 +100,23 @@ function setForm(editor) {
 	
 	var files = editor.getAttachments('file');
 	for (i = 0; i < files.length; i++) {
-		input = document.createElement('input');
-		input.type = 'hidden';
-		input.name = 'attach_file';
-		input.value = files[i].data.attachurl;
-		form.createField(input);
+		inputurl = document.createElement('input');
+		inputurl.type = 'hidden';
+		inputurl.name = 'filePath';
+		inputurl.value = files[i].data.attachurl;
+		form.createField(inputurl);
+		
+		inputreal = document.createElement('input');
+		inputreal.type = 'hidden';
+		inputreal.name = 'fileReal';
+		inputreal.value = files[i].data.filename;
+		form.createField(inputreal);
+		
+		inputsize = document.createElement('input');
+		inputsize.type = 'hidden';
+		inputsize.name = 'fileSize';
+		inputsize.value = files[i].data.filesize;
+		form.createField(inputsize);
    	}
 	return true;
 }
