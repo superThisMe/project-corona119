@@ -106,10 +106,8 @@
 
 						<div style="padding-top: 10px">
 							<c:if test="${ loginuser.memberNo eq vDetail.memberNo }">
-								<button class='btn btn-primary' id="volUpdate" type="button">수정</button>
-								<a href="/corona/volunteer/delete/${vDetail.boardNo}"
-									type="button" class='btn btn-danger' id="volDelete"
-									type="button">삭제</a>
+								<a href='/corona/volunteer/update/${vDetail.boardNo}' class='btn btn-success' id="volUpdate" type="button">수정</a>
+								<a href="/corona/volunteer/delete/${vDetail.boardNo}" class='btn btn-danger' id="volDelete" type="button">삭제</a>
 							</c:if>
 							<button class='btn btn-primary' id="volList" type="button">목록</button>
 						</div>

@@ -122,4 +122,16 @@
  		WHERE board_no = #{boardNo};
  	</select>
  
+ 	<update id="updateBoard" parameterType="BoardVO">
+		UPDATE BOARD
+		SET board_title = #{boardTitle}, board_content = #{boardContent} 
+		WHERE board_no = #{boardNo} 	
+ 	</update>
+ 	
+ 	<update id="updateVolunteer" parameterType="VolunteerVO">
+		UPDATE VOLUNTEER
+		SET vol_location = #{volLocation}, vol_duedate = #{volDuedate}, vol_wdate1 = #{volWdate1}, vol_wdate2 = #{volWdate2}, vol_location2 = #{volLocation2}, vol_locshort = #{volLocshort}
+		WHERE vol_no = #{volNo} 	
+ 	</update>
+ 	
 </mapper>

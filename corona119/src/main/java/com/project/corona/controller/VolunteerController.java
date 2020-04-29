@@ -105,31 +105,25 @@ public class VolunteerController {
 	
 	@PostMapping(path = { "/update/{boardNo}" })
 	public String volUpdate(@PathVariable("boardNo") int boardNo, BoardVO board, VolunteerVO volBoard, ImageVO image, FileVO file, HttpSession session) {
-		
-		if(session == null) {
-			return "redirect:/volunteer/detail/" + boardNo;
-		}
 		MemberVO volMem = (MemberVO) session.getAttribute("loginuser");
-		if(volMem.getMemberNo() != board.getMemberNo()) {
+		if(volMem == null) {
 			return "redirect:/volunteer/detail/" + boardNo;
 		}
+		
 		//where = 보드넘, 업데이트 보드-볼룬티어, 셋 제목 내용 지역 날짜3개 이미지 파일
-		board.setMemberNo(volMem.getMemberNo());
-		board.setVolunteers(volBoard);
 		
-		volunteerService.writeBoard(board);
-		boardNo = board.getBoardNo();
+		volunteerService.updateBoard(board);
 		volBoard.setVolNo(boardNo);
-		volunteerService.writeVolunteer(volBoard);
+		volunteerService.updateVolunteer(volBoard);
 		
-		if(image.getImagePath() != null) {
-			image.setBoardNo(boardNo);
-			volunteerService.uploadImage(image);
-		}
-		if(file.getFilePath() != null) {
-			file.setBoardNo(boardNo);
-			volunteerService.uploadFile(file);
-		}
+//		if(image.getImagePath() != null) {
+//			image.setBoardNo(boardNo);
+//			volunteerService.updateImage(image);
+//		}
+//		if(file.getFilePath() != null) {
+//			file.setBoardNo(boardNo);
+//			volunteerService.updateFile(file);
+//		}
 		
 		return "redirect:/volunteer/detail/" + boardNo;
 	}

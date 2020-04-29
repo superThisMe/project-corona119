@@ -32,4 +32,8 @@ public interface VolunteerService {
 	
 	List<FileVO> findFileByBoardNo(int boardNo);
 
+	void updateBoard(BoardVO board);
+
+	void updateVolunteer(VolunteerVO volBoard);
+
 }

@@ -85,4 +85,16 @@ public class VolunteerServiceImpl implements VolunteerService{
 		return volunteerMapper.selectFileByBoardNo(boardNo);
 	}
 
+	@Override
+	public void updateBoard(BoardVO board) {
+
+		volunteerMapper.updateBoard(board);
+	}
+
+	@Override
+	public void updateVolunteer(VolunteerVO volBoard) {
+
+		volunteerMapper.updateVolunteer(volBoard);
+	}
+
 }

@@ -36,4 +36,8 @@ public interface VolunteerMapper {
 	
 	List<FileVO> selectFileByBoardNo(int boardNo);
 
+	void updateBoard(BoardVO board);
+
+	void updateVolunteer(VolunteerVO volBoard);
+
 }

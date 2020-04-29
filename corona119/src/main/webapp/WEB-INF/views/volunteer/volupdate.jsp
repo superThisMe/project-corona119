@@ -100,7 +100,6 @@
 							</div>
 							
 							<!-- End: Saving Contents -->
-							
 							<input type="hidden" id="volLocshort" name="volLocshort" value="${vUpdate.volunteers.volLocshort}"/>
 							<input type="hidden" id="volLocation2" name="volLocation2" value="${vUpdate.volunteers.volLocation2}"/>
 						</form>
