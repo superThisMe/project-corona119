@@ -1,6 +1,5 @@
 package com.project.corona.controller;
 
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -13,13 +12,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.corona.service.VolunteerService;
 import com.project.corona.vo.ApplyVO;
 import com.project.corona.vo.BoardVO;
+import com.project.corona.vo.FileVO;
+import com.project.corona.vo.ImageVO;
 import com.project.corona.vo.MemberVO;
 import com.project.corona.vo.VolunteerVO;
 
@@ -49,20 +48,28 @@ public class VolunteerController {
 	}
 
 	@PostMapping(path = "/write")
-	public String volWriteP(HashMap<String, Object> params, BoardVO board, VolunteerVO volBoard, HttpSession session) {
+	public String volWriteP(BoardVO board, VolunteerVO volBoard, ImageVO image, FileVO file, HttpSession session) {
 		
+		if(session == null) {
+			return "redirect:/volunteer/";
+		}
 		MemberVO volMem = (MemberVO) session.getAttribute("loginuser");
-		
-		board.setCatNo(1);
+		board.setMemberNo(volMem.getMemberNo());
 		board.setVolunteers(volBoard);
-		params.put("memberNo", volMem.getMemberNo());
-		params.put("board", board);
-		volunteerService.writeBoard(params);
 		
-		int bno = Integer.parseInt((String.valueOf(params.get("bNo"))));
-		board.setBoardNo(bno);
-		params.put("board", board);
-		volunteerService.writeVolunteer(params);
+		volunteerService.writeBoard(board);
+		int boardNo = board.getBoardNo();
+		volBoard.setVolNo(boardNo);
+		volunteerService.writeVolunteer(volBoard);
+		
+		if(image.getImagePath() != null) {
+			image.setBoardNo(boardNo);
+			volunteerService.uploadImage(image);
+		}
+		if(file.getFilePath() != null) {
+			file.setBoardNo(boardNo);
+			volunteerService.uploadFile(file);
+		}
 		
 		return "redirect:/volunteer/";
 	}
@@ -77,6 +84,54 @@ public class VolunteerController {
 		model.addAttribute("vDetail", volboardDetail);
 		
 		return "/volunteer/voldetail";
+	}
+
+	@GetMapping(path = { "/update/{boardNo}" })
+	public String volUpdate(@PathVariable("boardNo") int boardNo, Model model) {
+		
+		BoardVO volboardUpdate = volunteerService.findBoardListByBoardNo(boardNo);
+		List<ImageVO> image = volunteerService.findImageByBoardNo(boardNo);
+		List<FileVO> file = volunteerService.findFileByBoardNo(boardNo);
+		if (volboardUpdate == null) {
+			return "redirect:/volunteer/detail/" + boardNo;
+		}		
+
+		model.addAttribute("vUpdate", volboardUpdate);
+		model.addAttribute("vImage", image);
+		model.addAttribute("vFile", file);
+		
+		return "/volunteer/volupdate";
+	}	
+	
+	@PostMapping(path = { "/update/{boardNo}" })
+	public String volUpdate(@PathVariable("boardNo") int boardNo, BoardVO board, VolunteerVO volBoard, ImageVO image, FileVO file, HttpSession session) {
+		
+		if(session == null) {
+			return "redirect:/volunteer/detail/" + boardNo;
+		}
+		MemberVO volMem = (MemberVO) session.getAttribute("loginuser");
+		if(volMem.getMemberNo() != board.getMemberNo()) {
+			return "redirect:/volunteer/detail/" + boardNo;
+		}
+		//where = 보드넘, 업데이트 보드-볼룬티어, 셋 제목 내용 지역 날짜3개 이미지 파일
+		board.setMemberNo(volMem.getMemberNo());
+		board.setVolunteers(volBoard);
+		
+		volunteerService.writeBoard(board);
+		boardNo = board.getBoardNo();
+		volBoard.setVolNo(boardNo);
+		volunteerService.writeVolunteer(volBoard);
+		
+		if(image.getImagePath() != null) {
+			image.setBoardNo(boardNo);
+			volunteerService.uploadImage(image);
+		}
+		if(file.getFilePath() != null) {
+			file.setBoardNo(boardNo);
+			volunteerService.uploadFile(file);
+		}
+		
+		return "redirect:/volunteer/detail/" + boardNo;
 	}
 	
 	@GetMapping(path = { "/delete/{boardNo}" })

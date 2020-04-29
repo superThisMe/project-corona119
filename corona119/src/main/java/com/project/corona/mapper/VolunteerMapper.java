@@ -7,15 +7,18 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.project.corona.vo.ApplyVO;
 import com.project.corona.vo.BoardVO;
+import com.project.corona.vo.FileVO;
+import com.project.corona.vo.ImageVO;
+import com.project.corona.vo.VolunteerVO;
 
 @Mapper
 public interface VolunteerMapper {
 
 	List<BoardVO> selectBoardList();
 
-	void insertBoard(HashMap<String, Object> params);
+	void insertBoard(BoardVO board);
 
-	void insertVolunteer(HashMap<String, Object> params);
+	void insertVolunteer(VolunteerVO volunteer);
 
 	BoardVO selectBoardListByBoardNo(int boardNo);
 
@@ -24,5 +27,13 @@ public interface VolunteerMapper {
 	void insertApply(ApplyVO apply);
 
 	List<ApplyVO> selectApplyByBoardNo(int boardNo);
+
+	void insertImage(ImageVO image);
+
+	void insertFile(FileVO file);
+
+	List<ImageVO> selectImageByBoardNo(int boardNo);
+	
+	List<FileVO> selectFileByBoardNo(int boardNo);
 
 }

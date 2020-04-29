@@ -26,4 +26,7 @@ public class BoardVO {
 	private List<ReplyVO> replies;
 	private MemberVO member;
 	
+	private List<ImageVO> image;
+	private List<FileVO> file;
+	
 }

@@ -65,7 +65,7 @@
 				<!-- DataTales Example -->
 				<div class="card shadow mb-4">
 					<div class="card-header py-3">
-						<h6 class="m-0 font-weight-bold text-primary">봉사활동 모집 글쓰기${vList.boardTitle}</h6>
+						<h6 class="m-0 font-weight-bold text-primary">봉사활동 모집 글쓰기</h6>
 					</div>
 					<div class="card-body">
 						<form name="tx_editor_form" id="tx_editor_form"
@@ -100,7 +100,6 @@
 							</div>
 							
 							<!-- End: Saving Contents -->
-							<div><button onclick='loadContent()'>SAMPLE - load contents to editor</button></div>
 							
 							<input type="hidden" id="volLocshort" name="volLocshort"/>
 							<input type="hidden" id="volLocation2" name="volLocation2"/>
@@ -141,13 +140,9 @@
 	<script src="/corona/resources/daumOpenEditor/js/editor_loader.js"
 		type="text/javascript" charset="utf-8"></script>
 	
-<!-- 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="/corona/resources/js/datepicker.js"></script>
 	<script src="/corona/resources/js/editor.js"></script>
-	
-
-	<!-- <script src="/corona/resources/js/editor.js"></script> -->
 
 	<!-- Menu Toggle Script -->
 	<script>
@@ -182,55 +177,10 @@
 		    				 
 			$("#submitBtn").on('click', function(){
 				Editor.save();
-				// '수정하기' 모드일 때, 다음과 같이 데이터를 다음오픈에디터에 대입할 수 있다. 
-				// ${board}는 컨트롤러에서 넘어오는 게시판 객체, ${board.board_content}는 게시판 내용
-				//if('${board!=null}'=='true') 
-				//	Editor.modify({'content': '${board.board_content}'});
-
-				//saveContent()
-				//$("#tx_editor_form").submit();
 			})
 		});
-		//$.fn.DataTable.ext.pager.numbers_length = 9;
-	</script>
 
-	<script type="text/javascript">
-	function loadContent() {
-		var attachments = {};
-		attachments['image'] = [];
-		attachments['image'].push({
-			'attacher': 'image',
-			'data': {
-				'imageurl': 'http://cfile273.uf.daum.net/image/2064CD374EE1ACCB0F15C8',
-				'filename': 'github.gif',
-				'filesize': 59501,
-				'originalurl': 'http://cfile273.uf.daum.net/original/2064CD374EE1ACCB0F15C8',
-				'thumburl': 'http://cfile273.uf.daum.net/P150x100/2064CD374EE1ACCB0F15C8'
-			}
-		});
-		attachments['file'] = [];
-		attachments['file'].push({
-			'attacher': 'file',
-			'data': {
-				'attachurl': 'http://cfile297.uf.daum.net/attach/207C8C1B4AA4F5DC01A644',
-				'filemime': 'image/gif',
-				'filename': 'editor_bi.gif',
-				'filesize': 640
-			}
-		});
-		/* 저장된 컨텐츠를 불러오기 위한 함수 호출 */
-		Editor.modify({
-			"attachments": function () { /* 저장된 첨부가 있을 경우 배열로 넘김, 위의 부분을 수정하고 아래 부분은 수정없이 사용 */
-				var allattachments = [];
-				for (var i in attachments) {
-					allattachments = allattachments.concat(attachments[i]);
-				}
-				return allattachments;
-			}(),
-			"content": document.getElementById("sample_contents_source") /* 내용 문자열, 주어진 필드(textarea) 엘리먼트 */
-		});
-	}
-</script>
+	</script>
 
 
 </body>

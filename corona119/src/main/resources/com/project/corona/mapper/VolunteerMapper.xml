@@ -38,15 +38,14 @@
 		ON b.BOARD_NO = v.VOL_NO
 		WHERE b.CAT_NO = 1 AND b.BOARD_DELETED = 0
 	</select>
-
-	<insert id="insertBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="bNo">
-		INSERT INTO BOARD (member_no, board_title, board_content, cat_no)
-		VALUES (#{memberNo}, #{board.boardTitle}, #{board.boardContent}, 1)
-	</insert>
 	
-	<insert id="insertVolunteer" parameterType="hashmap">
+	<insert id="insertBoard" parameterType="BoardVO" useGeneratedKeys="true" keyProperty="boardNo">
+		INSERT INTO BOARD (member_no, board_title, board_content, cat_no)
+		VALUES (#{memberNo}, #{boardTitle}, #{boardContent}, 1)
+	</insert>
+	<insert id="insertVolunteer" parameterType="VolunteerVO">
 		INSERT INTO VOLUNTEER (vol_no, vol_location, vol_duedate, vol_wdate1, vol_wdate2, vol_location2, vol_locshort)
-		VALUES (#{board.boardNo}, #{board.volunteers.volLocation}, #{board.volunteers.volDuedate}, #{board.volunteers.volWdate1}, #{board.volunteers.volWdate2}, #{board.volunteers.volLocation2}, #{board.volunteers.volLocshort}) 
+		VALUES (#{volNo}, #{volLocation}, #{volDuedate}, #{volWdate1}, #{volWdate2}, #{volLocation2}, #{volLocshort}) 
 	</insert>
 	
 	<select id="selectBoardListByBoardNo" parameterType="int" resultMap="BoardMap">
@@ -99,6 +98,28 @@
  		SELECT *
  		FROM APPLY
  		WHERE vol_no = #{volNo};
+ 	</select>
+
+  	<insert id="insertImage" parameterType="ImageVO">
+ 		INSERT INTO IMAGE (board_no, image_path, image_real, image_size)
+ 		VALUES (#{boardNo}, #{imagePath}, #{imageReal}, #{imageSize})
+ 	</insert>
+ 	
+ 	<insert id="insertFile" parameterType="FileVO">
+ 		INSERT INTO FILE (board_no, file_path, file_real, file_size)
+ 		VALUES (#{boardNo}, #{filePath}, #{fileReal}, #{fileSize})
+ 	</insert>
+ 	 	
+	<select id="selectImageByBoardNo" parameterType="int" resultType="ImageVO">
+ 		SELECT *
+ 		FROM IMAGE
+ 		WHERE board_no = #{boardNo};
+ 	</select>
+ 	
+	<select id="selectFileByBoardNo" parameterType="int" resultType="FileVO">
+ 		SELECT *
+ 		FROM FILE
+ 		WHERE board_no = #{boardNo};
  	</select>
  
 </mapper>
