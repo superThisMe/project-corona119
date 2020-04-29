@@ -24,7 +24,6 @@ public class MoveController {
 		ArrayList<String> moves = moveService.getMoves();
 		
 		model.addAttribute("moves", moves);
-		System.out.println(moves);
 		
 		KakaoRestApiHelper kakao = new KakaoRestApiHelper();
 		
@@ -32,7 +31,6 @@ public class MoveController {
 			ArrayList<String> latLngs = (ArrayList<String>) kakao.searchPlaceByAddr(moves);
 			
 			model.addAttribute("latLngs", latLngs);
-			System.out.println(latLngs);
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
