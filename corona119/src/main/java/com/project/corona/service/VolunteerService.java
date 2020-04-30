@@ -36,4 +36,8 @@ public interface VolunteerService {
 
 	void updateVolunteer(VolunteerVO volBoard);
 
+	void deleteImage(int boardNo);
+	
+	void deleteFile(int boardNo);
+
 }

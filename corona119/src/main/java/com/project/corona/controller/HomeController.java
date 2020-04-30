@@ -87,10 +87,10 @@ public class HomeController {
 				// 서버에 파일 저장 (쓰기)
 				multipartFile.transferTo(new File(path + modifyName));
 				// 로그
-				System.out.println("** upload 정보 **");
-				System.out.println("** path : " + path + " **");
-				System.out.println("** originalName : " + originalName + " **");
-				System.out.println("** modifyName : " + modifyName + " **");
+//				System.out.println("** upload 정보 **");
+//				System.out.println("** path : " + path + " **");
+//				System.out.println("** originalName : " + originalName + " **");
+//				System.out.println("** modifyName : " + modifyName + " **");
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("이미지파일업로드 실패 - singleUploadImageAjax");
@@ -158,10 +158,10 @@ public class HomeController {
 	            multipartFile.transferTo(new File(path + modifyName));
 
 	            // 로그
-	            System.out.println("** upload 정보 **");
-	            System.out.println("** path : " + path + " **");
-	            System.out.println("** originalName : " + originalName + " **");
-	            System.out.println("** modifyName : " + modifyName + " **");
+//	            System.out.println("** upload 정보 **");
+//	            System.out.println("** path : " + path + " **");
+//	            System.out.println("** originalName : " + originalName + " **");
+//	            System.out.println("** modifyName : " + modifyName + " **");
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	            System.out.println("파일업로드 실패 - singleUploadFileAjax");
@@ -179,8 +179,6 @@ public class HomeController {
 	        fileInfo.put("filesize", filesize); // 파일사이즈
 	        fileInfo.put("result", 1); // -1을 제외한 아무거나 싣어도 됨
 	    }
-	    
-	    System.out.println("인포" + fileInfo);
 
 	    return fileInfo;    // @ResponseBody 어노테이션을 사용하여 Map을 JSON형태로 반환
 	}

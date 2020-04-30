@@ -29,14 +29,23 @@
 			<result property="volLocation2" column="vol_location2" />
 			<result property="volLocshort" column="vol_locshort" />
 		</association>
+		<association property="member" column="member_no" resultMap="MemberMap" />
+	</resultMap>
+	<resultMap type="MemberVO" id="MemberMap">
+		<id column="member_no" property="memberNo"/>
+		<result column="member_nickname" property="memberNickname"/>
 	</resultMap>
 	
 	<select id="selectBoardList" resultMap="BoardMap">
-		SELECT b.board_no, b.board_title, b.cat_no, b.member_no, v.vol_no, v.vol_locshort, v.vol_confirm, v.vol_duedate
+		SELECT b.board_no, b.board_title, b.cat_no, b.member_no, v.vol_no, v.vol_locshort, v.vol_confirm, v.vol_duedate, m.member_nickname 
 		FROM BOARD b
 		INNER JOIN VOLUNTEER v
 		ON b.BOARD_NO = v.VOL_NO
-		WHERE b.CAT_NO = 1 AND b.BOARD_DELETED = 0
+		INNER JOIN MEMBER m
+		ON b.MEMBER_NO = m.MEMBER_NO
+		<![CDATA[
+		WHERE b.CAT_NO = 1 AND b.BOARD_DELETED = 0 AND v.vol_duedate < NOW()
+		]]> 
 	</select>
 	
 	<insert id="insertBoard" parameterType="BoardVO" useGeneratedKeys="true" keyProperty="boardNo">
@@ -49,10 +58,12 @@
 	</insert>
 	
 	<select id="selectBoardListByBoardNo" parameterType="int" resultMap="BoardMap">
-		SELECT *
+		SELECT b.board_no, b.board_title, b.cat_no, b.member_no, v.vol_no, v.vol_location, v.vol_location2, v.vol_locshort, v.vol_confirm, v.vol_duedate, v.vol_wdate1, v.vol_wdate2, m.member_nickname
 		FROM BOARD b
 		INNER JOIN VOLUNTEER v
 		ON b.BOARD_NO = v.VOL_NO
+		INNER JOIN MEMBER m
+		ON b.MEMBER_NO = m.MEMBER_NO
 		WHERE b.BOARD_NO = #{boardNo}
 	</select>
 	
@@ -133,5 +144,15 @@
 		SET vol_location = #{volLocation}, vol_duedate = #{volDuedate}, vol_wdate1 = #{volWdate1}, vol_wdate2 = #{volWdate2}, vol_location2 = #{volLocation2}, vol_locshort = #{volLocshort}
 		WHERE vol_no = #{volNo} 	
  	</update>
+ 	
+ 	<delete id="deleteImage" parameterType="int">
+ 		DELETE FROM IMAGE
+ 		WHERE board_no = #{boardNo};
+ 	</delete>
+ 	
+	<delete id="deleteFile" parameterType="int">
+ 		DELETE FROM FILE
+ 		WHERE board_no = #{boardNo};
+ 	</delete>
  	
 </mapper>

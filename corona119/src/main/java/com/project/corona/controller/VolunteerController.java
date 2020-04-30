@@ -1,7 +1,11 @@
 package com.project.corona.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,26 +53,46 @@ public class VolunteerController {
 
 	@PostMapping(path = "/write")
 	public String volWriteP(BoardVO board, VolunteerVO volBoard, ImageVO image, FileVO file, HttpSession session) {
-		
-		if(session == null) {
+		MemberVO volMem = (MemberVO) session.getAttribute("loginuser");
+		if(volMem == null) {
 			return "redirect:/volunteer/";
 		}
-		MemberVO volMem = (MemberVO) session.getAttribute("loginuser");
+		
 		board.setMemberNo(volMem.getMemberNo());
 		board.setVolunteers(volBoard);
-		
 		volunteerService.writeBoard(board);
 		int boardNo = board.getBoardNo();
 		volBoard.setVolNo(boardNo);
 		volunteerService.writeVolunteer(volBoard);
 		
 		if(image.getImagePath() != null) {
-			image.setBoardNo(boardNo);
-			volunteerService.uploadImage(image);
+			image.setBoardNo(boardNo);		
+			String[] imagePath = image.getImagePath().split(",");
+			String[] imageReal = image.getImageReal().split(",");
+			String[] imageSize = image.getImageSize().split(",");
+			List<ImageVO> imageList = new ArrayList<>();
+			for(int i = 0; i < imagePath.length; i++) {
+				image.setImagePath(imagePath[i]);
+				image.setImageReal(imageReal[i]);
+				image.setImageSize(imageSize[i]);
+				imageList.add(image);
+				volunteerService.uploadImage(image);
+			}
 		}
+		
 		if(file.getFilePath() != null) {
 			file.setBoardNo(boardNo);
-			volunteerService.uploadFile(file);
+			String[] filePath = file.getFilePath().split(",");
+			String[] fileReal = file.getFileReal().split(",");
+			String[] fileSize = file.getFileSize().split(",");
+			List<FileVO> fileList = new ArrayList<>();
+			for(int i = 0; i < filePath.length; i++) {
+				file.setFilePath(filePath[i]);
+				file.setFileReal(fileReal[i]);
+				file.setFileSize(fileSize[i]);
+				fileList.add(file);
+				volunteerService.uploadFile(file);
+			}
 		}
 		
 		return "redirect:/volunteer/";
@@ -87,15 +111,18 @@ public class VolunteerController {
 	}
 
 	@GetMapping(path = { "/update/{boardNo}" })
-	public String volUpdate(@PathVariable("boardNo") int boardNo, Model model) {
-		
+	public String volUpdate(@PathVariable("boardNo") int boardNo, Model model, HttpSession session, HttpServletResponse response) throws IOException {
+		MemberVO volMem = (MemberVO) session.getAttribute("loginuser");
 		BoardVO volboardUpdate = volunteerService.findBoardListByBoardNo(boardNo);
+		if (volboardUpdate == null || volMem == null || volboardUpdate.getMemberNo() != volMem.getMemberNo()) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.printf("<script>alert('접근 권한이 없습니다'); location.href='/corona/volunteer/detail/%d';</script>\n", boardNo);
+			out.flush();
+		}
 		List<ImageVO> image = volunteerService.findImageByBoardNo(boardNo);
 		List<FileVO> file = volunteerService.findFileByBoardNo(boardNo);
-		if (volboardUpdate == null) {
-			return "redirect:/volunteer/detail/" + boardNo;
-		}		
-
+		
 		model.addAttribute("vUpdate", volboardUpdate);
 		model.addAttribute("vImage", image);
 		model.addAttribute("vFile", file);
@@ -104,26 +131,50 @@ public class VolunteerController {
 	}	
 	
 	@PostMapping(path = { "/update/{boardNo}" })
-	public String volUpdate(@PathVariable("boardNo") int boardNo, BoardVO board, VolunteerVO volBoard, ImageVO image, FileVO file, HttpSession session) {
+	public String volUpdate(@PathVariable("boardNo") int boardNo, BoardVO board, VolunteerVO volBoard, ImageVO image, FileVO file, int memberNo, HttpSession session, HttpServletResponse response) throws IOException {
 		MemberVO volMem = (MemberVO) session.getAttribute("loginuser");
-		if(volMem == null) {
-			return "redirect:/volunteer/detail/" + boardNo;
+		if(volMem == null || volMem.getMemberNo() != memberNo) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.printf("<script>alert('접근 권한이 없습니다'); location.href='/corona/volunteer/detail/%d';</script>\n", boardNo);
+			out.flush();
 		}
-		
-		//where = 보드넘, 업데이트 보드-볼룬티어, 셋 제목 내용 지역 날짜3개 이미지 파일
 		
 		volunteerService.updateBoard(board);
 		volBoard.setVolNo(boardNo);
 		volunteerService.updateVolunteer(volBoard);
 		
-//		if(image.getImagePath() != null) {
-//			image.setBoardNo(boardNo);
-//			volunteerService.updateImage(image);
-//		}
-//		if(file.getFilePath() != null) {
-//			file.setBoardNo(boardNo);
-//			volunteerService.updateFile(file);
-//		}
+		if(image.getImagePath() != null) {
+			volunteerService.deleteImage(boardNo);
+			image.setBoardNo(boardNo);		
+			String[] imagePath = image.getImagePath().split(",");
+			String[] imageReal = image.getImageReal().split(",");
+			String[] imageSize = image.getImageSize().split(",");
+			List<ImageVO> imageList = new ArrayList<>();
+			for(int i = 0; i < imagePath.length; i++) {
+				image.setImagePath(imagePath[i]);
+				image.setImageReal(imageReal[i]);
+				image.setImageSize(imageSize[i]);
+				imageList.add(image);
+				volunteerService.uploadImage(image);
+			}
+		}
+		
+		if(file.getFilePath() != null) {
+			volunteerService.deleteFile(boardNo);
+			file.setBoardNo(boardNo);
+			String[] filePath = file.getFilePath().split(",");
+			String[] fileReal = file.getFileReal().split(",");
+			String[] fileSize = file.getFileSize().split(",");
+			List<FileVO> fileList = new ArrayList<>();
+			for(int i = 0; i < filePath.length; i++) {
+				file.setFilePath(filePath[i]);
+				file.setFileReal(fileReal[i]);
+				file.setFileSize(fileSize[i]);
+				fileList.add(file);
+				volunteerService.uploadFile(file);
+			}
+		}
 		
 		return "redirect:/volunteer/detail/" + boardNo;
 	}

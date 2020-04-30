@@ -77,9 +77,10 @@
 									<fmt:parseNumber var="eDate" value="${ eSetDate.time/(1000*60*60*24) }" integerOnly="true" />                               	
                                		<tr>
 
-										<td><c:choose><c:when test="${!vList.volunteers.volConfirm}"><i class="fas fa-exclamation-circle fa-2x" style="color:#f6c23e"></i></c:when><c:otherwise><i class="fas fa-check-circle fa-2x" style="color:#1cc88a"></i></c:otherwise></c:choose></td>
+										<td><c:choose><c:when test="${!vList.volunteers.volConfirm}"><i class="fas fa-exclamation-circle fa-2x" style="color:#f6c23e"><span style="vertical-align: middle;font-size: 0.7em;">미승인</span></i></c:when><c:otherwise><i class="fas fa-check-circle fa-2x" style="color:#1cc88a"><span style="vertical-align: middle;font-size: 0.7em;">승인</span></i></c:otherwise></c:choose></td>
                                			<td onClick="location.href='/corona/volunteer/detail/${vList.boardNo}'" style="cursor:pointer;">${vList.boardTitle}</td>
-                               			<td>${vList.memberNo}</td>
+                               			<%-- <td>${vList.memberNo}</td> --%>
+                               			<td>${vList.member.memberNickname}</td>
                                			<td>${vList.volunteers.volLocshort}</td>
                                			<c:choose>
                                				<c:when test="${ (eDate - sDate) lt 0 }">
@@ -151,7 +152,35 @@
                 $("#menu-toggle").html("메뉴 닫기");
             }
         });
-
+/* 
+        $("#dataTableVol thead th").eq(0).removeClass();
+        $("#dataTableVol thead th").click(function(){
+        	$("#dataTableVol thead th").eq(0).removeClass();
+        });
+*/
+/* 
+        $('<label>').attr("id","confirm-label").text("승인글").prependTo("#dataTableVol_filter");
+        $('<input>').attr({"type":"checkbox", "id":"confirmChk", "value":"false"}).css("margin","0 5px 0 0").appendTo("#dataTableVol_filter #confirm-label");
+        $('input:checkbox[id="confirmChk"]').on('change', function(){
+        	if($(this).is(":checked")){
+                $(this).val("true");
+            } else{
+            	$(this).val("false");
+            }
+            var confirmChk = $(this).val();
+        	$.ajax({
+				"url": "/corona/volunteer/confirmChk",
+				"method": "post",
+				"data": {"confirmChk":confirmChk},
+				"success": function(data, status, xhr) {
+				//	$('#applyList').load("/corona/volunteer/apply/${vDetail.boardNo}");
+				},
+				"error": function(xhr, status, err) {
+					alert('신청 실패');
+				}
+			});	
+        })
+ */        
         /* 
         //$("#dataTable_wrapper > div.row:last-child > div:first-child").empty().remove();
         $("#dataTable_info").text("").css("padding-top", "0");

@@ -63,7 +63,8 @@
 					</div>
 					<div class="card-body">
 						<div>글번호 : ${vDetail.boardNo}</div>
-						<div>작성자 : ${vDetail.memberNo}</div>
+						<%-- <div>작성자 : ${vDetail.memberNo}</div> --%>
+						<div>작성자 : ${vDetail.member.memberNickname}</div>
 						<div>조회수 : ${vDetail.boardCount}</div>
 						<div>승인상태 : ${vDetail.volunteers.volConfirm}</div>
 						<div>활동지역 : ${vDetail.volunteers.volLocation}</div>

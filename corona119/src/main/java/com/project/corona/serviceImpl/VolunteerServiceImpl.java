@@ -1,6 +1,5 @@
 package com.project.corona.serviceImpl;
 
-import java.util.HashMap;
 import java.util.List;
 
 import com.project.corona.mapper.VolunteerMapper;
@@ -95,6 +94,18 @@ public class VolunteerServiceImpl implements VolunteerService{
 	public void updateVolunteer(VolunteerVO volBoard) {
 
 		volunteerMapper.updateVolunteer(volBoard);
+	}
+
+	@Override
+	public void deleteImage(int boardNo) {
+
+		volunteerMapper.deleteImage(boardNo);
+	}
+
+	@Override
+	public void deleteFile(int boardNo) {
+
+		volunteerMapper.deleteFile(boardNo);		
 	}
 
 }

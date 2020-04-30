@@ -100,6 +100,7 @@
 							</div>
 							
 							<!-- End: Saving Contents -->
+							<input type="hidden" id="memberNo" name="memberNo" value="${vUpdate.memberNo}"/>
 							<input type="hidden" id="volLocshort" name="volLocshort" value="${vUpdate.volunteers.volLocshort}"/>
 							<input type="hidden" id="volLocation2" name="volLocation2" value="${vUpdate.volunteers.volLocation2}"/>
 						</form>
@@ -192,8 +193,8 @@
 	<script type="text/javascript">
 	
 		var attachments = {};
-		<c:forEach items="${vImage}" var="vImg">
 		attachments['image'] = [];
+		<c:forEach items="${vImage}" var="vImg">
 		attachments['image'].push({
 			'attacher': 'image',
 			'data': {
@@ -205,8 +206,9 @@
 			}
 		});
 		</c:forEach>
-		<c:forEach items="${vFile}" var="vFl">
+		
 		attachments['file'] = [];
+		<c:forEach items="${vFile}" var="vFl">
 		attachments['file'].push({
 			'attacher': 'file',
 			'data': {

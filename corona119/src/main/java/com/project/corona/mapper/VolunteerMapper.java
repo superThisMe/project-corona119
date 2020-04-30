@@ -1,6 +1,5 @@
 package com.project.corona.mapper;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -39,5 +38,9 @@ public interface VolunteerMapper {
 	void updateBoard(BoardVO board);
 
 	void updateVolunteer(VolunteerVO volBoard);
+
+	void deleteImage(int boardNo);
+
+	void deleteFile(int boardNo);
 
 }
