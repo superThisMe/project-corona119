@@ -43,4 +43,6 @@ public interface VolunteerMapper {
 
 	void deleteFile(int boardNo);
 
+	int countApplyByBoardNo(int boardNo);
+
 }

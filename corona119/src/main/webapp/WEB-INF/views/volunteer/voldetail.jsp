@@ -41,7 +41,7 @@
 
 <body>
 	<jsp:useBean id="now" class="java.util.Date" scope="page" />
-	
+	<fmt:formatDate var="nowTime" value="${now}" pattern="yyyy-MM-dd" /> 
 	<div class="d-flex" id="wrapper">
 
 		<jsp:include page="/WEB-INF/views/sidebar.jsp" />
@@ -58,53 +58,94 @@
 
 				<!-- DataTales Example -->
 				<div class="card shadow mb-4">
-					<div class="card-header py-3">
+					<c:choose>
+					<c:when test="${!vDetail.volunteers.volConfirm}">
+					<div class="card-header py-3" style="background-color:#f6c23e">
+					</c:when>
+					<c:otherwise>
+					<div class="card-header py-3" style="background-color:#1cc88a">
+					</c:otherwise>
+					</c:choose>
 						<h6 class="m-0 font-weight-bold text-primary">${vDetail.boardTitle}</h6>
 					</div>
 					<div class="card-body">
-						<div>글번호 : ${vDetail.boardNo}</div>
-						<%-- <div>작성자 : ${vDetail.memberNo}</div> --%>
-						<div>작성자 : ${vDetail.member.memberNickname}</div>
-						<div>조회수 : ${vDetail.boardCount}</div>
-						<div>승인상태 : ${vDetail.volunteers.volConfirm}</div>
-						<div>활동지역 : ${vDetail.volunteers.volLocation}</div>
-						<div>
-							모집마감일 :
-							<fmt:formatDate value="${vDetail.volunteers.volDuedate}"
-								pattern="yyyy.MM.dd" />
-						</div>
-						<div>
-							시작일 :
-							<fmt:formatDate value="${vDetail.volunteers.volWdate1}"
-								pattern="yyyy.MM.dd" />
-						</div>
-						<div>
-							종료일 :
-							<fmt:formatDate value="${vDetail.volunteers.volWdate2}"
-								pattern="yyyy.MM.dd" />
-						</div>
-
-						<fmt:formatDate var="eDate"
-							value="${vDetail.volunteers.volDuedate}" pattern="yyyyMMdd" />
-
+						<fmt:parseDate var="sSetDate" value="${ nowTime }" pattern="yyyy-MM-dd"/>
+						<fmt:formatDate var="endTime" value="${vDetail.volunteers.volDuedate}" pattern="yyyy-MM-dd" />
+						<fmt:parseDate var="eSetDate" value="${ endTime }" pattern="yyyy-MM-dd"/>
+						<fmt:parseNumber var="sDate" value="${ sSetDate.time/(1000*60*60*24) }" integerOnly="true" />
+						<fmt:parseNumber var="eDate" value="${ eSetDate.time/(1000*60*60*24) }" integerOnly="true" />
+						<div id="applyArea">
 						<c:choose>
-							<c:when
-								test="${eDate - nowTime ge 0 && loginuser ne null && loginuser.memberNo ne vDetail.memberNo}">
-								<div>
-									<button id="apply" type="button" data-toggle="modal"
-										data-target="#applyModal">신청하기</button>
-								</div>
+							<c:when	test="${nowTime <= endTime && (loginuser ne null || loginuser.memberNo ne vDetail.memberNo)}">
+								<button id="apply" type="button" data-toggle="modal" data-target="#applyModal">
 							</c:when>
 							<c:otherwise>
+								<button id="apply" type="button" data-toggle="modal" data-target="#applyModal" disabled>
 							</c:otherwise>
 						</c:choose>
+ 
+	           			<c:choose>
+	           				<c:when test="${ (eDate - sDate) lt 0 }">
+	           					<td>모집종료</td>		
+	           				</c:when>
+	           				<c:when test="${ (eDate - sDate) eq 0 }">
+	           					<td>신청하기 <span style="color:red">오늘마감</span></td>		
+	           				</c:when>
+	           				<c:otherwise>
+	           					<td>신청하기 마감 ${ eDate - sDate}일 전</td>
+	           				</c:otherwise>
+	           			</c:choose>
+	           				</button>
+						</div>
+													
 						<input type="hidden" id="detailAddr"
 							value="${vDetail.volunteers.volLocation2}">
-						<div>${vDetail.boardContent}
-							<div id="volMap" style="width: 100%; height: 400px;"></div>
-							<div id="roadview" style="width: 100%; height: 400px;"></div>
-						</div>
+						<div>
+						
+							<div class="board_data type2" style="height:150px">
+								<div class="group">
+									<dl>
+										<dt>활동시작일</dt>
+										<dd><fmt:formatDate value="${vDetail.volunteers.volWdate1}"	pattern="yyyy.MM.dd" /></dd>
+									</dl>
+									<dl>
+										<dt>활동종료일</dt>
+										<dd><fmt:formatDate value="${vDetail.volunteers.volWdate2}"	pattern="yyyy.MM.dd" /></dd>
+									</dl>
+								</div>
+								<div class="group">
+									<dl>
+										<dt>작성자</dt>
+										<dd>${vDetail.member.memberNickname}</dd>
+									</dl>
+									<dl>
+										<dt>신청인원</dt>
+										<dd>${applyCount}명</dd>
+									</dl>
+								</div>
+								<div class="group">
+									<dl>
+										<dt>활동지역</dt>
+										<dd id="address">${vDetail.volunteers.volLocation}</dd>
+									</dl>
+								</div>
+							</div>
 
+							${vDetail.boardContent}
+							<hr>
+							<div id="mapLayout">
+								<div id="toggleMap">
+									<button id="topBtn">일반</button>
+									<button id="roadBtn">로드뷰</button>
+								</div>
+								<div id="volMap" style="width: 100%; height: 600px;">
+									<div id="mapBack" style="width:100%; height:600px; background:#eee"></div>
+									<div id="roadview" style="width: 100%; height: 600px;"></div>
+								</div>
+								
+							</div>
+						</div>
+						<hr>
 						<div style="padding-top: 10px">
 							<c:if test="${ loginuser.memberNo eq vDetail.memberNo }">
 								<a href='/corona/volunteer/update/${vDetail.boardNo}' class='btn btn-success' id="volUpdate" type="button">수정</a>
@@ -216,7 +257,7 @@
 
 			$("#volList").on('click', function() {
 				location.href = "/corona/volunteer";
-			})
+			});
 
 			$("#volDelete").on('click', function() {
 				var check = confirm("게시글을 삭제하시겠습니까?");
@@ -228,7 +269,16 @@
 			for(var i = 1901; i <= ${year}; i++){
 				$("<option>").attr("value", i).text(i).appendTo("select#volBirth");
 			}
-			    	
+
+			$("#topBtn").on('click', function(){
+				$("#mapBack").css("display","block");
+				$("#roadview").css("z-index", "1");
+			});
+			$("#roadBtn").on('click', function(){
+				$("#mapBack").css("display","none");
+				$("#roadview").css("z-index", "98");
+			});
+			
 			$("#modalApply").on('click', function(){
 				if ($('#volPhone').val().length == 0) {
 					alert("휴대폰 번호를 입력하세요.")

@@ -105,7 +105,10 @@ public class VolunteerController {
 		if (volboardDetail == null) {
 			return "redirect:/volunteer/";
 		}		
+		int countApply = volunteerService.countApplyByBoardNo(boardNo);
+		
 		model.addAttribute("vDetail", volboardDetail);
+		model.addAttribute("applyCount", countApply);
 		
 		return "/volunteer/voldetail";
 	}

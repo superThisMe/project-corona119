@@ -43,9 +43,13 @@
 		ON b.BOARD_NO = v.VOL_NO
 		INNER JOIN MEMBER m
 		ON b.MEMBER_NO = m.MEMBER_NO
-		<![CDATA[
-		WHERE b.CAT_NO = 1 AND b.BOARD_DELETED = 0 AND v.vol_duedate < NOW()
-		]]> 
+		WHERE b.CAT_NO = 1 AND b.BOARD_DELETED = 0
+	</select>
+	
+	<select id="countApplyByBoardNo" parameterType="int" resultType="int">
+		SELECT count(vol_no)
+		FROM APPLY
+		WHERE vol_no = #{boardNo}
 	</select>
 	
 	<insert id="insertBoard" parameterType="BoardVO" useGeneratedKeys="true" keyProperty="boardNo">
@@ -58,7 +62,7 @@
 	</insert>
 	
 	<select id="selectBoardListByBoardNo" parameterType="int" resultMap="BoardMap">
-		SELECT b.board_no, b.board_title, b.cat_no, b.member_no, v.vol_no, v.vol_location, v.vol_location2, v.vol_locshort, v.vol_confirm, v.vol_duedate, v.vol_wdate1, v.vol_wdate2, m.member_nickname
+		SELECT b.board_no, b.board_title, b.board_content, b.cat_no, b.member_no, v.vol_no, v.vol_location, v.vol_location2, v.vol_locshort, v.vol_confirm, v.vol_duedate, v.vol_wdate1, v.vol_wdate2, m.member_nickname
 		FROM BOARD b
 		INNER JOIN VOLUNTEER v
 		ON b.BOARD_NO = v.VOL_NO

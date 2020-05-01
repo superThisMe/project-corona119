@@ -108,4 +108,10 @@ public class VolunteerServiceImpl implements VolunteerService{
 		volunteerMapper.deleteFile(boardNo);		
 	}
 
+	@Override
+	public int countApplyByBoardNo(int boardNo) {
+
+		return volunteerMapper.countApplyByBoardNo(boardNo);
+	}
+
 }

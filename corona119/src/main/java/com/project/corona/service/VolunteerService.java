@@ -40,4 +40,6 @@ public interface VolunteerService {
 	
 	void deleteFile(int boardNo);
 
+	int countApplyByBoardNo(int boardNo);
+
 }
