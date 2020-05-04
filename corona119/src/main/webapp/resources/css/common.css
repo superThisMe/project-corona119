@@ -1,5 +1,21 @@
 @charset "utf-8";
 
+/*
+ * Nanum Gothic (Korean) http://www.google.com/fonts/earlyaccess
+ */
+@font-face {font-family:'Nanum Gothic'; font-weight:400; font-style:normal; src:url('/corona/resources/web/fonts/NanumGothicRegular.eot'); src:url('/corona/resources/web/fonts/NanumGothicRegular.eot?#iefix') format('embedded-opentype'),
+  url('/corona/resources/web/fonts/NanumGothicRegular.woff2') format('woff2'),
+  url('/corona/resources/web/fonts/NanumGothicRegular.woff') format('woff'),
+  url('/corona/resources/web/fonts/NanumGothicRegular.ttf') format('truetype');}
+@font-face {font-family:'Nanum Gothic'; font-weight:700; font-style:normal; src:url('/corona/resources/web/fonts/NanumGothicBold.eot'); src:url('/corona/resources/web/fonts/NanumGothicBold.eot?#iefix') format('embedded-opentype'),
+  url('/corona/resources/web/fonts/NanumGothicBold.woff2') format('woff2'),
+  url('/corona/resources/web/fonts/NanumGothicBold.woff') format('woff'),
+  url('/corona/resources/web/fonts/NanumGothicBold.ttf') format('truetype');}
+@font-face {font-family: 'Noto Sans Korean';font-style: normal;font-weight: 500;
+    src: url(/corona/resources/web/fonts/NotoSansKR-Medium-Hestia.eot);
+	src: url(/corona/resources/web/fonts/NotoSansKR-Medium-Hestia.eot?#iefix) format('embedded-opentype'),url(/corona/resources/web/fonts/NotoSansKR-Medium-Hestia.woff) format('woff'),url(/corona/resources/web/fonts/NotoSansKR-Medium-Hestia.ttf) format('truetype');}
+
+
 #tx_editor_form div.voltitle {
 	width: 100%;
 }
@@ -24,7 +40,92 @@
 #tx_trex_container {
 	padding-top: 10px;
 }
-
+/* 
 .card-body .txc-image {
 	width: 100%;
+}
+ */
+h6.text-primary {
+	color: #333 !important;
+}
+ 
+#dataTableVol thead tr th {
+	text-align: center;
+}
+
+.fa-2x {
+	font-size: 1.6em;
+}
+
+#dataTableVol {
+/* 	font-family:'Noto Sans Korean', '돋움', Arial, sans-serif; */
+	color: #777777;
+}
+#dataTableVol tbody tr:hover{
+	background-color: #d4daed !important;
+}
+#volBirth {
+	border: none;
+	width: 100%;
+}
+
+#applyArea{
+	text-align: center;
+}
+
+.board_data.type2 .group dl{
+	margin-right: 0;
+}
+.board_data dl:first-child{
+	margin-left: 0;
+}
+.board_data dl{
+/* 	float: left; */
+	display: block;
+}
+.board_data dl dt{
+	float: left;
+	display: block;
+	color: #666;
+	background: #eee url("/corona/resources/img/border.gif") repeat-x top;
+}
+.board_data dl dd{
+ 	float: left;
+	display: block;
+	margin-bottom: 0;
+	background: #fbfbfb url("/corona/resources/img/border-left.gif") repeat-x top;
+}
+.board_data.type2 .group dl dt{
+	width: 20%;
+	padding: 8px 0;
+	text-align: center;
+}
+.board_data.type2 .group dl dd{
+	width: 30%;
+	padding: 8px 0;
+	text-align: center;
+}
+.board_data.type2 .group dl dd#address{
+	width: 80% !important;
+}
+#toggleMap {
+	position: absolute;
+	z-index: 100;
+}
+
+#volMap {
+	position: relative;
+	z-index: 99;
+}
+#roadview {
+	position: relative;
+	z-index: 1;
+}
+
+
+
+
+
+.btn-lighten-primary {
+	
 }

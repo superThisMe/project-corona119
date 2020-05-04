@@ -1,5 +1,4 @@
 <%@ page pageEncoding="utf-8" contentType="text/html; charset=utf-8"%>
-
 		<!-- 에디터 컨테이너 시작 -->
 		<div id="tx_trex_container" class="tx-editor-container">
 			<!-- 사이드바 -->
@@ -28,22 +27,17 @@
 								<a href="javascript:;" title="외부컨텐츠" class="tx-text">외부컨텐츠</a>
 							</div>
 						</li>
-						<!-- 
 						<li class="tx-list tx-list-extra">
-						
 							<div unselectable="on" class="tx-btn-nlrbg tx-extra">
-							
 								<a href="javascript:;" class="tx-icon" title="버튼 더보기">버튼 더보기</a>
-								
 							</div>
 							<ul class="tx-extra-menu tx-menu" style="left:-48px;" unselectable="on">
-								
+								<!--
 									@decsription
 									일부 버튼들을 빼서 레이어로 숨기는 기능을 원할 경우 이 곳으로 이동시킬 수 있다.
-								
+								-->
 							</ul>
 						</li>
-						-->
 					</ul>
 					<!-- 사이드바 / 우측영역 -->
 					<ul class="tx-bar tx-bar-right">
@@ -396,9 +390,7 @@
 	</div>
 					<div class="tx-side-bi" id="tx_side_bi">
 		<div style="text-align: right;">
-		<!-- 
-			<img hspace="4" height="14" width="78" align="absmiddle" src="/corona/resources/daumOpenEditor/images/icon/editor/editor_bi.png" />
-		 -->	
+			<!-- <img hspace="4" height="14" width="78" align="absmiddle" src="/corona/resources/daumOpenEditor/images/icon/editor/editor_bi.png" /> -->
 		</div>
 	</div>
 				<!-- 편집영역 끝 -->

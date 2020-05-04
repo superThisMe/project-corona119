@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MaskController {
 	
 	@GetMapping(value = "/mask")
-	public String home(Model model) {
+	public String mask(Model model) {
 		
 		return "mask";
 	}

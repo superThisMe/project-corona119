@@ -15,7 +15,14 @@ $(function() {
 				"previous" : '&lt',
 				"next" : '&gt'
 			}
-		}
+		},
+		"columns": [
+		    { "width": "88px" },
+		    null,
+		    { "width": "115px" },
+		    { "width": "70px" },
+		    { "width": "70px" }
+		]
 	});
 	$("#dataTableVol_info").css({"padding" : "0" , "margin" : "2px 0"});
 });

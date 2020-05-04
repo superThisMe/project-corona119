@@ -12,6 +12,7 @@
 		<a href="#" class="list-group-item list-group-item-action bg-light">무료나눔</a>
 		<a href="/corona/freeboard/free-list" class="list-group-item list-group-item-action bg-light">자유게시판</a>
 		<a href="/corona/mask" class="list-group-item list-group-item-action bg-light">공적마스크 현황</a>
+		<a href="/corona/move" class="list-group-item list-group-item-action bg-light">확진자 이동경로</a>
 	</div>
 </div>
 <!-- /#sidebar-wrapper -->

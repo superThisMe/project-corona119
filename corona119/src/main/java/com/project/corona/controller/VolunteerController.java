@@ -1,8 +1,11 @@
 package com.project.corona.controller;
 
-import java.util.HashMap;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +16,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.corona.service.VolunteerService;
 import com.project.corona.vo.ApplyVO;
 import com.project.corona.vo.BoardVO;
+import com.project.corona.vo.FileVO;
+import com.project.corona.vo.ImageVO;
 import com.project.corona.vo.MemberVO;
 import com.project.corona.vo.VolunteerVO;
 
@@ -49,20 +52,48 @@ public class VolunteerController {
 	}
 
 	@PostMapping(path = "/write")
-	public String volWriteP(HashMap<String, Object> params, BoardVO board, VolunteerVO volBoard, HttpSession session) {
-		
+	public String volWriteP(BoardVO board, VolunteerVO volBoard, ImageVO image, FileVO file, HttpSession session) {
 		MemberVO volMem = (MemberVO) session.getAttribute("loginuser");
+		if(volMem == null) {
+			return "redirect:/volunteer/";
+		}
 		
-		board.setCatNo(1);
+		board.setMemberNo(volMem.getMemberNo());
 		board.setVolunteers(volBoard);
-		params.put("memberNo", volMem.getMemberNo());
-		params.put("board", board);
-		volunteerService.writeBoard(params);
+		volunteerService.writeBoard(board);
+		int boardNo = board.getBoardNo();
+		volBoard.setVolNo(boardNo);
+		volunteerService.writeVolunteer(volBoard);
 		
-		int bno = Integer.parseInt((String.valueOf(params.get("bNo"))));
-		board.setBoardNo(bno);
-		params.put("board", board);
-		volunteerService.writeVolunteer(params);
+		if(image.getImagePath() != null) {
+			image.setBoardNo(boardNo);		
+			String[] imagePath = image.getImagePath().split(",");
+			String[] imageReal = image.getImageReal().split(",");
+			String[] imageSize = image.getImageSize().split(",");
+			List<ImageVO> imageList = new ArrayList<>();
+			for(int i = 0; i < imagePath.length; i++) {
+				image.setImagePath(imagePath[i]);
+				image.setImageReal(imageReal[i]);
+				image.setImageSize(imageSize[i]);
+				imageList.add(image);
+				volunteerService.uploadImage(image);
+			}
+		}
+		
+		if(file.getFilePath() != null) {
+			file.setBoardNo(boardNo);
+			String[] filePath = file.getFilePath().split(",");
+			String[] fileReal = file.getFileReal().split(",");
+			String[] fileSize = file.getFileSize().split(",");
+			List<FileVO> fileList = new ArrayList<>();
+			for(int i = 0; i < filePath.length; i++) {
+				file.setFilePath(filePath[i]);
+				file.setFileReal(fileReal[i]);
+				file.setFileSize(fileSize[i]);
+				fileList.add(file);
+				volunteerService.uploadFile(file);
+			}
+		}
 		
 		return "redirect:/volunteer/";
 	}
@@ -74,9 +105,81 @@ public class VolunteerController {
 		if (volboardDetail == null) {
 			return "redirect:/volunteer/";
 		}		
+		int countApply = volunteerService.countApplyByBoardNo(boardNo);
+		
 		model.addAttribute("vDetail", volboardDetail);
+		model.addAttribute("applyCount", countApply);
 		
 		return "/volunteer/voldetail";
+	}
+
+	@GetMapping(path = { "/update/{boardNo}" })
+	public String volUpdate(@PathVariable("boardNo") int boardNo, Model model, HttpSession session, HttpServletResponse response) throws IOException {
+		MemberVO volMem = (MemberVO) session.getAttribute("loginuser");
+		BoardVO volboardUpdate = volunteerService.findBoardListByBoardNo(boardNo);
+		if (volboardUpdate == null || volMem == null || volboardUpdate.getMemberNo() != volMem.getMemberNo()) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.printf("<script>alert('접근 권한이 없습니다'); location.href='/corona/volunteer/detail/%d';</script>\n", boardNo);
+			out.flush();
+		}
+		List<ImageVO> image = volunteerService.findImageByBoardNo(boardNo);
+		List<FileVO> file = volunteerService.findFileByBoardNo(boardNo);
+		
+		model.addAttribute("vUpdate", volboardUpdate);
+		model.addAttribute("vImage", image);
+		model.addAttribute("vFile", file);
+		
+		return "/volunteer/volupdate";
+	}	
+	
+	@PostMapping(path = { "/update/{boardNo}" })
+	public String volUpdate(@PathVariable("boardNo") int boardNo, BoardVO board, VolunteerVO volBoard, ImageVO image, FileVO file, int memberNo, HttpSession session, HttpServletResponse response) throws IOException {
+		MemberVO volMem = (MemberVO) session.getAttribute("loginuser");
+		if(volMem == null || volMem.getMemberNo() != memberNo) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.printf("<script>alert('접근 권한이 없습니다'); location.href='/corona/volunteer/detail/%d';</script>\n", boardNo);
+			out.flush();
+		}
+		
+		volunteerService.updateBoard(board);
+		volBoard.setVolNo(boardNo);
+		volunteerService.updateVolunteer(volBoard);
+		
+		if(image.getImagePath() != null) {
+			volunteerService.deleteImage(boardNo);
+			image.setBoardNo(boardNo);		
+			String[] imagePath = image.getImagePath().split(",");
+			String[] imageReal = image.getImageReal().split(",");
+			String[] imageSize = image.getImageSize().split(",");
+			List<ImageVO> imageList = new ArrayList<>();
+			for(int i = 0; i < imagePath.length; i++) {
+				image.setImagePath(imagePath[i]);
+				image.setImageReal(imageReal[i]);
+				image.setImageSize(imageSize[i]);
+				imageList.add(image);
+				volunteerService.uploadImage(image);
+			}
+		}
+		
+		if(file.getFilePath() != null) {
+			volunteerService.deleteFile(boardNo);
+			file.setBoardNo(boardNo);
+			String[] filePath = file.getFilePath().split(",");
+			String[] fileReal = file.getFileReal().split(",");
+			String[] fileSize = file.getFileSize().split(",");
+			List<FileVO> fileList = new ArrayList<>();
+			for(int i = 0; i < filePath.length; i++) {
+				file.setFilePath(filePath[i]);
+				file.setFileReal(fileReal[i]);
+				file.setFileSize(fileSize[i]);
+				fileList.add(file);
+				volunteerService.uploadFile(file);
+			}
+		}
+		
+		return "redirect:/volunteer/detail/" + boardNo;
 	}
 	
 	@GetMapping(path = { "/delete/{boardNo}" })

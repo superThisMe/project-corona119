@@ -60,7 +60,7 @@ function validForm(editor) {
 	return true;
 }
 function setForm(editor) {
-//			var i, input;
+	var i, input;
 	var form = editor.getForm();
 	var content = editor.getContent();
 
@@ -70,5 +70,53 @@ function setForm(editor) {
 	textarea.value = content;
 	form.createField(textarea);
 
+	/* 아래의 코드는 첨부된 데이터를 필드를 생성하여 값을 할당하는 부분으로 상황에 맞게 수정하여 사용한다.
+	첨부된 데이터 중에 주어진 종류(image,file..)에 해당하는 것만 배열로 넘겨준다. */
+	var images = editor.getAttachments('image');
+	for (i = 0; i < images.length; i++) {
+       // existStage는 현재 본문에 존재하는지 여부
+		if (images[i].existStage) {
+       // data는 팝업에서 execAttach 등을 통해 넘긴 데이터
+//			alert('attachment information - image[' + i + '] \r\n' + JSON.stringify(images[i].data));
+			inputurl = document.createElement('input');
+			inputurl.type = 'hidden';
+			inputurl.name = 'imagePath';
+			inputurl.value = images[i].data.imageurl;  // 예에서는 이미지경로만 받아서 사용
+			form.createField(inputurl);
+			
+			inputreal = document.createElement('input');
+			inputreal.type = 'hidden';
+			inputreal.name = 'imageReal';
+			inputreal.value = images[i].data.filename;  // 예에서는 이미지경로만 받아서 사용
+			form.createField(inputreal);
+			
+			inputsize = document.createElement('input');
+			inputsize.type = 'hidden';
+			inputsize.name = 'imageSize';
+			inputsize.value = images[i].data.filesize;  // 예에서는 이미지경로만 받아서 사용
+			form.createField(inputsize);
+		}
+	}
+	
+	var files = editor.getAttachments('file');
+	for (i = 0; i < files.length; i++) {
+		inputurl = document.createElement('input');
+		inputurl.type = 'hidden';
+		inputurl.name = 'filePath';
+		inputurl.value = files[i].data.attachurl;
+		form.createField(inputurl);
+		
+		inputreal = document.createElement('input');
+		inputreal.type = 'hidden';
+		inputreal.name = 'fileReal';
+		inputreal.value = files[i].data.filename;
+		form.createField(inputreal);
+		
+		inputsize = document.createElement('input');
+		inputsize.type = 'hidden';
+		inputsize.name = 'fileSize';
+		inputsize.value = files[i].data.filesize;
+		form.createField(inputsize);
+   	}
 	return true;
 }
