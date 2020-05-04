@@ -45,12 +45,12 @@
 
 				<!-- Page Heading -->
 				<br />
-				<h1 class="h4 m-0 font-weight-bold text-primary">뉴스 & 이슈</h1>
+				<h1 class="h4 m-0 font-weight-normal text-gray-600">새 글쓰기</h1>
 				<br />
           
 				<div class="card shadow mb-4">
-				  <div class="card-header py-3">
-				    <span class="m-0 font-weight-bold text-primary">글 쓰기</span>
+				  <div class="card-header bg-white py-2">
+				  	<p class="m-0 font-weight-bold text-primary">${ loginuser.memberNickname }</p>
 				  </div>
 				  <div class="card-body">
 				     <form id="write-form" role="form" action="/corona/news/write" method="post" accept-charset="utf-8">

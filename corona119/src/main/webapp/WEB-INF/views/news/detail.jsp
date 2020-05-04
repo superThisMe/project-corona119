@@ -47,7 +47,7 @@
 
 				<!-- Page Heading -->
 				<br />
-				<h1 class="h4 m-0 font-weight-bold text-gray-600">뉴스 & 이슈</h1>
+				<h1 class="h4 m-0 font-weight-normal text-gray-600">뉴스 & 이슈</h1>
 				<br />
           
 				<div class="card shadow mb-4">
@@ -127,7 +127,7 @@
 				location.href = "delete?bno=${ ndtl.boardNo }";
 				};
 			});
-		$('#list').on('click', function(){
+		$('#tolist').on('click', function(){
 			location.href = "list";
 			});
 		});
