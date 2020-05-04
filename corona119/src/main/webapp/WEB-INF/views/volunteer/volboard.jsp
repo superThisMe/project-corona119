@@ -78,7 +78,7 @@
 									<fmt:parseNumber var="eDate" value="${ eSetDate.time/(1000*60*60*24) }" integerOnly="true" />                               	
                                		<tr>
 
-										<td><c:choose><c:when test="${!vList.volunteers.volConfirm}"><i class="fas fa-exclamation-circle fa-2x" style="color:#f6c23e"><span style="vertical-align: middle;font-size: 0.7em;"> 대기</span></i></c:when><c:otherwise><i class="fas fa-check-circle fa-2x" style="color:#1cc88a"><span style="vertical-align: middle;font-size: 0.7em;"> 승인</span></i></c:otherwise></c:choose></td>
+										<td><c:choose><c:when test="${!vList.volunteers.volConfirm}"><i class='fas fa-exclamation-circle fa-2x' style='color:#f6c23e'><span style='vertical-align: middle;font-size: 0.7em;'> 대기</span></i></c:when><c:otherwise><i class='fas fa-check-circle fa-2x' style='color:#1cc88a'><span style='vertical-align: middle;font-size: 0.7em;'> 승인</span></i></c:otherwise></c:choose></td>
                                			<td onClick="location.href='/corona/volunteer/detail/${vList.boardNo}'" style="cursor:pointer;"><span style="font-size:1.1em;/* font-weight:500; */">${vList.boardTitle}</span></td>
                                			<%-- <td>${vList.memberNo}</td> --%>
                                			<td>${vList.member.memberNickname}</td>
@@ -88,7 +88,7 @@
                                					<td>모집종료</td>		
                                				</c:when>
                                				<c:when test="${ (eDate - sDate) eq 0 }">
-                               					<td><span style="color:red">오늘마감</span></td>		
+                               					<td><span style='color:red'>오늘마감</span></td>		
                                				</c:when>
                                				<c:otherwise>
                                					<td>마감 ${ eDate - sDate}일 전</td>
@@ -99,6 +99,7 @@
                                	</c:forEach>
 								
                                 </tbody>
+
                             </table>
                         </div>
                     </div>
@@ -115,7 +116,8 @@
     <!-- Bootstrap core JavaScript -->
     <script src="/corona/resources/vendor/jquery/jquery.min.js"></script>
     <script src="/corona/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- <script src="https://code.jquery.com/jquery-3.4.1.js"></script> -->
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script> -->
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script> -->
 
     <!-- Core plugin JavaScript-->
     <script src="/corona/resources/datatables/jquery.easing.min.js"></script>
@@ -125,10 +127,11 @@
 
     <!-- Page level plugins -->
     <script src="/corona/resources/datatables/jquery.dataTables.min.js"></script>
+    <!-- <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script> -->
     <script src="/corona/resources/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="/corona/resources/datatables/datatables-demo.js"></script>
+    <!-- <script src="/corona/resources/datatables/datatables-demo.js"></script> -->
     <script src="/corona/resources/js/common.js"></script>
 
 	<c:choose>
@@ -154,29 +157,7 @@
             }
         });
 
-/*         
 
-		//인풋 검색 추가용도
-		$('#dataTableVol tfoot th').each( function () {
-            var title = $(this).text();
-            $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-        } );
-     
-        var table = $('#dataTableVol').DataTable();
-     
-        // Apply the search
-        table.columns().every( function () {
-            var that = this;
-     
-            $( 'input', this.footer() ).on( 'keyup change clear', function () {
-                if ( that.search() !== this.value ) {
-                    that
-                        .search( this.value )
-                        .draw();
-                }
-            } );
-        } );
- */
 /* 
         $("#dataTableVol thead th").eq(0).removeClass();
         $("#dataTableVol thead th").click(function(){

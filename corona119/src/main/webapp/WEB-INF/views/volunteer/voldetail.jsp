@@ -76,11 +76,11 @@
 						<fmt:parseNumber var="eDate" value="${ eSetDate.time/(1000*60*60*24) }" integerOnly="true" />
 						<div id="applyArea">
 						<c:choose>
-							<c:when	test="${nowTime <= endTime && (loginuser ne null || loginuser.memberNo ne vDetail.memberNo)}">
+							<c:when	test="${nowTime <= endTime && loginuser ne null && loginuser.memberNo ne vDetail.memberNo}">
 								<button id="apply" type="button" data-toggle="modal" data-target="#applyModal">
 							</c:when>
 							<c:otherwise>
-								<button id="apply" type="button" data-toggle="modal" data-target="#applyModal" disabled>
+								<button id="alogin" type="button" disabled>
 							</c:otherwise>
 						</c:choose>
  
@@ -198,8 +198,8 @@
 									</div>
 		                        </div>
 		                    </div>
-
-							<div class="form-group">
+		                    
+		                    <div class="form-group">
 								<label for="volPhone">연락처</label>
 								<input type="text" class="form-control" id="volPhone" name="volPhone" placeholder="010-0000-0000">
 							</div>
@@ -296,18 +296,61 @@
 							"url": "/corona/volunteer/apply/write/${vDetail.boardNo}",
 							"method": "post",
 							"data": {"applyPhone":applyPhone, "applyBirth":applyBirth, "applyId":applyId},
-							"success": function(data, status, xhr) {
+						    "beforeSend" : function(xhr, opts) {
+						        $('#applyModal').modal('hide');
+						    	if (${loginuser eq null || loginuser.memberNo eq vDetail.memberNo}) {
+							        alert("잘못된 접근입니다.");
+						            xhr.abort();
+						        }
+						    },
+						    "success": function(data, status, xhr) {
 								$('#applyModal').modal('hide');
-								$('#applyList').load("/corona/volunteer/apply/${vDetail.boardNo}");
+								if(data == "success") {
+									alert("신청이 완료됐습니다.");
+									$('#applyList').load("/corona/volunteer/apply/${vDetail.boardNo}");
+								} else {
+									alert("이미 신청이 완료됐습니다.");
+								}
 							},
 							"error": function(xhr, status, err) {
-								alert('신청 실패');
+								alert('전송 실패');
 							}
 						});	
 					}
 				}
 			})
 			$('#applyList').load("/corona/volunteer/apply/${vDetail.boardNo}");
+			$(document).on('click', '#applyCancel', function(){
+				var check = confirm("신청을 취소하시겠습니까?");
+				if (!check) {
+					event.preventDefault();
+				} else {
+				$.ajax({
+					"url": "/corona/volunteer/apply/cancel/${vDetail.boardNo}",
+					"method": "post",
+					"data": {"memberNo": ${vDetail.memberNo}},
+				    "beforeSend" : function(xhr, opts) {
+						if (${ (eDate - sDate) lt 0 }) {
+							alert("모집이 종료된 글입니다.");
+							xhr.abort();
+						} else if (${loginuser eq null || loginuser.memberNo eq vDetail.memberNo}) {
+					        alert("잘못된 접근입니다.");
+				            xhr.abort();
+				        }
+				    },
+					"success": function(data, status, xhr) {
+						if(data == "success") {
+							$('#applyList').load("/corona/volunteer/apply/${vDetail.boardNo}");
+							alert("신청이 취소되었습니다.");
+						} else {
+							alert("모집이 종료된 글입니다.");
+						}
+					},
+					"error": function(xhr, status, err) {
+						alert('전송 실패');
+					}
+				})}
+			})
 			/* 
 			//$("#dataTable_wrapper > div.row:last-child > div:first-child").empty().remove();
 			$("#dataTable_info").text("").css("padding-top", "0");

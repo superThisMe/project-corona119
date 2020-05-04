@@ -1,5 +1,6 @@
 package com.project.corona.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.project.corona.vo.ApplyVO;
@@ -41,5 +42,9 @@ public interface VolunteerService {
 	void deleteFile(int boardNo);
 
 	int countApplyByBoardNo(int boardNo);
+
+	int findApplyMemberByBoardNo(int boardNo);
+
+	void deleteApply(HashMap<String, String> hashmap);
 
 }

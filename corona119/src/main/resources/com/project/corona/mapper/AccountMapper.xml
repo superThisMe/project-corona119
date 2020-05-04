@@ -11,4 +11,22 @@
 		VALUES (#{memberId}, #{memberPsw}, #{memberEmail}, #{memberAddr}, #{memberAddrDetail}, #{memberName}, #{memberNickname})
 	</insert>
 
+	<select id="selectMemberId" parameterType="String" resultType="String">
+		SELECT count(member_id)
+		FROM MEMBER
+		WHERE member_id LIKE #{memberId}
+	</select>
+	
+	<select id="selectMemberEmail" parameterType="String" resultType="String">
+		SELECT count(member_email)
+		FROM MEMBER
+		WHERE member_email LIKE #{memberEmail}
+	</select>
+	
+	<select id="selectMemberNick" parameterType="String" resultType="String">
+		SELECT count(member_nickname)
+		FROM MEMBER
+		WHERE member_nickname LIKE #{memberNick}
+	</select>
+		
 </mapper>

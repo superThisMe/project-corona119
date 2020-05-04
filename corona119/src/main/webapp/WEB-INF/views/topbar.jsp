@@ -54,26 +54,26 @@
                 <form id="signUp" action="/corona/account/signup" method="POST">
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="inputEmail4">아이디</label> <input type="text" class="form-control" id="memberId"
-                                name="memberId">
+                            <label for="inputId">아이디</label> <input type="text" class="form-control" id="memberId"
+                                name="memberId" maxlength="12"><span id="idCheck"></span>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="inputPassword4">비밀번호</label> <input type="password" class="form-control"
-                                id="memberPsw" name="memberPsw">
+                            <label for="inputPassword">비밀번호</label> <input type="password" class="form-control"
+                                id="memberPsw" name="memberPsw" maxlength="20">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputAddress">이메일</label> <input type="email" class="form-control" id="memberEmail"
-                            name="memberEmail" placeholder="1234@abcd.com">
+                        <label for="inputEmail">이메일</label> <input type="email" class="form-control" id="memberEmail"
+                            name="memberEmail" placeholder="1234@abcd.com"><span id="emailCheck"></span>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="inputEmail4">이름</label> <input type="text" class="form-control" id="memberName"
-                                name="memberName">
+                            <label for="inputName">이름</label> <input type="text" class="form-control" id="memberName"
+                                name="memberName" maxlength="50"><span id="nameCheck"></span>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="inputPassword4">닉네임</label> <input type="text" class="form-control"
-                                id="memberNickname" name="memberNickname">
+                            <label for="inputNickname">닉네임</label> <input type="text" class="form-control"
+                                id="memberNickname" name="memberNickname" maxlength="20"><span id="nickCheck"></span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -85,6 +85,7 @@
                         <label for="inputAddress2">Address 2</label> <input type="text" class="form-control"
                             id="inputAddress2" name="memberAddrDetail" placeholder="Apartment, studio, or floor">
                     </div>
+                    <!-- 
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <button type="button" class="btn btn-info">회원약관</button>
@@ -94,8 +95,9 @@
                             <label class="form-check-label" for="gridCheck">동의합니다</label>
                         </div>
                     </div>
+                     -->
                     <div align="right">
-                        <button type="submit" class="btn btn-primary">완료</button>
+                        <button type="submit" id="reg_submit" class="btn btn-primary" disabled>완료</button>
                     </div>
                 </form>
             </div>
@@ -133,3 +135,6 @@
         </div>
     </div>
 </div>
+
+<script src="/corona/resources/vendor/jquery/jquery.min.js"></script>
+<script src="/corona/resources/js/validate.js"></script>

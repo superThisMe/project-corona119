@@ -1,12 +1,16 @@
 package com.project.corona.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.corona.common.Sha256;
 import com.project.corona.service.AccountService;
@@ -56,5 +60,25 @@ public class AccountController {
 		session.removeAttribute("loginuser");
 		return "redirect:/";
 	}
+	
+	
+	@PostMapping(path = {"/check/id"})
+	@ResponseBody
+	public String checkId(String memberId) {
+		return accountService.idCheck(memberId);
+	}
+	
+	@PostMapping(path = {"/check/email"})
+	@ResponseBody
+	public String checkEmail(String memberEmail) {
+		return accountService.emailCheck(memberEmail);
+	}
+	
+	@PostMapping(path = {"/check/nick"})
+	@ResponseBody
+	public String checkNick(String memberNick) {
+		return accountService.nickCheck(memberNick);
+	}
+	
 	
 }

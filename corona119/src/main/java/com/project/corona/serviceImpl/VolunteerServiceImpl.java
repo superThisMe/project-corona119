@@ -1,5 +1,6 @@
 package com.project.corona.serviceImpl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.project.corona.mapper.VolunteerMapper;
@@ -112,6 +113,18 @@ public class VolunteerServiceImpl implements VolunteerService{
 	public int countApplyByBoardNo(int boardNo) {
 
 		return volunteerMapper.countApplyByBoardNo(boardNo);
+	}
+
+	@Override
+	public int findApplyMemberByBoardNo(int boardNo) {
+		
+		return volunteerMapper.selectApplyMemberByBoardNo(boardNo);
+	}
+
+	@Override
+	public void deleteApply(HashMap<String, String> hashmap) {
+		
+		volunteerMapper.deleteApply(hashmap);
 	}
 
 }

@@ -18,4 +18,22 @@ public class AccountServiceImpl implements AccountService{
 		
 	}
 
+	@Override
+	public String idCheck(String memberId) {
+
+		return accountMapper.selectMemberId(memberId);
+	}
+
+	@Override
+	public String emailCheck(String memberEmail) {
+
+		return accountMapper.selectMemberEmail(memberEmail);
+	}
+
+	@Override
+	public String nickCheck(String memberNick) {
+
+		return accountMapper.selectMemberNick(memberNick);
+	}
+
 }

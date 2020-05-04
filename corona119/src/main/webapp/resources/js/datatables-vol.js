@@ -17,10 +17,10 @@ $(function() {
 			}
 		},
 		"columns": [
-		    { "width": "88px" },
+		    { "width": "55px" },
 		    null,
-		    { "width": "115px" },
-		    { "width": "70px" },
+		    { "width": "110px" },
+		    { "width": "50px" },
 		    { "width": "70px" }
 		]
 	});

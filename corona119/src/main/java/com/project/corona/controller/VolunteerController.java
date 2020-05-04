@@ -3,6 +3,7 @@ package com.project.corona.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -201,12 +202,39 @@ public class VolunteerController {
 	
 	@PostMapping(path = {"/apply/write/{boardNo}"})
 	@ResponseBody
-	public void writeRe(@PathVariable("boardNo") int boardNo, ApplyVO apply, HttpSession session) {
+	public String writeRe(@PathVariable("boardNo") int boardNo, ApplyVO apply, HttpSession session) {
 		MemberVO member = (MemberVO) session.getAttribute("loginuser");
+		
+		if (member == null) {
+			return "failure";
+		}
 		apply.setMemberNo(member.getMemberNo());
 		apply.setVolNo(boardNo);
-		
-		volunteerService.writeApply(apply);
 
+		try {
+			int applyMember = volunteerService.findApplyMemberByBoardNo(boardNo);
+			if(applyMember != member.getMemberNo()) {
+				volunteerService.writeApply(apply);
+				return "success";
+			} else {
+				return "failure";
+			}
+		} catch (Exception e) {
+			volunteerService.writeApply(apply);
+			return "success"; 
+		}
+	}
+	
+	@PostMapping(path = {"/apply/cancel/{boardNo}"})
+	@ResponseBody
+	public String cancelApply(@PathVariable("boardNo") int boardNo, int memberNo, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("loginuser");
+		
+		HashMap<String, String> hashmap = new HashMap<String, String>();
+		hashmap.put("memberNo", String.valueOf(memberNo));
+		hashmap.put("boardNo", String.valueOf(boardNo));
+		
+		volunteerService.deleteApply(hashmap);
+		return "success";
 	}
 }

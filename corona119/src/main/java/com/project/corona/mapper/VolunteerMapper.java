@@ -1,5 +1,6 @@
 package com.project.corona.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -44,5 +45,9 @@ public interface VolunteerMapper {
 	void deleteFile(int boardNo);
 
 	int countApplyByBoardNo(int boardNo);
+
+	int selectApplyMemberByBoardNo(int boardNo);
+
+	void deleteApply(HashMap<String, String> hashmap);
 
 }

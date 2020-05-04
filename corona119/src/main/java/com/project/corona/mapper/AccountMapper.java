@@ -8,5 +8,11 @@ import com.project.corona.vo.MemberVO;
 public interface AccountMapper {
 
 	void insertMember(MemberVO member);
+
+	String selectMemberId(String memberId);
+
+	String selectMemberEmail(String memberEmail);
+	
+	String selectMemberNick(String memberNick);
 	
 }

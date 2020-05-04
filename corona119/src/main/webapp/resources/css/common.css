@@ -48,7 +48,16 @@
 h6.text-primary {
 	color: #333 !important;
 }
- 
+
+#searchArea{
+	border: 1px solid #dee3eb;	
+}
+
+.card.shadow.mb-4 {
+	margin: 0 auto;
+	width: 900px;
+}
+
 #dataTableVol thead tr th {
 	text-align: center;
 }
@@ -124,8 +133,18 @@ h6.text-primary {
 
 
 
+table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after{
+	right: 1em !important;
+	top: 1.4em !important;
+	content: "\01F893" !important;
+}
+table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc_disabled:before{
+	right: 1em !important;
+	bottom: 1.4em !important;
+	content: "\01F891" !important;
+}
 
 
-.btn-lighten-primary {
-	
+.applyDiv {
+	margin-bottom: 0;	
 }
