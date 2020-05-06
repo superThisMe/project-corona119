@@ -26,6 +26,10 @@
     <link href="/corona/resources/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     
     <link href="/corona/resources/datatables/jquery.tap.css" rel="stylesheet">
+    
+    <style>
+    .show {display: block}
+    </style>
 
 </head>
 
@@ -60,15 +64,68 @@
 						<br>
 						<div>
 							<c:if test="${ loginuser.memberNo == board.memberNo }">							
-							<button class='btn btn-primary' id="update" type="button">수정</button>
-							<button class='btn btn-primary' id="delete" type="button">삭제</button>
+								<button class='btn btn-primary' id="update" type="button">수정</button>
+								<button class='btn btn-primary' id="delete" type="button">삭제</button>
 							</c:if>
-							<button class='btn btn-primary' id="list" type="button">목록</button>
+								<button class='btn btn-primary' id="list" type="button">목록</button>
 						</div>
 
                     </div>
                 </div>
                 
+                
+                <div class="reply">
+
+				<c:if test="${sessionScope.loginuser != null }">
+				
+			    <div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 10px">
+			        <form id="saveReply" name="saveReply" method="post">
+			            <div class="card_body" width="100%" margin-left="5px">
+			                <table width="100%">
+			                    <tr>
+			                        <td colspan="2">
+			                            <p>도배, 내용반복, 무의미, 내용에 관곙 없는 댓글시 일괄 삭제 처리 </p>
+			                        </td>
+			                    </tr>
+			                    <tr>
+			                        <td style="width: 100px ">
+			                            <textarea id="reply" name="reply" rows="3" style="width: 100%"
+			                                placeholder="여기에 댓글을 작성해주세요."></textarea>
+			                        </td>
+			                        <td width="5%" align="center">
+			                            <a id="saveReplyBttn" href="#" class="btn btn-success btn-circle btn-lg">
+			                                <i class="fas fa-check"></i>
+			                            </a>
+			
+			                        </td>
+			                    </tr>
+			
+			                </table>
+			                <input type="hidden" name="boardNo" value="${ board.boardNo }">
+			                <input type="hidden" name="memberNo" value="${ loginuser.memberNo }">
+			                <input type="hidden" name="action" value='reply'>	
+			            </div>
+			        </form>
+			
+			    </div>
+			    
+			    </c:if>
+			
+			    <div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 10px">
+			
+			        <h6 class="border-bottom pb-2 mb-0">Reply list</h6>
+			       
+			
+					<div id="listReply">
+					
+			 	 		<jsp:include page="/WEB-INF/views/freeboard/reply.jsp" />
+			 	 			    
+			        </div>
+			        <div id="rid" style="display: none">확인용 </div>
+			    </div>
+			
+			</div>
+                                
             </div>
         </div>
 
@@ -93,7 +150,7 @@
     <script src="/corona/resources/datatables/dataTables.bootstrap4.min.js"></script>
 
   <!--   <!-- Page level custom scripts -->
-    <script src="/corona/resources/datatables/datatables-demo.js"></script> -->
+    <script src="/corona/resources/datatables/datatables-demo.js"></script>
 
     <!-- Menu Toggle Script -->
     <script>
@@ -118,12 +175,119 @@
 				location.href = "freeDel?boardNo=${ board.boardNo }";
 					};
 			});
-		$('#list').on('click', function(){
+		$('#list').on('click', function(){	
 			location.href = "free-list";
 			});
 
 		
     });
+    </script>
+    
+   	<script type="text/javascript">
+    $(function(){
+
+		$('#saveReplyBttn').on('click', function() {
+	
+			if ($('#reply').val().length == 0) {
+				alert("댓글 내용을 입력하세요")
+				return;
+			}
+
+			var values = $('#saveReply').serializeArray();
+			
+			$.ajax({
+				"url": "/corona/reply/saveReply",
+				"method": "post",
+				"data": values,
+				"success": function(data, status, xhr) {
+
+					document.getElementById("reply").value='';
+					
+					$('#listReply').load("/corona/reply/listReply/${ board.boardNo }");
+						
+				},
+				"error": function(xhr, status, err) {
+					alert('댓글 쓰기 실패');
+				}
+			});			
+		});
+
+    });
+
+    </script>    
+    
+    <script>
+    $(function(){
+	   
+	    $(document).on('click', '.reply-delete' , function() {
+		    var rno = $(this).attr('data-rno');
+			var check = confirm("댓긍를  삭제 하시겠습니까?");
+			if (!check) return;
+			
+		
+					$.ajax({
+						"url" : "/corona/reply/delReply/" + rno ,
+						"method" : "delete",
+						"success" : function(data, status, xhr) {
+	
+							$('#listReply').load("/corona/reply/listReply/${ board.boardNo }");
+	
+							},
+						"error" : function(xhr, status, err) {
+	
+						}
+					
+					
+					}); 	
+	    });
+		
+		
+	
+		$(document).on('click', '.reply-update', function(event){
+			var rno = $(this).attr('data-rno');
+
+			$('#rid' + rno).css("display","block");
+			
+			});
+
+		$(document).on('click', '.updateK', function(event){
+			var rno = $(this).attr('data-rno');
+			
+			var data = 	{"rno": rno, "reply": $("#updateReplyForm input[name=upReply]").val() };
+			
+			$.ajax({
+				"url" : "/corona/reply/updateReply",
+				"method" : "put",
+				"data" : JSON.stringify(data),
+				"contentType": "application/json",
+				"success" : function(data, status, xhr) {
+
+					$('#listReply').load("/corona/reply/listReply/${ board.boardNo }");
+
+					},
+				"error" : function(xhr, status, err) {
+
+				}
+			});
+		});
+		
+		$(document).on('click', '.updateC', function(event){
+			var rno = $(this).attr('data-rno');
+			
+			$('#rid' + rno).css("display","none");
+			
+		});
+
+		
+	    
+	})
+    </script>
+    
+    
+    <script>
+		$(document).ready(function(){
+			$('#listReply').load("/corona/reply/listReply/${ board.boardNo }");
+			});
     </script>
     
     

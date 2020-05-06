@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.project.corona.vo.BoardVO;
+import com.project.corona.vo.ReplyVO;
 
 @Mapper
 public interface FreeboardMapper {
@@ -20,5 +21,7 @@ public interface FreeboardMapper {
 	void updateFreebd(BoardVO board);
 
 	void freeDel(int boardNo);
+	
+	
 
 }

@@ -54,6 +54,7 @@ public class FreeboardController {
 			return "redirect:free-list";
 		}
 		
+		
 		model.addAttribute("board", board);
 		
 	
@@ -73,11 +74,11 @@ public class FreeboardController {
 	
 	@PostMapping(path= {"/freeUpdate"})
 	public String updateFreebd(BoardVO board, RedirectAttributes attr) {
-		System.out.println(board);
+		
 		int updateFreebd = freeboardService.updateFreebd(board);
 		
 		attr.addFlashAttribute("boardNo", updateFreebd);
-		System.out.println(updateFreebd);
+		
 		return "redirect:free-list";
 	}
 	
@@ -88,7 +89,6 @@ public class FreeboardController {
 				
 		return "redirect:free-list";
 	}
-	
 	
 
 }

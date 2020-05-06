@@ -3,6 +3,7 @@ package com.project.corona.service;
 import java.util.List;
 
 import com.project.corona.vo.BoardVO;
+import com.project.corona.vo.ReplyVO;
 
 public interface FreeboardService {
 
@@ -17,5 +18,6 @@ public interface FreeboardService {
 	int updateFreebd(BoardVO board);
 
 	void freeDel(int boardNo);
+
 
 }

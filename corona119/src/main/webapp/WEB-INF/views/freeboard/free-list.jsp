@@ -53,9 +53,11 @@
 						<li class="tab-link current" data-tab="tab-1">메뉴_하나</li>
 						<li class="tab-link" data-tab="tab-2">메뉴_둘</li>
 						<li class="tab-link" data-tab="tab-3">메뉴_셋</li>
-					<a href="/corona/freeboard/free-write" class="btn btn-success btn-sm" style="float:right; margin:8px;"> 
-              			<span class="text">글 쓰기</span>
-              		</a>
+						<c:if test="${sessionScope.loginuser != null }" >
+							<a href="/corona/freeboard/free-write" class="btn btn-success btn-sm" style="float:right; margin:8px;"> 
+		              			<span class="text">글 쓰기</span>
+		              		</a>
+              			</c:if>
               	
 					</ul>
 					

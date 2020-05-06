@@ -23,7 +23,7 @@
                                     <tr>
                                         <td>${ freeList.boardNo }</td>
                                         <td><a href="/corona/freeboard/freeDetail?boardNo=${ freeList.boardNo }">${ freeList.boardTitle }</a></td>
-                                        <td>${ freeList.memberNo }</td>
+                                        <td>${ freeList.member.memberNickname }</td>
                                         <td><fmt:formatDate value="${ freeList.boardRegdate }" pattern="yyyy.MM.dd"/></td>
                                         <td>${ freeList.boardReco }</td>
                                         <td>${ freeList.boardCount }</td>

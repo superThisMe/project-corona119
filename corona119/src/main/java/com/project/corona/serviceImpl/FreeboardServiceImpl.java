@@ -5,6 +5,7 @@ import java.util.List;
 import com.project.corona.mapper.FreeboardMapper;
 import com.project.corona.service.FreeboardService;
 import com.project.corona.vo.BoardVO;
+import com.project.corona.vo.ReplyVO;
 
 import lombok.Setter;
 
@@ -54,7 +55,5 @@ public class FreeboardServiceImpl implements FreeboardService{
 		
 	}
 
-
-	
 
 }
