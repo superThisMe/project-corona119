@@ -123,12 +123,20 @@ public class VolunteerController {
 			out.printf("<script>alert('잘못된 접근입니다'); location.href='/corona/volunteer/detail/%d';</script>\n", boardNo);
 			out.flush();
 		}
-		List<ImageVO> image = volunteerService.findImageByBoardNo(boardNo);
-		List<FileVO> file = volunteerService.findFileByBoardNo(boardNo);
+		
+		try {
+			List<ImageVO> image = volunteerService.findImageByBoardNo(boardNo);
+			model.addAttribute("vImage", image);
+		} catch (Exception e) {
+		}
+
+		try {
+			List<FileVO> file = volunteerService.findFileByBoardNo(boardNo);
+			model.addAttribute("vFile", file);
+		} catch (Exception e) {
+		}
 		
 		model.addAttribute("vUpdate", volboardUpdate);
-		model.addAttribute("vImage", image);
-		model.addAttribute("vFile", file);
 		
 		return "/volunteer/volupdate";
 	}	
