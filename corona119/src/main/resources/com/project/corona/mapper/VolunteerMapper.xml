@@ -62,7 +62,7 @@
 	</insert>
 	
 	<select id="selectBoardListByBoardNo" parameterType="int" resultMap="BoardMap">
-		SELECT b.board_no, b.board_title, b.board_content, b.cat_no, b.member_no, v.vol_no, v.vol_location, v.vol_location2, v.vol_locshort, v.vol_confirm, v.vol_duedate, v.vol_wdate1, v.vol_wdate2, m.member_nickname
+		SELECT b.board_no, b.board_title, b.board_content, b.cat_no, b.member_no, b.board_reco, b.board_nreco, b.board_singo, v.vol_no, v.vol_location, v.vol_location2, v.vol_locshort, v.vol_confirm, v.vol_duedate, v.vol_wdate1, v.vol_wdate2, m.member_nickname
 		FROM BOARD b
 		INNER JOIN VOLUNTEER v
 		ON b.BOARD_NO = v.VOL_NO
@@ -114,6 +114,18 @@
  		FROM APPLY
  		WHERE vol_no = #{volNo}
  	</select>
+ 	
+ 	<select id="selectMemberByBoardNo" parameterType="int" resultType="BoardVO">
+ 		SELECT *
+ 		FROM BOARD
+ 		WHERE board_no = #{boardNo}
+ 	</select>
+
+	<select id="selectMemberByBoardNoMemberNo" parameterType="hashmap" resultType="ApplyVO">
+		SELECT *
+		FROM APPLY
+		WHERE vol_no = #{boardNo} AND member_no = #{memberNo}
+	</select>
 
   	<insert id="insertImage" parameterType="ImageVO">
  		INSERT INTO IMAGE (board_no, image_path, image_real, image_size)
@@ -126,7 +138,7 @@
  	</insert>
  	 	
 	<select id="selectImageByBoardNo" parameterType="int" resultType="ImageVO">
- 		SELECT *
+ 		SELECT member_no
  		FROM IMAGE
  		WHERE board_no = #{boardNo}
  	</select>
@@ -159,6 +171,57 @@
  		WHERE board_no = #{boardNo}
  	</delete>
  	
+ 	<update id="updateRecoByBoardNo" parameterType="int">
+		UPDATE BOARD
+		SET board_reco = board_reco + 1
+		WHERE board_no = #{boardNo}
+ 	</update>
+ 	
+ 	<update id="updateNrecoByBoardNo" parameterType="int">
+		UPDATE BOARD
+		SET board_nreco = board_nreco + 1
+		WHERE board_no = #{boardNo}
+ 	</update>
+ 	
+ 	<update id="updateSingoByBoardNo" parameterType="int">
+		UPDATE BOARD
+		SET board_singo = board_singo + 1
+		WHERE board_no = #{boardNo}
+ 	</update>
+ 	
+ 	<select id="selectRecoByBoardNoMemberNo" parameterType="hashmap" resultType="int">
+ 		SELECT member_no
+ 		FROM RECO
+ 		WHERE board_no = #{boardNo} AND member_no = #{memberNo}
+ 	</select>
+ 	
+ 	<insert id="insertReco" parameterType="hashmap">
+ 		INSERT INTO RECO (board_no, member_no)
+ 		VALUES (#{boardNo}, #{memberNo})
+ 	</insert>
+
+ 	<select id="selectNrecoByBoardNoMemberNo" parameterType="hashmap" resultType="int">
+ 		SELECT member_no
+ 		FROM NRECO
+ 		WHERE board_no = #{boardNo} AND member_no = #{memberNo}
+ 	</select>
+ 	
+ 	<insert id="insertNreco" parameterType="hashmap">
+ 		INSERT INTO NRECO (board_no, member_no)
+ 		VALUES (#{boardNo}, #{memberNo})
+ 	</insert>
+
+ 	<select id="selectSingoByBoardNoMemberNo" parameterType="hashmap" resultType="int">
+ 		SELECT member_no
+ 		FROM SINGO
+ 		WHERE board_no = #{boardNo} AND member_no = #{memberNo}
+ 	</select>
+ 	
+ 	<insert id="insertSingo" parameterType="hashmap">
+ 		INSERT INTO SINGO (board_no, member_no)
+ 		VALUES (#{boardNo}, #{memberNo})
+ 	</insert>
+
  	<select id="selectApplyMemberByBoardNo" parameterType="int" resultType="int">
  		SELECT member_no
  		FROM APPLY

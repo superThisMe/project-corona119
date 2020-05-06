@@ -2,31 +2,37 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <div>
-
+	<jsp:useBean id="now" class="java.util.Date" scope="page" />
+	<fmt:formatDate var="nowTime" value="${now}" pattern="yyyy" />
 <c:choose>
 <c:when test="${ applyList ne '[]' }">
-<c:forEach items="${ applyList }" var="apply">
-<div>
 	<c:choose>
-	<c:when test="${loginuser.memberNo eq apply.memberNo}">
+	<c:when test="${loginuser ne null && loginuser.memberNo eq applyMember.memberNo}">
 	<div class="form-row">
-		<div class="form-group col-md-10 applyDiv">
-			${apply.applyId}님 ${apply.applyPhone} ${apply.applyBirth}년생 의 내용으로 신청이 완료되었습니다.
+		<div class="form-group col-md-10 applyDiv">${loginuser.memberNo} - ${applyMember.memberNo}
+			${applyMember.applyId}님 ${applyMember.applyPhone} ${applyMember.applyBirth}년생 의 내용으로 신청이 완료되었습니다.
 		</div>
-
 		<div class="form-group col-md-2 applyDiv"><button id="applyCancel" type="button" name="applyCancel">신청 취소</button></div>
-
 	</div>
 	</c:when>
+	<c:when test="${loginuser.memberNo eq board.memberNo}">
+	<c:forEach items="${ applyList }" var="apply">
+	<div class="form-row">
+		<div class="form-group col-md-10 applyDiv">
+			${apply.applyId}님 ${apply.applyPhone} ${apply.applyBirth}년생 (${nowTime - apply.applyBirth + 1}세)
+		</div>
+		<!-- <div class="form-group col-md-2 applyDiv"><button id="checkApply" type="button" name="checkApply">체크</button></div> -->
+	</div>
+	</c:forEach>
+	</c:when>
 	<c:otherwise>
-		<%-- ${apply.memberNo}님이 신청 --%>
-		${apply.applyId}님
-		${apply.applyPhone}
-		${apply.applyBirth}년생
+	<div class="form-row">
+		<div class="form-group col-md-10 applyDiv">${loginuser.memberNo} - ${applyMember.memberNo}
+			현재 총 ${applyCount}명이 신청하였습니다.
+		</div>
+	</div>
 	</c:otherwise>
 	</c:choose>
-</div>
-</c:forEach>
 </c:when>
 <c:otherwise>
 	신청자 모집 중입니다.

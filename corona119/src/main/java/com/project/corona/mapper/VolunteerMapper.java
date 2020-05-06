@@ -50,4 +50,26 @@ public interface VolunteerMapper {
 
 	void deleteApply(HashMap<String, String> hashmap);
 
+	BoardVO selectMemberByBoardNo(int boardNo);
+
+	ApplyVO selectMemberByBoardNoMemberNo(HashMap<String, Object> hashmap);
+
+	void updateRecoByBoardNo(int boardNo);
+	
+	void updateNrecoByBoardNo(int boardNo);
+	
+	void updateSingoByBoardNo(int boardNo);
+
+	int selectRecoByBoardNoMemberNo(HashMap<String, Integer> hashmap);
+
+	void insertReco(HashMap<String, Integer> hashmap);
+
+	int selectNrecoByBoardNoMemberNo(HashMap<String, Integer> hashmap);
+
+	void insertNreco(HashMap<String, Integer> hashmap);
+
+	int selectSingoByBoardNoMemberNo(HashMap<String, Integer> hashmap);
+
+	void insertSingo(HashMap<String, Integer> hashmap);
+	
 }

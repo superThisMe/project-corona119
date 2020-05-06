@@ -40,7 +40,6 @@ public class VolunteerController {
 		
 		List<BoardVO> volboardList = volunteerService.findBoardList();
 		
-//		System.out.println(volboardList);
 		model.addAttribute("volboardList", volboardList);
 		
 		return "/volunteer/volboard";
@@ -121,7 +120,7 @@ public class VolunteerController {
 		if (volboardUpdate == null || volMem == null || volboardUpdate.getMemberNo() != volMem.getMemberNo()) {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
-			out.printf("<script>alert('접근 권한이 없습니다'); location.href='/corona/volunteer/detail/%d';</script>\n", boardNo);
+			out.printf("<script>alert('잘못된 접근입니다'); location.href='/corona/volunteer/detail/%d';</script>\n", boardNo);
 			out.flush();
 		}
 		List<ImageVO> image = volunteerService.findImageByBoardNo(boardNo);
@@ -140,7 +139,7 @@ public class VolunteerController {
 		if(volMem == null || volMem.getMemberNo() != memberNo) {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
-			out.printf("<script>alert('접근 권한이 없습니다'); location.href='/corona/volunteer/detail/%d';</script>\n", boardNo);
+			out.printf("<script>alert('잘못된 접근입니다'); location.href='/corona/volunteer/detail/%d';</script>\n", boardNo);
 			out.flush();
 		}
 		
@@ -191,12 +190,72 @@ public class VolunteerController {
 		return "redirect:/volunteer/";
 	}
 	
+	@PostMapping(path = { "/reco/{boardNo}" })
+	@ResponseBody
+	public String singo(@PathVariable("boardNo") int boardNo, String btnId, String memberNo) {
+		String returnName = "";
+		if(memberNo == "") {
+			return "failure";
+		}
+		
+		int memNo = Integer.parseInt(memberNo);
+		HashMap<String, Integer> hashmap = new HashMap<>();
+		hashmap.put("boardNo", boardNo);
+		hashmap.put("memberNo", memNo);
+
+		switch(btnId) {
+		case "recoBtn":
+			try {
+				int existCheck = volunteerService.findRecoByBoardNoMemberNo(hashmap);
+				returnName = "complete";
+			} catch (Exception e) {
+				volunteerService.insertReco(hashmap);
+				volunteerService.recoBoard(boardNo);
+				returnName = "reco";
+			}
+			break;
+		case "nrecoBtn":
+			try {
+				int existCheck = volunteerService.findNrecoByBoardNoMemberNo(hashmap);
+				returnName = "complete";
+			} catch (Exception e) {
+				volunteerService.insertNreco(hashmap);
+				volunteerService.nrecoBoard(boardNo);
+				returnName =  "nreco";
+			}
+			break;
+		case "singoBtn":
+			try {
+				int existCheck = volunteerService.findSingoByBoardNoMemberNo(hashmap);
+				returnName = "complete";
+			} catch (Exception e) {
+				volunteerService.insertSingo(hashmap);
+				volunteerService.singoBoard(boardNo);
+				returnName =  "singo";
+			}
+			break;
+		}
+		return returnName;
+	}
+	
 	@GetMapping(path = { "/apply/{boardNo}" })
-	public String volApply(@PathVariable("boardNo") int boardNo, Model model) {
-
+	public String volApply(@PathVariable("boardNo") int boardNo, Model model, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("loginuser");
+		if (member != null) {
+			HashMap<String, Object> hashmap = new HashMap<>();
+			hashmap.put("memberNo", member.getMemberNo());
+			hashmap.put("boardNo", boardNo);
+			ApplyVO applyMember = volunteerService.findApplyMemberByBoardNoMemberNo(hashmap);
+			model.addAttribute("applyMember", applyMember);
+		}
+				
 		List<ApplyVO> applyList = volunteerService.findApplyByBoardNo(boardNo);
-
+		BoardVO board = volunteerService.findMemberByBoardNo(boardNo);
+		int countApply = volunteerService.countApplyByBoardNo(boardNo);
+		
 		model.addAttribute("applyList", applyList);
+		model.addAttribute("board", board);
+		model.addAttribute("applyCount", countApply);
 		return "/volunteer/apply/apply";
 	}
 	
@@ -204,7 +263,6 @@ public class VolunteerController {
 	@ResponseBody
 	public String writeRe(@PathVariable("boardNo") int boardNo, ApplyVO apply, HttpSession session) {
 		MemberVO member = (MemberVO) session.getAttribute("loginuser");
-		
 		if (member == null) {
 			return "failure";
 		}
@@ -229,8 +287,10 @@ public class VolunteerController {
 	@ResponseBody
 	public String cancelApply(@PathVariable("boardNo") int boardNo, int memberNo, HttpSession session) {
 		MemberVO member = (MemberVO) session.getAttribute("loginuser");
-		
-		HashMap<String, String> hashmap = new HashMap<String, String>();
+		if (member == null) {
+			return "failure";
+		}
+		HashMap<String, String> hashmap = new HashMap<>();
 		hashmap.put("memberNo", String.valueOf(memberNo));
 		hashmap.put("boardNo", String.valueOf(boardNo));
 		

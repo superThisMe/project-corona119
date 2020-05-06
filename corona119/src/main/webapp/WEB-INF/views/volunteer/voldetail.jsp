@@ -77,10 +77,10 @@
 						<div id="applyArea">
 						<c:choose>
 							<c:when	test="${nowTime <= endTime && loginuser ne null && loginuser.memberNo ne vDetail.memberNo}">
-								<button id="apply" type="button" data-toggle="modal" data-target="#applyModal">
+								<button class="nonbutton" id="apply" type="button" data-toggle="modal" data-target="#applyModal">
 							</c:when>
 							<c:otherwise>
-								<button id="alogin" type="button" disabled>
+								<button class="nonbutton" id="alogin" type="button" disabled>
 							</c:otherwise>
 						</c:choose>
  
@@ -130,13 +130,38 @@
 									</dl>
 								</div>
 							</div>
-
 							${vDetail.boardContent}
+							
+							<div id="reco">
+							<c:choose>
+							<c:when test="${ loginuser.memberNo ne vDetail.memberNo }">
+								<button class="nonbutton" id="recoBtn"><img src="/corona/resources/img/thumbups.png"> 추천
+									<c:if test="${vDetail.boardReco ne 0}"> ${vDetail.boardReco}</c:if>
+								</button>
+								<button class="nonbutton" id="nrecoBtn"><img src="/corona/resources/img/thumbdowns.png"> 비추천
+									<c:if test="${vDetail.boardNreco ne 0}"> ${vDetail.boardNreco}</c:if>
+								</button>
+								<button class="nonbutton" id="singoBtn"><img src="/corona/resources/img/singos.png">신고하기
+								</button>
+							</c:when>
+							<c:otherwise>
+								<button class="nonbutton" disabled><img src="/corona/resources/img/thumbups.png"> 추천
+									<c:if test="${vDetail.boardReco ne 0}"> ${vDetail.boardReco}</c:if>
+								</button>
+								<button class="nonbutton" disabled><img src="/corona/resources/img/thumbdowns.png"> 비추천
+									<c:if test="${vDetail.boardNreco ne 0}"> ${vDetail.boardNreco}</c:if>
+								</button>
+								<button class="nonbutton" disabled><img src="/corona/resources/img/singos.png">신고하기
+								</button>
+							</c:otherwise>
+							</c:choose>
+							</div>
+											
 							<hr>
 							<div id="mapLayout">
 								<div id="toggleMap">
-									<button id="topBtn">일반</button>
-									<button id="roadBtn">로드뷰</button>
+									<button class="nonbutton" id="topBtn">일반</button>
+									<button class="nonbutton" id="roadBtn">로드뷰</button>
 								</div>
 								<div id="volMap" style="width: 100%; height: 600px;">
 									<div id="mapBack" style="width:100%; height:600px; background:#eee"></div>
@@ -156,7 +181,6 @@
 
 					</div>
 				</div>
-				
 				<div class="card shadow mb-4">
 					<div class="card-body">
 						<div id="applyList">
@@ -205,7 +229,7 @@
 							</div>
 
 							<div align="right">
-								<button type="button" id="modalApply" class="btn btn-primary">신청하기</button>
+								<button class="nonbutton" type="button" id="modalApply" class="btn btn-primary">신청하기</button>
 							</div>
 						</form>
 					</div>
@@ -219,11 +243,9 @@
 	<fmt:formatDate var="year" value="${now}" pattern="yyyy" />
 	<!-- Bootstrap core JavaScript -->
 	<script src="/corona/resources/vendor/jquery/jquery.min.js"></script>
-	<!-- <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script> -->
 	
 	<script
 		src="/corona/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<!-- <script src="https://code.jquery.com/jquery-3.4.1.js"></script> -->
 
 	<!-- Core plugin JavaScript-->
 	<script src="/corona/resources/datatables/jquery.easing.min.js"></script>
@@ -294,7 +316,7 @@
 						var applyId = $('#volName').val();
 						$.ajax({
 							"url": "/corona/volunteer/apply/write/${vDetail.boardNo}",
-							"method": "post",
+							"method": "POST",
 							"data": {"applyPhone":applyPhone, "applyBirth":applyBirth, "applyId":applyId},
 						    "beforeSend" : function(xhr, opts) {
 						        $('#applyModal').modal('hide');
@@ -327,7 +349,7 @@
 				} else {
 				$.ajax({
 					"url": "/corona/volunteer/apply/cancel/${vDetail.boardNo}",
-					"method": "post",
+					"method": "POST",
 					"data": {"memberNo": ${vDetail.memberNo}},
 				    "beforeSend" : function(xhr, opts) {
 						if (${ (eDate - sDate) lt 0 }) {
@@ -350,6 +372,40 @@
 						alert('전송 실패');
 					}
 				})}
+			})
+			
+			$('#recoBtn, #nrecoBtn, #singoBtn').on('click', function() {
+				var btnId = $(this).attr('id');
+				$.ajax({
+					"url": "/corona/volunteer/reco/${vDetail.boardNo}",
+					"method": "POST",
+					"data": {"btnId": btnId, "memberNo": "${loginuser.memberNo}"},
+					"success": function(data, status, xhr) {
+						switch(data){
+						case 'reco':
+							alert('${vDetail.boardNo}번 글을 추천하였습니다');
+							location.replace('/corona/volunteer/detail/${vDetail.boardNo}'); 
+							break;
+						case 'nreco':
+							alert('${vDetail.boardNo}번 글을 비추천하였습니다');
+							location.replace('/corona/volunteer/detail/${vDetail.boardNo}');
+							break;
+						case 'singo':
+							alert('신고가 완료되었습니다');
+							location.replace('/corona/volunteer/detail/${vDetail.boardNo}');
+							break;
+						case 'complete':
+							alert('이미 완료되었습니다');
+							break;
+						default:
+							alert('로그인 된 회원만 가능합니다');
+							break;
+						}
+					},
+					"error": function(xhr, status, err) {
+						alert('전송 실패');
+					}
+				})
 			})
 			/* 
 			//$("#dataTable_wrapper > div.row:last-child > div:first-child").empty().remove();

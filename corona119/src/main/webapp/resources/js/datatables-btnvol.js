@@ -1,5 +1,5 @@
-$(function() {
-	$('#dataTableVol').DataTable({
+
+	var table = $('#dataTableVol').DataTable({
 		"stateSave" : true,
 		"pagingType" : "first_last_numbers",
 		"language" : {
@@ -25,4 +25,3 @@ $(function() {
 		]
 	});
 	$("#dataTableVol_info").css({"padding" : "0" , "margin" : "2px 0"});
-});

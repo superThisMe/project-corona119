@@ -127,4 +127,70 @@ public class VolunteerServiceImpl implements VolunteerService{
 		volunteerMapper.deleteApply(hashmap);
 	}
 
+	@Override
+	public BoardVO findMemberByBoardNo(int boardNo) {
+
+		return volunteerMapper.selectMemberByBoardNo(boardNo);
+	}
+
+	@Override
+	public ApplyVO findApplyMemberByBoardNoMemberNo(HashMap<String, Object> hashmap) {
+
+		return volunteerMapper.selectMemberByBoardNoMemberNo(hashmap);
+	}
+
+	@Override
+	public void recoBoard(int boardNo) {
+
+		volunteerMapper.updateRecoByBoardNo(boardNo);
+	}
+
+	@Override
+	public void nrecoBoard(int boardNo) {
+		
+		volunteerMapper.updateNrecoByBoardNo(boardNo);
+	}
+
+	@Override
+	public void singoBoard(int boardNo) {
+
+		volunteerMapper.updateSingoByBoardNo(boardNo);
+	}
+
+	@Override
+	public int findRecoByBoardNoMemberNo(HashMap<String, Integer> hashmap) {
+		
+		return volunteerMapper.selectRecoByBoardNoMemberNo(hashmap);
+	}
+
+	@Override
+	public void insertReco(HashMap<String, Integer> hashmap) {
+
+		volunteerMapper.insertReco(hashmap);
+	}
+
+	@Override
+	public int findNrecoByBoardNoMemberNo(HashMap<String, Integer> hashmap) {
+		
+		return volunteerMapper.selectNrecoByBoardNoMemberNo(hashmap);
+	}
+
+	@Override
+	public void insertNreco(HashMap<String, Integer> hashmap) {
+
+		volunteerMapper.insertNreco(hashmap);
+	}
+
+	@Override
+	public int findSingoByBoardNoMemberNo(HashMap<String, Integer> hashmap) {
+		
+		return volunteerMapper.selectSingoByBoardNoMemberNo(hashmap);
+	}
+
+	@Override
+	public void insertSingo(HashMap<String, Integer> hashmap) {
+
+		volunteerMapper.insertSingo(hashmap);
+	}
+
 }
