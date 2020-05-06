@@ -129,7 +129,6 @@ public class VolunteerController {
 			model.addAttribute("vImage", image);
 		} catch (Exception e) {
 		}
-
 		try {
 			List<FileVO> file = volunteerService.findFileByBoardNo(boardNo);
 			model.addAttribute("vFile", file);
