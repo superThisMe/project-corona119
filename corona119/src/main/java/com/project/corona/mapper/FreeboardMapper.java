@@ -21,6 +21,8 @@ public interface FreeboardMapper {
 	void updateFreebd(BoardVO board);
 
 	void freeDel(int boardNo);
+
+	boolean changeCount(int boardNo);
 	
 	
 

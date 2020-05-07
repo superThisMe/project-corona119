@@ -2,6 +2,10 @@ package com.project.corona.controller;
 
 import java.util.List;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -9,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.corona.service.FreeboardService;
@@ -47,17 +52,31 @@ public class FreeboardController {
 	}
 	
 	@GetMapping(path= {"/freeDetail"})
-	public String detailFreebd(Model model, int boardNo) {
+	public String detailFreebd(Model model, int boardNo, HttpServletRequest req, HttpServletResponse resp) {
 		
 		BoardVO board = freeboardService.detailFreebd(boardNo);
 		if (board == null) {
 			return "redirect:free-list";
 		}
 		
+		String boardRead = "";
+		Cookie[] cookies = req.getCookies();
+		for(Cookie cookie : cookies) {
+			if(cookie.getName().equals("readBoard")) {
+				boardRead = cookie.getValue();
+			}
+		}
 		
+		if(!boardRead.contains(String.format("[%d]", boardNo))){
+			freeboardService.changeCount(boardNo);
+			board.setBoardCount(board.getBoardCount() + 1);
+		
+			Cookie newCookie = new Cookie("readBoard", String.format("%s[%d]", boardRead, boardNo));
+			resp.addCookie(newCookie);
+		}
+				
 		model.addAttribute("board", board);
-		
-	
+			
 	return "/freeboard/free-detail";
 
 	}

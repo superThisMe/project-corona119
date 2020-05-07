@@ -55,5 +55,11 @@ public class FreeboardServiceImpl implements FreeboardService{
 		
 	}
 
+	@Override
+	public boolean changeCount(int boardNo) {
+		
+		return freeboardMapper.changeCount(boardNo);
+	}
+
 
 }

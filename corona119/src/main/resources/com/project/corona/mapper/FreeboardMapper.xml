@@ -82,7 +82,7 @@
 	<update id="changeCount" parameterType="int">
 		UPDATE BOARD 
 		SET board_count = board_count + 1
-		WHERE board_no = #{ boardNo} 
+		WHERE board_no = #{ boardNo } 
 	</update>
 	
 
