@@ -83,12 +83,17 @@ label.switch {
 	display: none !important;
 }
 
-.card.shadow.mb-4 {
+/* .card.shadow.mb-4 { */
+#cardFrameWidth {	
 	margin: 0 auto;
 	width: 900px;
 }
 
 #dataTableVol thead tr th {
+	text-align: center;
+}
+
+#dataTableNotice thead tr th{
 	text-align: center;
 }
 

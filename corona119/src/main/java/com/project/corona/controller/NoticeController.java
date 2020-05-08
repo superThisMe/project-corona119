@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.corona.service.NoticeService;
 import com.project.corona.service.VolunteerService;
@@ -20,8 +20,6 @@ import com.project.corona.vo.BoardVO;
 import com.project.corona.vo.FileVO;
 import com.project.corona.vo.ImageVO;
 import com.project.corona.vo.MemberVO;
-import com.project.corona.vo.NoticeVO;
-import com.project.corona.vo.VolunteerVO;
 
 @Controller
 @RequestMapping(path = { "/notice" })
@@ -41,14 +39,14 @@ public class NoticeController {
 		List<BoardVO> notice = noticeService.findAllNotice();
 		model.addAttribute("notice", notice);
 		
-		return "notice/notice";
+		return "/notice/notice";
 	}
 	
 	@PostMapping(path = "/write")
 	public String noticeWrite(BoardVO board, ImageVO image, FileVO file, HttpSession session) {
 		MemberVO admin = (MemberVO) session.getAttribute("loginuser");
 		if(admin == null) {
-			return "redirect:/admin/";
+			return "redirect:/admin";
 		}
 		
 		board.setCatNo(4);
@@ -84,8 +82,22 @@ public class NoticeController {
 			}
 		}
 		
-		return "redirect:/admin/";
+		return "redirect:/admin";
 	}
+	
+	@GetMapping(path = {"/detail/{boardNo}"})
+	public String detailNotice(@PathVariable("boardNo") int boardNo, Model model) {
+
+		BoardVO noticeDetail = noticeService.findNoticeByBoardNo(boardNo);
+		if (noticeDetail == null) {
+			return "redirect:/notice";
+		}		
+		System.out.println(noticeDetail);
+		model.addAttribute("noticeDetail", noticeDetail);
+
+		return "/notice/detail";
+	}
+	
 
 
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import com.project.corona.mapper.NoticeMapper;
 import com.project.corona.service.NoticeService;
 import com.project.corona.vo.BoardVO;
-import com.project.corona.vo.NoticeVO;
 
 import lombok.Setter;
 
@@ -23,6 +22,12 @@ public class NoticeServiceImpl implements NoticeService{
 	public List<BoardVO> findAllNotice() {
 
 		return noticeMapper.selectAllNotice();
+	}
+
+	@Override
+	public BoardVO findNoticeByBoardNo(int boardNo) {
+
+		return noticeMapper.selectNoticeByBoardNo(boardNo);
 	}
 	
 	

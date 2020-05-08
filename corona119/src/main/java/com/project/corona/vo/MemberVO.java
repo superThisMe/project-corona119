@@ -22,7 +22,6 @@ public class MemberVO {
 	private int memberPoint;
 	
 	private List<NoteVO> notes;
-	private List<NoticeVO> notices;
 	private List<BoardVO> boards;
 	private List<ApplyVO> applies;
 	private List<BookmarkVO> bookmarks;

@@ -264,7 +264,6 @@
 	<script src="/corona/resources/datatables/dataTables.bootstrap4.min.js"></script>
 
 	<!-- Page level custom scripts -->
-	<script src="/corona/resources/datatables/datatables-demo.js"></script>
 	<script src="/corona/resources/js/common.js"></script>
 
 	<script type="text/javascript"

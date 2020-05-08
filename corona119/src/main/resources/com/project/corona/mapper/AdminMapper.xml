@@ -53,7 +53,7 @@
 		FROM BOARD b
 		INNER JOIN MEMBER m
 		ON b.member_no = m.member_no
-		WHERE board_deleted = 0 AND cat_no != 1
+		WHERE board_deleted = 0 AND cat_no != 1 AND cat_no != 4
 	</select>
 	
 	<update id="updateBoardByBoardNo" parameterType="Object">

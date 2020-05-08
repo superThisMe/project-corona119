@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.project.corona.vo.BoardVO;
 import com.project.corona.vo.MemberVO;
-import com.project.corona.vo.NoticeVO;
 import com.project.corona.vo.VolunteerVO;
 
 @Mapper

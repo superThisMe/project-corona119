@@ -22,7 +22,6 @@
 		<typeAlias type="com.project.corona.vo.CategoryVO" alias="CategoryVO" />
 		<typeAlias type="com.project.corona.vo.MemberVO" alias="MemberVO" />
 		<typeAlias type="com.project.corona.vo.NoteVO" alias="NoteVO" />
-		<typeAlias type="com.project.corona.vo.NoticeVO" alias="NoticeVO" />
 		<typeAlias type="com.project.corona.vo.ReplyVO" alias="ReplyVO" />
 		<typeAlias type="com.project.corona.vo.VolunteerVO" alias="VolunteerVO" />
 		<typeAlias type="com.project.corona.vo.ImageVO" alias="ImageVO" />

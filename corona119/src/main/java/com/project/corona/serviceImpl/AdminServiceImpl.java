@@ -6,7 +6,6 @@ import com.project.corona.mapper.AdminMapper;
 import com.project.corona.service.AdminService;
 import com.project.corona.vo.BoardVO;
 import com.project.corona.vo.MemberVO;
-import com.project.corona.vo.NoticeVO;
 import com.project.corona.vo.VolunteerVO;
 
 import lombok.Setter;

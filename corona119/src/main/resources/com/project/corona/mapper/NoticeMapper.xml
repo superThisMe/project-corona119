@@ -27,7 +27,13 @@
 	<select id="selectAllNotice" resultType="BoardVO">
 		SELECT *
 		FROM BOARD
-		WHERE board_deleted = 0 AND cat_no = 4;
+		WHERE board_deleted = 0 AND cat_no = 4
+	</select>
+	
+	<select id="selectNoticeByBoardNo" resultType="BoardVO">
+		SELECT *
+		FROM BOARD
+		WHERE board_no = #{boardNo}
 	</select>
 
 </mapper>
