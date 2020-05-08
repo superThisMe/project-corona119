@@ -117,7 +117,7 @@
  	</insert>
  	
  	<select id="recoCount" parameterType="int" resultType="boardVO">
- 		SELECT board_reco, board_nreco, board_singo
+ 		SELECT board_reco, board_nreco, board_singo, member_no
  		FROM BOARD 
  		WHERE board_no = #{ boardNo }
  	</select>

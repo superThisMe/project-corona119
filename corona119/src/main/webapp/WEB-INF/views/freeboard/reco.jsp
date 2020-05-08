@@ -3,7 +3,7 @@
 
 
 <c:choose>
-								<c:when test="${ loginuser.memberNo ne board.memberNo }">
+								<c:when test="${ loginuser.memberNo ne reco.memberNo }">
 									<button class="nonbutton recoBtn" id="recoBtn"><img src="/corona/resources/img/thumbups.png"> 추천
 										<c:if test="${reco.boardReco ne 0}"> ${reco.boardReco}</c:if>
 									</button>
