@@ -57,34 +57,13 @@
                     </div>
                     <div class="card-body">
                     	
-
 						<div>
 							${ board.boardContent }
-							<%-- 
+							
 							<div id="reco" align="center">
-							<c:choose>
-							<c:when test="${ loginuser.memberNo ne vDetail.memberNo }">
-								<button class="nonbutton" id="recoBtn"><img src="/corona/resources/img/thumbups.png"> 추천
-									<c:if test="${vDetail.boardReco ne 0}"> ${vDetail.boardReco}</c:if>
-								</button>
-								<button class="nonbutton" id="nrecoBtn"><img src="/corona/resources/img/thumbdowns.png"> 비추천
-									<c:if test="${vDetail.boardNreco ne 0}"> ${vDetail.boardNreco}</c:if>
-								</button>
-								<button class="nonbutton" id="singoBtn"><img src="/corona/resources/img/singos.png">신고하기
-								</button>
-							</c:when>
-							<c:otherwise>
-								<button class="nonbutton" disabled><img src="/corona/resources/img/thumbups.png"> 추천
-									<c:if test="${vDetail.boardReco ne 0}"> ${vDetail.boardReco}</c:if>
-								</button>
-								<button class="nonbutton" disabled><img src="/corona/resources/img/thumbdowns.png"> 비추천
-									<c:if test="${vDetail.boardNreco ne 0}"> ${vDetail.boardNreco}</c:if>
-								</button>
-								<button class="nonbutton" disabled><img src="/corona/resources/img/singos.png">신고하기
-								</button>
-							</c:otherwise>
-							</c:choose>
-							</div> --%>
+								<jsp:include page="/WEB-INF/views/freeboard/reco.jsp"></jsp:include>
+							</div>
+							
 						</div>
 						<br>
 						
@@ -315,10 +294,53 @@
     <script>
 		$(document).ready(function(){
 			$('#listReply').load("/corona/reply/listReply/${ board.boardNo }");
+
+			$('#reco').load("/corona/freeboard/recoCount/${ board.boardNo }");
 			});
+
+		
     </script>
     
-    
+    <script>
+		$(function(){
+
+			$(document).on('click', '.recoBtn, .nrecoBtn, .singoBtn' , function() {
+				var btnId = $(this).attr('id');
+				$.ajax({
+					"url": "/corona/freeboard/reco/${board.boardNo}",
+					"method": "POST",
+					"data": {"btnId": btnId, "memberNo": "${loginuser.memberNo}"},
+					"success": function(data, status, xhr) {
+						switch(data){
+						case 'reco':
+							alert('${board.boardNo}번 글을 추천하였습니다');
+							$('#reco').load("/corona/freeboard/recoCount/${ board.boardNo }");
+							break;
+						case 'nreco':
+							alert('${board.boardNo}번 글을 비추천하였습니다');
+							$('#reco').load("/corona/freeboard/recoCount/${ board.boardNo }");
+							break;
+						case 'singo':
+							alert('신고가 완료되었습니다');
+							$('#reco').load("/corona/freeboard/recoCount/${ board.boardNo }");
+							break;
+						case 'complete':
+							alert('이미 완료되었습니다');
+							break;
+						default:
+							alert('로그인 된 회원만 가능합니다');
+							break;
+						}
+					},
+					"error": function(xhr, status, err) {
+						alert('전송 실패');
+					}
+				})
+			})
+
+
+			})
+    </script>
 	
 
 </body>

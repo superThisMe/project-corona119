@@ -1,5 +1,6 @@
 package com.project.corona.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -37,6 +38,28 @@ public interface FreeboardMapper {
 	void delImage(int boardNo);
 
 	void delFile(int boardNo);
+
+	BoardVO recoCount(int boardNo);
+
+	/* s//////////////////////////////////////ss */
+	
+	void updateRecoByBoardNo(int boardNo);
+
+	void updateNrecoByBoardNo(int boardNo);
+
+	void updateSingoByBoardNo(int boardNo);
+
+	int selectRecoByBoardNoMemberNo(HashMap<String, Integer> hashmap);
+
+	void insertReco(HashMap<String, Integer> hashmap);
+
+	int selectNrecoByBoardNoMemberNo(HashMap<String, Integer> hashmap);
+
+	void insertNreco(HashMap<String, Integer> hashmap);
+
+	int selectSingoByBoardNoMemberNo(HashMap<String, Integer> hashmap);
+
+	void insertSingo(HashMap<String, Integer> hashmap);
 	
 	
 

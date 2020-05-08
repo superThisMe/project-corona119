@@ -1,6 +1,7 @@
 package com.project.corona.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -12,15 +13,18 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.corona.service.FreeboardService;
 import com.project.corona.vo.BoardVO;
 import com.project.corona.vo.FileVO;
 import com.project.corona.vo.ImageVO;
+import com.project.corona.vo.ReplyVO;
 
 @Controller
 @RequestMapping(path = { "/freeboard" })
@@ -186,6 +190,68 @@ public class FreeboardController {
 				
 		return "redirect:free-list";
 	}
+		
+	@GetMapping(path= {"/recoCount/{boardNo}"})
+	public String recoCount(@PathVariable int boardNo, Model model) {
+		
+		BoardVO reco = freeboardService.recoCount(boardNo);
+		
+		model.addAttribute("reco", reco);
+				System.out.println(reco);
+		return "/freeboard/reco";
+		
+	}	
+
+	/*////////////////////////////////////////////////////////////////// */
+	@PostMapping(path = { "/reco/{boardNo}" })
+	@ResponseBody
+	public String singo(@PathVariable("boardNo") int boardNo, String btnId, String memberNo) {
+		String returnName = "";
+		if(memberNo == "") {
+			return "failure";
+		}
+		
+
+		int memNo = Integer.parseInt(memberNo);
+		HashMap<String, Integer> hashmap = new HashMap<>();
+		hashmap.put("boardNo", boardNo);
+		hashmap.put("memberNo", memNo);
+
+		switch(btnId) {
+		case "recoBtn":
+			try {
+				int existCheck = freeboardService.findRecoByBoardNoMemberNo(hashmap);
+				returnName = "complete";
+			} catch (Exception e) {
+				freeboardService.insertReco(hashmap);
+				freeboardService.recoBoard(boardNo);
+				returnName = "reco";
+			}
+			break;
+		case "nrecoBtn":
+			try {
+				int existCheck = freeboardService.findNrecoByBoardNoMemberNo(hashmap);
+				returnName = "complete";
+			} catch (Exception e) {
+				freeboardService.insertNreco(hashmap);
+				freeboardService.nrecoBoard(boardNo);
+				returnName =  "nreco";
+			}
+			break;
+		case "singoBtn":
+			try {
+				int existCheck = freeboardService.findSingoByBoardNoMemberNo(hashmap);
+				returnName = "complete";
+			} catch (Exception e) {
+				freeboardService.insertSingo(hashmap);
+				freeboardService.singoBoard(boardNo);
+				returnName =  "singo";
+			}
+			break;
+		}
+		return returnName;
+	}
+	
 	
 
 }

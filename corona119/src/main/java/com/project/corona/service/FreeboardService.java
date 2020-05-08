@@ -1,5 +1,6 @@
 package com.project.corona.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.project.corona.vo.BoardVO;
@@ -34,6 +35,28 @@ public interface FreeboardService {
 	void delImage(int boardNo);
 
 	void delFile(int boardNo);
+
+	BoardVO recoCount(int boardNo);
+	
+	/*////////////////////////////// */
+	
+	void recoBoard(int boardNo);
+
+	void nrecoBoard(int boardNo);
+	
+	void singoBoard(int boardNo);
+
+	int findRecoByBoardNoMemberNo(HashMap<String, Integer> hashmap);
+
+	void insertReco(HashMap<String, Integer> hashmap);
+
+	int findNrecoByBoardNoMemberNo(HashMap<String, Integer> hashmap);
+
+	void insertNreco(HashMap<String, Integer> hashmap);
+
+	int findSingoByBoardNoMemberNo(HashMap<String, Integer> hashmap);
+
+	void insertSingo(HashMap<String, Integer> hashmap);
 
 
 }
