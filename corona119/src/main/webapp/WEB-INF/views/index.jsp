@@ -35,11 +35,13 @@
             <div class="container-fluid">
                 <h1 class="mt-4">test text</h1>
                 <p>Notice 테이블 상황 (임시)</p>
+                <%-- 
                 <c:forEach items="${ notice }" var="nList">
                     ${ nList.noticeNo } | ${ nList.noticeTitle } | ${ nList.noticeContent } | ${ nList.noticeRegdate } |
                     ${ nList.noticeWriter }
                     <br>
                 </c:forEach>
+                 --%>
                 <br>
                 <p>The starting state of the menu will appear collapsed on smaller screens, and will appear
                     non-collapsed on larger screens. When toggled using the button below, the menu will change.</p>

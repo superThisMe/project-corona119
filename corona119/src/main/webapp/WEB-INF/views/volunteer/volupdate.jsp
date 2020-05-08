@@ -74,29 +74,30 @@
 							
 							<div class="voltitle">
 								<p>제목</p>
-								<input type="text" id="boardTitle" name="boardTitle" value="${vUpdate.boardTitle}"/>
+								<input type="text" id="boardTitle" class="topInput" name="boardTitle" value="${vUpdate.boardTitle}"/>
 							</div>
 							<div class="volloc">
 								<p>지역</p>
-								<input type="text" id="volLocation" name="volLocation" autocomplete="off" value="${vUpdate.volunteers.volLocation}"/>
+								<input type="text" id="volLocation" class="topInput" name="volLocation" autocomplete="off" value="${vUpdate.volunteers.volLocation}"/>
 							</div>
 							<div class="voldate">
 								<p>모집마감</p>
-								<input type="text" id="volDuedate" name="volDuedate" placeholder="2020-01-01" autocomplete="off" value="<fmt:formatDate value="${vUpdate.volunteers.volDuedate}" pattern="yyyy-MM-dd" />"/>
+								<input type="text" id="volDuedate" class="topInput" name="volDuedate" placeholder="2020-01-01" autocomplete="off" value="<fmt:formatDate value="${vUpdate.volunteers.volDuedate}" pattern="yyyy-MM-dd" />"/>
 							</div>
 							<div class="voldate">
 								<p>시작일</p>
-								<input type="text" id="volWdate1" name="volWdate1" placeholder="2020-01-01" autocomplete="off" value="<fmt:formatDate value="${vUpdate.volunteers.volWdate1}" pattern="yyyy-MM-dd" />"/>
+								<input type="text" id="volWdate1" class="topInput" name="volWdate1" placeholder="2020-01-01" autocomplete="off" value="<fmt:formatDate value="${vUpdate.volunteers.volWdate1}" pattern="yyyy-MM-dd" />"/>
 							</div>
 							<div class="voldate">
 								<p>종료일</p>
-								<input type="text" id="volWdate2" name="volWdate2" placeholder="2020-01-01" autocomplete="off" value="<fmt:formatDate value="${vUpdate.volunteers.volWdate2}" pattern="yyyy-MM-dd" />"/>
+								<input type="text" id="volWdate2" class="topInput" name="volWdate2" placeholder="2020-01-01" autocomplete="off" value="<fmt:formatDate value="${vUpdate.volunteers.volWdate2}" pattern="yyyy-MM-dd" />"/>
 							</div>							
 							<jsp:include
 								page="/WEB-INF/views/daumOpenEditor/editor_frame.jsp"></jsp:include>
 
 							<div>
-								<input id="submitBtn" class="btn btn-success" type="button" value="전송">
+								<input id="submitBtn" class="btn btn-success" type="button" value="수정">
+								<input id="cancelBtn" class="btn btn-secondary" type="button" value="취소">
 							</div>
 							
 							<!-- End: Saving Contents -->
@@ -178,9 +179,21 @@
 			$("#submitBtn").on('click', function(){
 				if('${vUpdate!=null}') {
 					Editor.save();
+				} else {
+					alert("내용이 비어있습니다");
 				}
 				//saveContent()
 				//$("#tx_editor_form").submit();
+			})
+
+			$("#cancelBtn").on('click', function(){
+				var check = confirm("작성을 취소 하시겠습니까?");
+				if (!check) {
+					return false;
+				} else {
+					history.back();
+					//location.replace("/corona/detail/${vUpdate.boardNo}");
+				}
 			})
 		});
 		//$.fn.DataTable.ext.pager.numbers_length = 9;

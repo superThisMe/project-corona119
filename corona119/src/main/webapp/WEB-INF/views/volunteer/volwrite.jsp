@@ -42,7 +42,8 @@
 <link href="/corona/resources/css/common.css"
 	rel="stylesheet">
 
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
+<link href="/corona/resources/css/jquery-ui.css" rel="stylesheet">
 
 </head>
 
@@ -74,29 +75,30 @@
 							
 							<div class="voltitle">
 								<p>제목</p>
-								<input type="text" id="boardTitle" name="boardTitle" />
+								<input type="text" id="boardTitle" class="topInput" name="boardTitle" />
 							</div>
 							<div class="volloc">
 								<p>지역</p>
-								<input type="text" id="volLocation" name="volLocation" autocomplete="off"/>
+								<input type="text" id="volLocation" class="topInput" name="volLocation" autocomplete="off"/>
 							</div>
 							<div class="voldate">
 								<p>모집마감</p>
-								<input type="text" id="volDuedate" name="volDuedate" placeholder="2020-01-01" autocomplete="off"/>
+								<input type="text" id="volDuedate" class="topInput" name="volDuedate" placeholder="2020-01-01" autocomplete="off"/>
 							</div>
 							<div class="voldate">
 								<p>시작일</p>
-								<input type="text" id="volWdate1" name="volWdate1" placeholder="2020-01-01" autocomplete="off"/>
+								<input type="text" id="volWdate1" class="topInput" name="volWdate1" placeholder="2020-01-01" autocomplete="off"/>
 							</div>
 							<div class="voldate">
 								<p>종료일</p>
-								<input type="text" id="volWdate2" name="volWdate2" placeholder="2020-01-01" autocomplete="off"/>
+								<input type="text" id="volWdate2" class="topInput" name="volWdate2" placeholder="2020-01-01" autocomplete="off"/>
 							</div>							
 							<jsp:include
 								page="/WEB-INF/views/daumOpenEditor/editor_frame.jsp"></jsp:include>
 
 							<div>
-								<input id="submitBtn" class="btn btn-success" type="button" value="전송">
+								<input id="submitBtn" class="btn btn-success" type="button" value="등록">
+								<input id="cancelBtn" class="btn btn-secondary" type="button" value="취소">
 							</div>
 							
 							<!-- End: Saving Contents -->
@@ -140,7 +142,8 @@
 	<script src="/corona/resources/daumOpenEditor/js/editor_loader.js"
 		type="text/javascript" charset="utf-8"></script>
 	
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+	<script src="/corona/resources/js/jquery-ui.js"></script>
 	<script src="/corona/resources/js/datepicker.js"></script>
 	<script src="/corona/resources/js/editor.js"></script>
 
@@ -171,12 +174,18 @@
 			//$("<button>").text("글쓰기").appendTo("#btnArea");
 			 */
 
-	    	$("#volList").on('click', function(){
-	    		location.href="/corona/volunteer";
-	    	})
-		    				 
 			$("#submitBtn").on('click', function(){
 				Editor.save();
+			})
+
+			$("#cancelBtn").on('click', function(){
+				var check = confirm("작성을 취소 하시겠습니까?");
+				if (!check) {
+					return false;
+				} else {
+					history.back();
+					//location.href="/corona/volunteer";
+				}
 			})
 		});
 

@@ -172,10 +172,16 @@
 						</div>
 						<hr>
 						<div style="padding-top: 10px">
-							<c:if test="${ loginuser.memberNo eq vDetail.memberNo }">
-								<a href='/corona/volunteer/update/${vDetail.boardNo}' class='btn btn-success' id="volUpdate" type="button">수정</a>
-								<a href="/corona/volunteer/delete/${vDetail.boardNo}" class='btn btn-danger' id="volDelete" type="button">삭제</a>
-							</c:if>
+							<c:choose>
+								<c:when test="${ loginuser.memberNo eq vDetail.memberNo }">
+									<a href='/corona/volunteer/update/${vDetail.boardNo}' class='btn btn-success' id="volUpdate" type="button">수정</a>
+									<a href="/corona/volunteer/delete/${vDetail.boardNo}" class='btn btn-danger' id="volDelete" type="button">삭제</a>
+								</c:when>
+								<c:when test="${ loginuser.memberType eq 'ADMIN' }">
+									<a href="/corona/volunteer/delete/${vDetail.boardNo}" class='btn btn-danger' id="volDelete" type="button">삭제</a>
+								</c:when>
+								<c:otherwise></c:otherwise>
+							</c:choose>
 							<button class='btn btn-primary' id="volList" type="button">목록</button>
 						</div>
 
@@ -283,8 +289,8 @@
 
 			$("#volDelete").on('click', function() {
 				var check = confirm("게시글을 삭제하시겠습니까?");
-				if (!check) {
-					event.preventDefault();
+ 				if (!check) {
+					return false;
 				}
 			})
 			
@@ -309,7 +315,7 @@
 				} else {
 					var check = confirm("신청하시겠습니까?");
 					if (!check){
-						event.preventDefault();
+						return false;
 					} else {
 						var applyPhone = $('#volPhone').val();
 						var applyBirth = $('select#volBirth').val();
@@ -345,7 +351,7 @@
 			$(document).on('click', '#applyCancel', function(){
 				var check = confirm("신청을 취소하시겠습니까?");
 				if (!check) {
-					event.preventDefault();
+					return false;
 				} else {
 				$.ajax({
 					"url": "/corona/volunteer/apply/cancel/${vDetail.boardNo}",

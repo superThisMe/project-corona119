@@ -9,7 +9,7 @@
 	<c:choose>
 	<c:when test="${loginuser ne null && loginuser.memberNo eq applyMember.memberNo}">
 	<div class="form-row">
-		<div class="form-group col-md-10 applyDiv">${loginuser.memberNo} - ${applyMember.memberNo}
+		<div class="form-group col-md-10 applyDiv">
 			${applyMember.applyId}님 ${applyMember.applyPhone} ${applyMember.applyBirth}년생 의 내용으로 신청이 완료되었습니다.
 		</div>
 		<div class="form-group col-md-2 applyDiv"><button id="applyCancel" type="button" name="applyCancel">신청 취소</button></div>
@@ -27,7 +27,7 @@
 	</c:when>
 	<c:otherwise>
 	<div class="form-row">
-		<div class="form-group col-md-10 applyDiv">${loginuser.memberNo} - ${applyMember.memberNo}
+		<div class="form-group col-md-10 applyDiv">
 			현재 총 ${applyCount}명이 신청하였습니다.
 		</div>
 	</div>

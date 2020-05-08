@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.corona.mapper.AdminMapper">
+
+	<select id="selectAllMember" resultType="MemberVO">
+		SELECT *
+		FROM MEMBER
+		WHERE member_deleted = 0 AND member_type LIKE 'USER'
+	</select>
+
+	<update id="updateMemberByMemberNo" parameterType="Object">
+		UPDATE MEMBER
+		SET member_deleted = 1
+		WHERE member_no = #{memberNo}
+	</update>
+
+	<resultMap type="BoardVO" id="BoardMap">
+		<id property="boardNo" column="board_no" />
+		<result property="boardTitle" column="board_title" />
+		<result property="boardContent" column="board_content" />
+		<result property="boardCount" column="board_count" />
+		<result property="boardRegdate" column="board_regdate" />
+		<result property="boardDeleted" column="board_deleted" />
+		<result property="memberNo" column="member_no" />
+		<result property="catNo" column="cat_no" />
+		<result property="boardReco" column="board_reco" />
+		<result property="boardNreco" column="board_nreco" />	
+		<result property="boardTag" column="board_tag" />
+		<result property="boardSingo" column="board_singo" />
+		<association property="volunteers" javaType="VolunteerVO">
+			<id property="volNo" column="vol_no" />
+			<result property="volLocation" column="vol_location" />
+			<result property="volConfirm" column="vol_confirm" />
+			<result property="volDuedate" column="vol_duedate" />
+			<result property="volWdate1" column="vol_wdate1" />
+			<result property="volWdate2" column="vol_wdate2" />
+			<result property="volLocation2" column="vol_location2" />
+			<result property="volLocshort" column="vol_locshort" />
+		</association>
+		<association property="member" column="member_no" resultMap="memberMap" />
+	</resultMap>
+	<resultMap type="MemberVO" id="memberMap">
+		<id property="memberNo" column="member_no" />
+		<result property="memberNickname" column="member_nickname" />
+	</resultMap>
+		
+	<select id="selectAllBoard" resultMap="BoardMap">
+		SELECT *
+		FROM BOARD b
+		INNER JOIN MEMBER m
+		ON b.member_no = m.member_no
+		WHERE board_deleted = 0 AND cat_no != 1
+	</select>
+	
+	<update id="updateBoardByBoardNo" parameterType="Object">
+		UPDATE BOARD
+		SET board_deleted = 1
+		WHERE board_no = #{boardNo}
+	</update>
+	
+	<select id="selectAllVolunteer" resultMap="BoardMap">
+		SELECT *
+		FROM BOARD b
+		INNER JOIN MEMBER m
+		ON b.member_no = m.member_no
+		INNER JOIN VOLUNTEER v
+		ON v.vol_no = b.board_no
+		WHERE board_deleted = 0
+	</select>
+	
+	<update id="updateVolunteerByBoardNo">
+		UPDATE VOLUNTEER
+		SET vol_confirm = 1
+		WHERE vol_no = #{volNo}
+	</update>
+
+</mapper>

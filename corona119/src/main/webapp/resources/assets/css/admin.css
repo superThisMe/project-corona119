@@ -1,0 +1,49 @@
+#adminContainer {
+	width: 1100px;
+	margin: 0 auto;
+	background: white;
+}
+
+.page-item.active .page-link{
+	background-color: #74808f;
+}
+
+.table > thead > tr > th {
+	color: #c18743;
+}
+
+div.dataTables_wrapper div.dataTables_info {
+	color: #c18743;
+}
+.widget-content-area {
+	background-color: #f8f0e6;
+}
+
+.dataTables_wrapper .form-control {
+	box-shadow: none;
+	-webkit-box-shadow: none;
+}
+
+table.dataTable thead > tr > th.sorting_asc, table.dataTable thead > tr > th.sorting_desc, table.dataTable thead > tr > th.sorting {
+	text-align: center;
+}
+
+.moveBlank, #writeNoticeArea {
+	text-align: center;
+}
+
+#writeNoticeArea {
+	margin-top: 10px;
+}
+#editorArea {
+	margin-top: 20px;
+	position: relative;
+	display: none;
+}
+#writeBtn {
+	border: 1px solid #898ea7;
+}
+
+#boardTitle {
+	width: 100%;
+}

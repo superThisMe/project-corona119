@@ -35,7 +35,7 @@ public class VolunteerController {
 	@Qualifier("volunteerService")
 	private VolunteerService volunteerService;
 	
-	@GetMapping(value = {"", "/"})
+	@GetMapping(path = {"", "/"})
 	public String volBoard(Model model) {
 		
 		List<BoardVO> volboardList = volunteerService.findBoardList();
@@ -60,6 +60,7 @@ public class VolunteerController {
 		
 		board.setMemberNo(volMem.getMemberNo());
 		board.setVolunteers(volBoard);
+		board.setCatNo(1);
 		volunteerService.writeBoard(board);
 		int boardNo = board.getBoardNo();
 		volBoard.setVolNo(boardNo);
@@ -151,6 +152,7 @@ public class VolunteerController {
 			out.flush();
 		}
 		
+		board.setCatNo(1);
 		volunteerService.updateBoard(board);
 		volBoard.setVolNo(boardNo);
 		volunteerService.updateVolunteer(volBoard);

@@ -39,7 +39,7 @@ public class AccountController {
 	}
 	
 	@PostMapping(value = "/login")
-	public String login(MemberVO member, HttpSession session) {		
+	public String login(MemberVO member, HttpServletRequest request, HttpSession session) {		
 		String encryPassword = Sha256.encrypt(member.getMemberPsw());
 		member.setMemberPsw(encryPassword);
 		
@@ -48,8 +48,11 @@ public class AccountController {
 		if (member2 == null) {
 			return "redirect:/";
 		} else {
+		    String referrer = request.getHeader("Referer");
+		    int idx = referrer.indexOf("corona");
+		    
 			session.setAttribute("loginuser", member2);
-			return "redirect:/";
+			return "redirect:/" + referrer.substring(idx + 7);
 		}
 		
 	}

@@ -29,7 +29,7 @@
 	float: left;
 }
 
-#tx_editor_form div input {
+#tx_editor_form div input.topInput {
 	width: 100%;
 }	
 
