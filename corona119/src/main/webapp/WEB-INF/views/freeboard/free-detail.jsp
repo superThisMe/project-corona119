@@ -60,14 +60,42 @@
 
 						<div>
 							${ board.boardContent }
+							<%-- 
+							<div id="reco" align="center">
+							<c:choose>
+							<c:when test="${ loginuser.memberNo ne vDetail.memberNo }">
+								<button class="nonbutton" id="recoBtn"><img src="/corona/resources/img/thumbups.png"> 추천
+									<c:if test="${vDetail.boardReco ne 0}"> ${vDetail.boardReco}</c:if>
+								</button>
+								<button class="nonbutton" id="nrecoBtn"><img src="/corona/resources/img/thumbdowns.png"> 비추천
+									<c:if test="${vDetail.boardNreco ne 0}"> ${vDetail.boardNreco}</c:if>
+								</button>
+								<button class="nonbutton" id="singoBtn"><img src="/corona/resources/img/singos.png">신고하기
+								</button>
+							</c:when>
+							<c:otherwise>
+								<button class="nonbutton" disabled><img src="/corona/resources/img/thumbups.png"> 추천
+									<c:if test="${vDetail.boardReco ne 0}"> ${vDetail.boardReco}</c:if>
+								</button>
+								<button class="nonbutton" disabled><img src="/corona/resources/img/thumbdowns.png"> 비추천
+									<c:if test="${vDetail.boardNreco ne 0}"> ${vDetail.boardNreco}</c:if>
+								</button>
+								<button class="nonbutton" disabled><img src="/corona/resources/img/singos.png">신고하기
+								</button>
+							</c:otherwise>
+							</c:choose>
+							</div> --%>
 						</div>
 						<br>
-						<div>
+						
 							<c:if test="${ loginuser.memberNo == board.memberNo }">							
 								<button class='btn btn-primary' id="update" type="button">수정</button>
 								<button class='btn btn-primary' id="delete" type="button">삭제</button>
 							</c:if>
 								<button class='btn btn-primary' id="list" type="button">목록</button>
+								
+						<div>
+						
 						</div>
 
                     </div>

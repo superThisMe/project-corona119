@@ -1,5 +1,6 @@
 package com.project.corona.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -18,6 +19,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.corona.service.FreeboardService;
 import com.project.corona.vo.BoardVO;
+import com.project.corona.vo.FileVO;
+import com.project.corona.vo.ImageVO;
 
 @Controller
 @RequestMapping(path = { "/freeboard" })
@@ -42,12 +45,41 @@ public class FreeboardController {
 	}
 	
 	@PostMapping(path= {"/freeSave"} )
-	public String saveFreeboard(BoardVO board, RedirectAttributes attr) {
+	public String saveFreeboard(BoardVO board, ImageVO image, FileVO file) {
 		
-		int newFreeboard = freeboardService.freeSave(board);
+		freeboardService.freeSave(board);
+		int boardNo = board.getBoardNo();
 		
-		attr.addFlashAttribute("boardNo", newFreeboard);
+		if(image.getImagePath() != null) {
+			image.setBoardNo(boardNo);		
+			String[] imagePath = image.getImagePath().split(",");
+			String[] imageReal = image.getImageReal().split(",");
+			String[] imageSize = image.getImageSize().split(",");
+			List<ImageVO> imageList = new ArrayList<>();
+			for(int i = 0; i < imagePath.length; i++) {
+				image.setImagePath(imagePath[i]);
+				image.setImageReal(imageReal[i]);
+				image.setImageSize(imageSize[i]);
+				imageList.add(image);
+				freeboardService.uploadImage(image);
+			}
+		}
 		
+		if(file.getFilePath() != null) {
+			file.setBoardNo(boardNo);
+			String[] filePath = file.getFilePath().split(",");
+			String[] fileReal = file.getFileReal().split(",");
+			String[] fileSize = file.getFileSize().split(",");
+			List<FileVO> fileList = new ArrayList<>();
+			for(int i = 0; i < filePath.length; i++) {
+				file.setFilePath(filePath[i]);
+				file.setFileReal(fileReal[i]);
+				file.setFileSize(fileSize[i]);
+				fileList.add(file);
+				freeboardService.uploadFile(file);
+			}
+		}
+				
 		return "redirect:free-list";
 	}
 	
@@ -86,15 +118,59 @@ public class FreeboardController {
 		
 		BoardVO board = freeboardService.updateFreebdV(boardNo);
 		
+		try {
+			List<ImageVO> image = freeboardService.findImage(boardNo);
+			model.addAttribute("vImage", image);
+		} catch (Exception e) {
+		}
+		
+		try {
+			List<FileVO> file = freeboardService.findFile(boardNo);
+			model.addAttribute("vFile", file);
+		} catch (Exception e) {
+		}
+		
+		
 		model.addAttribute("board", board);
 			
 		return "/freeboard/free-update";
 	}
 	
 	@PostMapping(path= {"/freeUpdate"})
-	public String updateFreebd(BoardVO board, RedirectAttributes attr) {
+	public String updateFreebd(BoardVO board, ImageVO image, FileVO file, RedirectAttributes attr) {
 		
 		int updateFreebd = freeboardService.updateFreebd(board);
+		int boardNo = board.getBoardNo();
+		
+		if(image.getImagePath() != null) {
+			image.setBoardNo(boardNo);		
+			String[] imagePath = image.getImagePath().split(",");
+			String[] imageReal = image.getImageReal().split(",");
+			String[] imageSize = image.getImageSize().split(",");
+			List<ImageVO> imageList = new ArrayList<>();
+			for(int i = 0; i < imagePath.length; i++) {
+				image.setImagePath(imagePath[i]);
+				image.setImageReal(imageReal[i]);
+				image.setImageSize(imageSize[i]);
+				imageList.add(image);
+				freeboardService.uploadImage(image);
+			}
+		}
+		
+		if(file.getFilePath() != null) {
+			file.setBoardNo(boardNo);
+			String[] filePath = file.getFilePath().split(",");
+			String[] fileReal = file.getFileReal().split(",");
+			String[] fileSize = file.getFileSize().split(",");
+			List<FileVO> fileList = new ArrayList<>();
+			for(int i = 0; i < filePath.length; i++) {
+				file.setFilePath(filePath[i]);
+				file.setFileReal(fileReal[i]);
+				file.setFileSize(fileSize[i]);
+				fileList.add(file);
+				freeboardService.uploadFile(file);
+			}
+		}	
 		
 		attr.addFlashAttribute("boardNo", updateFreebd);
 		
@@ -105,6 +181,8 @@ public class FreeboardController {
 	public String delFreebd(int boardNo) {
 		
 		freeboardService.freeDel(boardNo);
+		freeboardService.delImage(boardNo);
+		freeboardService.delFile(boardNo);
 				
 		return "redirect:free-list";
 	}

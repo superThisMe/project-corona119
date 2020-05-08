@@ -162,10 +162,21 @@
                 attachbox: {
                     show: true,
                     confirmForDeleteAll: true
-                }
+                },
+                attacher:{ 
+                    image:{ features:{left:250,top:65,width:400,height:240,scrollbars:0}, //팝업창 사이즈 
+                    popPageUrl:'${pageContext.request.contextPath}/daumOpenEditor/imagePopup' //팝업창 주소 
+                    },
+                    file:{ features:{left:250,top:65,width:400,height:240,scrollbars:0}, //팝업창 사이즈 
+                        popPageUrl:'${pageContext.request.contextPath}/daumOpenEditor/filePopup' //팝업창 주소 
+                        } 
+                },
+                capacity : {
+                    maximum : 5*1024*1024 // 최대 첨부 용량 (5MB) 
+                    }               	
             }
         };
-
+	
         EditorJSLoader.ready(function (Editor) {
             var editor = new Editor(config);
         });
@@ -199,6 +210,54 @@
             textarea.name = 'boardContent';
             textarea.value = content;
             form.createField(textarea);
+
+
+            var images = editor.getAttachments('image');
+        	for (i = 0; i < images.length; i++) {
+               // existStage는 현재 본문에 존재하는지 여부
+        		if (images[i].existStage) {
+               // data는 팝업에서 execAttach 등을 통해 넘긴 데이터
+//        			alert('attachment information - image[' + i + '] \r\n' + JSON.stringify(images[i].data));
+        			inputurl = document.createElement('input');
+        			inputurl.type = 'hidden';
+        			inputurl.name = 'imagePath';
+        			inputurl.value = images[i].data.imageurl;  // 예에서는 이미지경로만 받아서 사용
+        			form.createField(inputurl);
+        			
+        			inputreal = document.createElement('input');
+        			inputreal.type = 'hidden';
+        			inputreal.name = 'imageReal';
+        			inputreal.value = images[i].data.filename;  // 예에서는 이미지경로만 받아서 사용
+        			form.createField(inputreal);
+        			
+        			inputsize = document.createElement('input');
+        			inputsize.type = 'hidden';
+        			inputsize.name = 'imageSize';
+        			inputsize.value = images[i].data.filesize;  // 예에서는 이미지경로만 받아서 사용
+        			form.createField(inputsize);
+        		}
+        	}
+        	
+        	var files = editor.getAttachments('file');
+        	for (i = 0; i < files.length; i++) {
+        		inputurl = document.createElement('input');
+        		inputurl.type = 'hidden';
+        		inputurl.name = 'filePath';
+        		inputurl.value = files[i].data.attachurl;
+        		form.createField(inputurl);
+        		
+        		inputreal = document.createElement('input');
+        		inputreal.type = 'hidden';
+        		inputreal.name = 'fileReal';
+        		inputreal.value = files[i].data.filename;
+        		form.createField(inputreal);
+        		
+        		inputsize = document.createElement('input');
+        		inputsize.type = 'hidden';
+        		inputsize.name = 'fileSize';
+        		inputsize.value = files[i].data.filesize;
+        		form.createField(inputsize);
+           	}
 
             return true;
         }

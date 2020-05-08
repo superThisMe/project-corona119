@@ -5,6 +5,8 @@ import java.util.List;
 import com.project.corona.mapper.FreeboardMapper;
 import com.project.corona.service.FreeboardService;
 import com.project.corona.vo.BoardVO;
+import com.project.corona.vo.FileVO;
+import com.project.corona.vo.ImageVO;
 import com.project.corona.vo.ReplyVO;
 
 import lombok.Setter;
@@ -21,11 +23,10 @@ public class FreeboardServiceImpl implements FreeboardService{
 	}
 
 	@Override
-	public int freeSave(BoardVO board) {
+	public void freeSave(BoardVO board) {
 		
 		freeboardMapper.saveFreebd(board);
-		
-		return board.getBoardNo();
+
 	}
 
 	@Override
@@ -60,6 +61,43 @@ public class FreeboardServiceImpl implements FreeboardService{
 		
 		return freeboardMapper.changeCount(boardNo);
 	}
+
+	@Override
+	public void uploadImage(ImageVO image) {
+		System.out.println(image);
+		freeboardMapper.uploadImage(image);
+		
+	}
+
+	@Override
+	public void uploadFile(FileVO file) {
+		freeboardMapper.uploadFile(file);
+		
+	}
+
+	@Override
+	public List<ImageVO> findImage(int boardNo) {
+	
+		return freeboardMapper.findImage(boardNo);
+	}
+
+	@Override
+	public List<FileVO> findFile(int boardNo) {
+		
+		return freeboardMapper.findFile(boardNo);
+	}
+
+	@Override
+	public void delImage(int boardNo) {
+		freeboardMapper.delImage(boardNo);		
+	}
+
+	@Override
+	public void delFile(int boardNo) {
+		freeboardMapper.delFile(boardNo);		
+	}
+
+
 
 
 }

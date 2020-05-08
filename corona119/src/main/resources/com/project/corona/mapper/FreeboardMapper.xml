@@ -47,9 +47,9 @@
 		WHERE b.CAT_NO = 3 AND board_deleted = '0';
 	</select>
 	
-	<insert id="saveFreebd" parameterType="BoardVo">
+	<insert id="saveFreebd" parameterType="BoardVo" useGeneratedKeys="true" keyProperty="boardNo">
 		INSERT INTO BOARD (board_title, board_content, member_no, cat_no)
-		VALUES (#{boardTitle}, #{boardContent}, #{memberNo}, #{catNo} )
+		VALUES (#{boardTitle}, #{boardContent}, #{memberNo}, 3 )
 	</insert>
 	
 	<select id="detailFreebd" parameterType="int" resultType="BoardVO">
@@ -66,7 +66,19 @@
 		WHERE board_no = #{ boardNo }
 	</select>
 	
-	<update id="updateFreebd" parameterType="boardVO" >
+	<select id="findImage" parameterType="int" resultType="ImageVO">
+		SELECT member_no
+		FROM IMAGE
+		WHERE board_no = #{ boardNo }
+	</select>
+	
+	<select id="findFile" parameterType="int" resultType="FileVO">
+		SELECT *
+		FROM FILE
+		WHERE board_no = #{ boardNo }
+	</select>
+	
+	<update id="updateFreebd" parameterType="boardVO">
 		UPDATE BOARD 
 		SET board_title = #{ boardTitle }, board_content = #{ boardContent } 
 		WHERE board_no = #{ boardNo }
@@ -76,8 +88,17 @@
 		UPDATE BOARD
 		SET board_deleted = '1'
 		WHERE board_no = #{ boardNo }
-		
 	</update>
+	
+	<delete id="delImage" parameterType="int">
+		DELETE FROM IMAGE
+		WHERE board_no = #{ boardNO }
+	</delete>
+	
+	<delete id="delFile" parameterType="int">
+		DELETE FROM FILE
+		WHERE board_no = #{ boardNO }
+	</delete>
 	
 	<update id="changeCount" parameterType="int">
 		UPDATE BOARD 
@@ -85,5 +106,14 @@
 		WHERE board_no = #{ boardNo } 
 	</update>
 	
+	<insert id="uploadImage" parameterType="ImageVO">
+ 		INSERT INTO IMAGE (board_no, image_path, image_real, image_size)
+ 		VALUES (#{boardNo}, #{imagePath}, #{imageReal}, #{imageSize})
+ 	</insert>
+ 	
+ 	<insert id="uploadFile" parameterType="FileVO">
+ 		INSERT INTO FILE (board_no, file_path, file_real, file_size)
+ 		VALUES (#{boardNo}, #{filePath}, #{fileReal}, #{fileSize})
+ 	</insert>
 
 </mapper>
