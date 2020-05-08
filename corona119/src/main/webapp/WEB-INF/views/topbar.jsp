@@ -26,7 +26,14 @@
 		            <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
 		                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> ${ loginuser.memberNickname }님 환영합니다 </a>
 		                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-		                    <a class="dropdown-item" href="/corona/mypage/main">마이페이지</a>
+		                	<c:choose>
+		                		<c:when test="${loginuser.memberType eq 'ADMIN' }">
+		                			<a class="dropdown-item" href="/corona/admin">관리페이지</a>
+		                		</c:when>
+		                		<c:otherwise>
+		                			<a class="dropdown-item" href="/corona/mypage/main">마이페이지</a>
+		                		</c:otherwise>
+		                    </c:choose>
 		                    <div class="dropdown-divider"></div>
 		                    <a class="dropdown-item" href="#">쪽지함</a>
 		                    <div class="dropdown-divider"></div>
