@@ -161,7 +161,7 @@
                                     	<c:forEach items="${notice}" var="no">
                                     	<tr>
                                     		<td>
-												<a href="/corona/notice/${no.boardNo}" target="_blank">
+												<a href="/corona/notice/detail/${no.boardNo}" target="_blank">
                                					<c:choose>
                         							<c:when test="${fn:length(no.boardTitle) > 25}">
                         								${ fn:substring(no.boardTitle,0,25) }...
@@ -301,7 +301,7 @@
                                             <td>
                                             	<c:choose>
                                             		<c:when test="${!vol.volunteers.volConfirm}">
-                                            			<a href="#" onclick="volConfirm(${vol.boardNo});">${vol.volunteers.volConfirm}</a>
+                                            			<button onclick="volConfirm(${vol.boardNo});">${vol.volunteers.volConfirm}</button>
                                             		</c:when>
                                             		<c:otherwise>
                                             			${vol.volunteers.volConfirm}
@@ -506,6 +506,14 @@
 	}
 	
     </script>
+
+
+
+
+
+
+	
+	
 
 </body>
 

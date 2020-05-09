@@ -35,5 +35,11 @@
 		FROM BOARD
 		WHERE board_no = #{boardNo}
 	</select>
+	
+	<update id="updateCountByBoardNo" parameterType="int">
+		UPDATE BOARD
+		SET board_count = board_count + 1
+		WHERE board_no = #{boardNo}
+	</update>
 
 </mapper>

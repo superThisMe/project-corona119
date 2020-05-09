@@ -15,4 +15,6 @@ public interface NoticeMapper {
 
 	BoardVO selectNoticeByBoardNo(int boardNo);
 
+	void updateCountByBoardNo(int boardNo);
+
 }

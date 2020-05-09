@@ -138,7 +138,7 @@
  	</insert>
  	 	
 	<select id="selectImageByBoardNo" parameterType="int" resultType="ImageVO">
- 		SELECT member_no
+ 		SELECT *
  		FROM IMAGE
  		WHERE board_no = #{boardNo}
  	</select>

@@ -46,7 +46,11 @@ public class VolunteerController {
 	}
 	
 	@GetMapping(path = "/write")
-	public String volWrite(Model model) {
+	public String volWrite(Model model, HttpSession session) {
+		MemberVO volMem = (MemberVO) session.getAttribute("loginuser");
+		if(volMem == null) {
+			return "redirect:/volunteer/";
+		}		
 		
 		return "/volunteer/volwrite";
 	}

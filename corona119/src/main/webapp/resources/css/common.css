@@ -97,6 +97,21 @@ label.switch {
 	text-align: center;
 }
 
+#dataTableNanum tbody td {
+	vertical-align: middle;
+}
+
+/* 미리보기 스타일 셋팅 */
+#preview{
+	z-index: 9999;
+	position:absolute;
+	border:1px solid #ccc;
+	background:#eee;
+	padding:1px;
+	display:none;
+	color:#fff;
+}
+
 .fa-2x {
 	font-size: 1.6em;
 }
@@ -198,9 +213,17 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
 
 
 
-.table-bordered td, .table-bordered th {
+.table-bordered th {
 	border: 0px !important;
 }
+.table-bordered td {
+	border: 0px !important;
+	border-top: 1px solid #dee2e6 !important;
+}
+
+
+
 .table-bordered th {
 	border-bottom: 3px double #e3e6f0 !important;
 }
+

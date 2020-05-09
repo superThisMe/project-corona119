@@ -44,7 +44,7 @@ public class AccountController {
 		member.setMemberPsw(encryPassword);
 		
 		MemberVO member2 = memberService.findMemberByIdAndPasswd(member);
-		System.out.println(member2);
+		//System.out.println(member2);
 		if (member2 == null) {
 			return "redirect:/";
 		} else {
