@@ -6,6 +6,7 @@ import com.project.corona.mapper.NanumMapper;
 import com.project.corona.service.NanumService;
 import com.project.corona.vo.BoardVO;
 import com.project.corona.vo.ImageVO;
+import com.project.corona.vo.ReplyVO;
 
 import lombok.Setter;
 
@@ -30,6 +31,12 @@ public class NanumServiceImpl implements NanumService{
 	public BoardVO findNanumByBoardNo(int boardNo) {
 
 		return nanumMapper.selectNanumByBoardNo(boardNo);
+	}
+
+	@Override
+	public List<ReplyVO> findAllReply(int boardNo) {
+
+		return nanumMapper.selectAllReply(boardNo);
 	}
 
 }

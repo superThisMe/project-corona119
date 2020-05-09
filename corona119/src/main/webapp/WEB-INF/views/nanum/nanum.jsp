@@ -32,7 +32,7 @@
 
 <body>
 	<jsp:useBean id="now" class="java.util.Date" scope="page" />
- 
+ 	<fmt:formatDate var="nowTime" value="${now}" pattern="yyyy-MM-dd" /> 
 	<div class="d-flex" id="wrapper">
 
 		<jsp:include page="/WEB-INF/views/sidebar.jsp" />
@@ -66,17 +66,28 @@
 								</thead>
 								<tbody>
 									<c:forEach items="${nanum}" var="na">
-										<fmt:formatDate var="startTime" value="${na.boardRegdate}" pattern="yyyy-MM-dd" />
-										<fmt:parseDate var="sSetDate" value="${ startTime }" pattern="yyyy-MM-dd"/>
-										<fmt:parseNumber var="sDate" value="${ sSetDate.time/(1000*60*60*24) }" integerOnly="true" />
-										<c:set var="eDate" value="${sDate + (3)}"></c:set>
+										<fmt:parseDate var="cSetDate" value="${ nowTime }" pattern="yyyy-MM-dd"/>
+										<fmt:formatDate var="endTime" value="${na.boardRegdate}" pattern="yyyy-MM-dd" />
+										<fmt:parseDate var="eSetDate" value="${ endTime }" pattern="yyyy-MM-dd"/>
+										<fmt:parseNumber var="cDate" value="${ cSetDate.time/(1000*60*60*24) }" integerOnly="true" />
+										<fmt:parseNumber var="eDate" value="${ eSetDate.time/(1000*60*60*24+3) }" integerOnly="true" />
 									
 										<tr>
 											<td><img src="${na.image[0].imagesPath}" class="thumbnail" data-path="${na.image[0].imagePath}"></td>
 											<td onclick="location.href='/corona/nanum/detail/${ na.boardNo }'" style="cursor:pointer">${na.boardTitle}</td>
 											<td>${na.member.memberNickname}</td>
 											<td>${na.boardCount}</td>
-											<td>${eDate - sDate}일</td>
+											<td>
+												<c:choose>
+													<c:when test="${eDate - cDate gt 0}">
+														${eDate - cDate}일
+													</c:when>
+													<c:when test="${eDate - cDate eq 0}"><span style='color:red'>임박</span></c:when>
+													<c:otherwise>
+														종료
+													</c:otherwise>
+												</c:choose>
+											</td>
 										</tr>
 									</c:forEach>
 								</tbody>

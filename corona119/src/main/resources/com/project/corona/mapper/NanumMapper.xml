@@ -68,4 +68,27 @@
 		WHERE board_no = #{boardNo}
 	</select>
 
+	
+	
+	<resultMap type="ReplyVO" id="ReplyMap">
+		<id column="rno" property="rno" />
+		<result column="reply" property="reply" />
+		<association property="member" column="member_no" javaType="MemberVO">
+			<id column="member_no" property="memberNo" />
+			<id column="member_id" property="memberId" />
+			<result column="member_nickname" property="memberNickname" />
+			<result column="member_addr" property="memberAddr" />
+		</association>
+	</resultMap>
+	
+	<select id="selectAllReply" parameterType="int" resultMap="ReplyMap">
+		SELECT *
+		FROM REPLY r
+		INNER JOIN MEMBER m
+		ON r.member_no = m.member_no
+		WHERE board_no = #{board_no}
+	</select> 
+	
+	
+
 </mapper>

@@ -74,6 +74,15 @@
 					</div>
 				</div>
 
+				<div class="card shadow mb-4">
+					<div class="card-body">
+						<div id="replyList">
+							<jsp:include page="/WEB-INF/views/nanum/reply/reply.jsp"></jsp:include>
+						</div>
+					</div>
+				</div>
+
+
 			</div>
 		</div>
 
@@ -118,6 +127,7 @@
 				location.href = "/corona/nanum";
 			});
 
+			$('#replyList').load("/corona/nanum/reply/${nanumDetail.boardNo}");
 		});
 	</script>
 

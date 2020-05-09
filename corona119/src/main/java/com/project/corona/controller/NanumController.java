@@ -24,6 +24,7 @@ import com.project.corona.vo.BoardVO;
 import com.project.corona.vo.FileVO;
 import com.project.corona.vo.ImageVO;
 import com.project.corona.vo.MemberVO;
+import com.project.corona.vo.ReplyVO;
 
 @Controller
 @RequestMapping(path = { "/nanum" })
@@ -132,12 +133,22 @@ public class NanumController {
 			Cookie newCookie = new Cookie("readBoard", String.format("%s[%d]", boardRead, boardNo));
 			response.addCookie(newCookie);
 		}
-		
+
 	 	model.addAttribute("nanumDetail", nanumDetail);
 
 		return "/nanum/detail";
 	}
-	
 
+	@GetMapping(path = {"/reply/{boardNo}"})
+	public String replyNanum(@PathVariable("boardNo") int boardNo, Model model) {
+
+		List<ReplyVO> nanumReply = nanumService.findAllReply(boardNo);
+
+	 	model.addAttribute("nanumReply", nanumReply);
+	 	
+	 	return "/nanum/reply/reply";
+	}
+
+	
 
 }
