@@ -135,6 +135,8 @@
 	<script src="/corona/resources/js/jquery-ui.js"></script>
 	<script src="/corona/resources/js/datepicker.js"></script>
 	<script src="/corona/resources/js/editor.js"></script>
+	
+	<script src="/corona/resources/plugins/sweetalert.min.js"></script>
 
 	<!-- Menu Toggle Script -->
 	<script>
@@ -166,35 +168,51 @@
 			$("#submitBtn").on('click', function(){
 
 				if($("#boardTitle").val() == ""){
-					alert('제목을 입력해주세요.');
+					swal('주의','제목을 입력해주세요.','warning')
 					return false;
 				} else if($("#volLocation").val() == ""){
-					alert('지역을 입력해주세요.');
+					swal('주의','지역을 입력해주세요.','warning')
 					return false;
 				} else if($("#volDuedate").val() == ""){
-					alert('마감일을 입력해주세요.');
+					swal('주의','마감일을 입력해주세요.','warning')
 					return false;
 				} else if($("#volWdate1").val() == ""){
-					alert('시작일을 입력해주세요.');
+					swal('주의','시작일을 입력해주세요.','warning')
 					return false;
 				} else if($("#volWdate2").val() == ""){
-					alert('종료일을 입력해주세요.');
+					swal('주의','종료일을 입력해주세요.','warning')
 					return false;
 				}
-				
-				Editor.save();
-			})
 
+				swal({
+					  title: "완료!",
+					  text: "글이 등록 되었습니다!",
+					  icon: "success",
+					  button: "완료!",
+					}).then(okay => {
+						if (okay) {
+							Editor.save();							
+						}
+					});
+				//Editor.save();
+			})
+  
 			$("#cancelBtn").on('click', function(){
-				var check = confirm("작성을 취소 하시겠습니까?");
-				if (!check) {
-					return false;
-				} else {
-					history.back();
-					//location.href="/corona/volunteer";
-				}
-			})
-
+				swal({ 
+					title: "작성을 취소하겠습니까?",
+					text: "OK 버튼을 누르면 작성이 취소됩니다!",
+					icon: "warning",
+					buttons: true,
+					dangerMode: true,
+				}).then(okay => {
+					if (okay) {
+						history.back();
+						//location.href = "/corona/volunteer";
+					}
+				});
+			});
+ 						
+ 			
 		});
 
 	</script>

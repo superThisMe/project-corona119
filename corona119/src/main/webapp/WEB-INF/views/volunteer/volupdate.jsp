@@ -126,6 +126,8 @@
 	<!-- Page level custom scripts -->
 	<script src="/corona/resources/js/common.js"></script>
 	<script src="/corona/resources/js/common-vol.js"></script>
+	
+	<script src="/corona/resources/plugins/sweetalert.min.js"></script>
 
 	<script src="/corona/resources/daumOpenEditor/js/editor_loader.js"
 		type="text/javascript" charset="utf-8"></script>
@@ -168,29 +170,38 @@
 		    				 
 			$("#submitBtn").on('click', function(){
 				if($("#boardTitle").val() == ""){
-					alert('제목을 입력해주세요.');
+					swal('주의','제목을 입력해주세요.','warning')
 					return false;
 				} else if($("#volLocation").val() == ""){
-					alert('지역을 입력해주세요.');
+					swal('주의','지역을 입력해주세요.','warning')
 					return false;
 				} else if($("#volDuedate").val() == ""){
-					alert('마감일을 입력해주세요.');
+					swal('주의','마감일을 입력해주세요.','warning')
 					return false;
 				} else if($("#volWdate1").val() == ""){
-					alert('시작일을 입력해주세요.');
+					swal('주의','시작일을 입력해주세요.','warning')
 					return false;
 				} else if($("#volWdate2").val() == ""){
-					alert('종료일을 입력해주세요.');
+					swal('주의','종료일을 입력해주세요.','warning')
 					return false;
 				}
-				
+
 				if('${vUpdate!=null}') {
-					Editor.save();
+				swal({
+					  title: "완료!",
+					  text: "글이 등록 되었습니다!",
+					  icon: "success",
+					  button: "완료!",
+					}).then(okay => {
+						if (okay) {
+							Editor.save();							
+					}
+				});
 				} else {
-					alert("내용이 비어있습니다");
+					swal('주의','내용이 비어있습니다.','warning')
+					return false;
 				}
-				//saveContent()
-				//$("#tx_editor_form").submit();
+
 			})
 
 			$("#cancelBtn").on('click', function(){

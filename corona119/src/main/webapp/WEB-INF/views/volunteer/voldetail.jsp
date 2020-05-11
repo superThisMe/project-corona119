@@ -8,8 +8,7 @@
 <head>
 
 <meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
 
@@ -68,6 +67,9 @@
 						<fmt:parseNumber var="eDate" value="${ eSetDate.time/(1000*60*60*24) }" integerOnly="true" />
 						<div id="applyArea">
 						<c:choose>
+							<c:when test="${ loginuser.memberNo eq volApply.memberNo }">
+								<button class="nonbutton" id="alogin" type="button" disabled>
+							</c:when>
 							<c:when	test="${nowTime <= endTime && loginuser ne null && loginuser.memberNo ne vDetail.memberNo}">
 								<button class="nonbutton" id="apply" type="button" data-toggle="modal" data-target="#applyModal">
 							</c:when>
@@ -77,6 +79,9 @@
 						</c:choose>
  
 	           			<c:choose>
+	           				<c:when test="${ loginuser ne null && loginuser.memberNo eq volApply.memberNo }">
+	           					<td>신청완료</td>
+	           				</c:when>
 	           				<c:when test="${ (eDate - sDate) lt 0 }">
 	           					<td>모집종료</td>		
 	           				</c:when>
@@ -258,6 +263,8 @@
 
 	<!-- Page level custom scripts -->
 	<script src="/corona/resources/js/common.js"></script>
+	
+	<script src="/corona/resources/plugins/sweetalert.min.js"></script>
 
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cabf55639c1474c9f288939642d439aa&libraries=services"></script>
 	<!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6013e82693c4074b861da547ceb13186&libraries=services"></script> -->
@@ -301,75 +308,90 @@
 			
 			$("#modalApply").on('click', function(){
 				if ($('#volPhone').val().length == 0) {
-					alert("휴대폰 번호를 입력하세요.")
+					swal('주의','휴대폰 번호를 입력하세요.','warning')
+					return false;
 				} else if ($('#volName').val().length == 0) {
-					alert("실명을 입력하세요.")
+					swal('주의','실명을 입력하세요.','warning')
+					return false;
 				} else {
-					var check = confirm("신청하시겠습니까?");
-					if (!check){
-						return false;
-					} else {
-						var applyPhone = $('#volPhone').val();
-						var applyBirth = $('select#volBirth').val();
-						var applyId = $('#volName').val();
+					swal({ 
+						title: "신청하시겠습니까?",
+						text: "OK 버튼을 누르면 신청이 진행됩니다!",
+						icon: "warning",
+						buttons: true,
+						dangerMode: true,
+					}).then(okay => {
+						if (okay) {
+							var applyPhone = $('#volPhone').val();
+							var applyBirth = $('select#volBirth').val();
+							var applyId = $('#volName').val();
+							$.ajax({
+								"url": "/corona/volunteer/apply/write/${vDetail.boardNo}",
+								"method": "POST",
+								"data": {"applyPhone":applyPhone, "applyBirth":applyBirth, "applyId":applyId},
+							    "beforeSend" : function(xhr, opts) {
+							        $('#applyModal').modal('hide');
+							    	if (${loginuser eq null || loginuser.memberNo eq vDetail.memberNo}) {
+								        alert("잘못된 접근입니다.");
+							            xhr.abort();
+							        }
+							    },
+							    "success": function(data, status, xhr) {
+									$('#applyModal').modal('hide');
+									if(data == "success") {
+										swal('완료','신청이 완료됐습니다.','success')
+										$('#applyList').load("/corona/volunteer/apply/${vDetail.boardNo}");
+										$('#applyArea').html('<button class="nonbutton" id="alogin" type="button" disabled="">신청완료</button>');
+									} else {
+										swal('주의','이미 신청이 완료됐습니다.','warning')
+									}
+								},
+								"error": function(xhr, status, err) {
+									alert('전송 실패');
+								}
+							});	
+						}
+					});
+				}
+			})
+			$('#applyList').load("/corona/volunteer/apply/${vDetail.boardNo}");
+			$(document).on('click', '#applyCancel', function(){
+
+				swal({ 
+					title: "신청을 취소하시겠습니까?",
+					text: "OK 버튼을 누르면 신청이 취소됩니다!",
+					icon: "warning",
+					buttons: true,
+					dangerMode: true,
+				}).then(okay => {
+					if (okay) {
 						$.ajax({
-							"url": "/corona/volunteer/apply/write/${vDetail.boardNo}",
+							"url": "/corona/volunteer/apply/cancel/${vDetail.boardNo}",
 							"method": "POST",
-							"data": {"applyPhone":applyPhone, "applyBirth":applyBirth, "applyId":applyId},
+							"data": {"memberNo": ${vDetail.memberNo}},
 						    "beforeSend" : function(xhr, opts) {
-						        $('#applyModal').modal('hide');
-						    	if (${loginuser eq null || loginuser.memberNo eq vDetail.memberNo}) {
+								if (${ (eDate - sDate) lt 0 }) {
+									alert("모집이 종료된 글입니다.");
+									xhr.abort();
+								} else if (${loginuser eq null || loginuser.memberNo eq vDetail.memberNo}) {
 							        alert("잘못된 접근입니다.");
 						            xhr.abort();
 						        }
 						    },
-						    "success": function(data, status, xhr) {
-								$('#applyModal').modal('hide');
+							"success": function(data, status, xhr) {
 								if(data == "success") {
-									alert("신청이 완료됐습니다.");
 									$('#applyList').load("/corona/volunteer/apply/${vDetail.boardNo}");
+									swal('완료','신청이 취소됐습니다.','success')
 								} else {
-									alert("이미 신청이 완료됐습니다.");
+									swal('주의','모집이 종료된 글입니다.','warning')
 								}
 							},
 							"error": function(xhr, status, err) {
 								alert('전송 실패');
 							}
-						});	
+						})
 					}
-				}
-			})
-			$('#applyList').load("/corona/volunteer/apply/${vDetail.boardNo}");
-			$(document).on('click', '#applyCancel', function(){
-				var check = confirm("신청을 취소하시겠습니까?");
-				if (!check) {
-					return false;
-				} else {
-				$.ajax({
-					"url": "/corona/volunteer/apply/cancel/${vDetail.boardNo}",
-					"method": "POST",
-					"data": {"memberNo": ${vDetail.memberNo}},
-				    "beforeSend" : function(xhr, opts) {
-						if (${ (eDate - sDate) lt 0 }) {
-							alert("모집이 종료된 글입니다.");
-							xhr.abort();
-						} else if (${loginuser eq null || loginuser.memberNo eq vDetail.memberNo}) {
-					        alert("잘못된 접근입니다.");
-				            xhr.abort();
-				        }
-				    },
-					"success": function(data, status, xhr) {
-						if(data == "success") {
-							$('#applyList').load("/corona/volunteer/apply/${vDetail.boardNo}");
-							alert("신청이 취소되었습니다.");
-						} else {
-							alert("모집이 종료된 글입니다.");
-						}
-					},
-					"error": function(xhr, status, err) {
-						alert('전송 실패');
-					}
-				})}
+				});
 			})
 			
 			$('#recoBtn, #nrecoBtn, #singoBtn').on('click', function() {
@@ -381,24 +403,24 @@
 					"success": function(data, status, xhr) {
 						switch(data){
 						case 'reco':
-							alert('${vDetail.boardNo}번 글을 추천하였습니다');
+							swal('추천','${vDetail.boardNo}번 글을 추천하였습니다','success')
 							$('#recoBtn').html('<img src="/corona/resources/img/thumbups.png"> 추천 ${vDetail.boardReco + 1}');
 							//location.replace('/corona/volunteer/detail/${vDetail.boardNo}'); 
 							break;
 						case 'nreco':
-							alert('${vDetail.boardNo}번 글을 비추천하였습니다');
+							swal('비추천','${vDetail.boardNo}번 글을 비추천하였습니다','success')
 							$('#nrecoBtn').html('<img src="/corona/resources/img/thumbups.png"> 비추천 ${vDetail.boardNreco + 1}');
 							//location.replace('/corona/volunteer/detail/${vDetail.boardNo}');
 							break;
 						case 'singo':
-							alert('신고가 완료되었습니다');
+							swal('완료','신고가 완료되었습니다','success')
 							//location.replace('/corona/volunteer/detail/${vDetail.boardNo}');
 							break;
 						case 'complete':
-							alert('이미 완료되었습니다');
+							swal('주의','이미 완료되었습니다','warning')
 							break;
 						default:
-							alert('로그인 된 회원만 가능합니다');
+							swal('주의','로그인 된 회원만 가능합니다','warning')
 							break;
 						}
 					},

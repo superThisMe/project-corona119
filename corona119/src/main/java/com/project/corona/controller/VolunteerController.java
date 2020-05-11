@@ -104,7 +104,7 @@ public class VolunteerController {
 	}
 
 	@GetMapping(path = { "/detail/{boardNo}" })
-	public String volDetail(@PathVariable("boardNo") int boardNo, Model model) {
+	public String volDetail(@PathVariable("boardNo") int boardNo, Model model, HttpSession session) {
 		
 		BoardVO volboardDetail = volunteerService.findBoardListByBoardNo(boardNo);
 		if (volboardDetail == null) {
@@ -112,8 +112,18 @@ public class VolunteerController {
 		}		
 		int countApply = volunteerService.countApplyByBoardNo(boardNo);
 		
+		MemberVO member = (MemberVO) session.getAttribute("loginuser");
+		if (member != null) {
+			HashMap<String, Object> hashmap = new HashMap<>();
+			hashmap.put("memberNo", member.getMemberNo());
+			hashmap.put("boardNo", boardNo);
+			ApplyVO volApply = volunteerService.findApplyMemberByBoardNoMemberNo(hashmap);
+			model.addAttribute("volApply", volApply);
+		}
+		
 		model.addAttribute("vDetail", volboardDetail);
 		model.addAttribute("applyCount", countApply);
+		
 		
 		return "/volunteer/voldetail";
 	}
