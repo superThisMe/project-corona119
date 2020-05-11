@@ -15,22 +15,24 @@
 
 <title>코로나 119 - 신종 코로나 바이러스 종합 정보 포털</title>
 
-<jsp:include page="/WEB-INF/views/ccss.jsp" />
+	<jsp:include page="/WEB-INF/views/ccss.jsp" />
 
 <!-- Custom fonts for this template-->
-<link href="/corona/resources/vendor/fontawesome-free-5.13.0-web/css/all.css" rel="stylesheet">
 <!--load all styles -->
 
 <!-- Custom styles for this template -->
-<!-- 
-<link href="/corona/resources/css/sb-admin-2.min.css" rel="stylesheet">
- -->
-<!-- Custom styles for this page -->
-<link href="/corona/resources/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+<!-- <link href="/corona/resources/css/sb-admin-2.min.css" rel="stylesheet"> -->
 
-<link rel="stylesheet" href="/corona/resources/daumOpenEditor/css/editor.css" type="text/css" charset="utf-8" />
+<!-- Custom styles for this page -->
+<link href="/corona/resources/datatables/dataTables.bootstrap4.min.css"
+	rel="stylesheet">
+
+<link rel="stylesheet"
+	href="/corona/resources/daumOpenEditor/css/editor.css" type="text/css"
+	charset="utf-8" />
 	
-<link href="/corona/resources/css/common.css" rel="stylesheet">
+<link href="/corona/resources/css/common.css"
+	rel="stylesheet">
 
 <!-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
 <link href="/corona/resources/css/jquery-ui.css" rel="stylesheet">
@@ -54,37 +56,28 @@
 				<h1 class="h3 mb-2 text-gray-800"></h1>
 
 				<!-- DataTales Example -->
-				<div class="card shadow mb-4" id="cardFrameWidth">
+				<div class="card shadow mb-4">
 					<div class="card-header py-3">
-						<h6 class="m-0 font-weight-bold text-primary">봉사활동 모집 글쓰기</h6>
+						<h6 class="m-0 font-weight-bold text-primary">나눔 글쓰기</h6>
 					</div>
 					<div class="card-body">
 						<form name="tx_editor_form" id="tx_editor_form"
-							action="/corona/volunteer/write" method="post"
+							action="/corona/nanum/write" method="post"
 							accept-charset="utf-8">
 							
-							<div class="voltitle">
+							<div class="natitle">
 								<p>제목</p>
 								<input type="text" id="boardTitle" class="topInput" name="boardTitle" />
 							</div>
-							<div class="volloc">
-								<p>지역</p>
-								<input type="text" id="volLocation" class="topInput" name="volLocation" autocomplete="off"/>
+							<div class="nanickname">
+								<p>작성자</p>
+								<input type="text" class="topInput" value="${loginuser.memberNickname}" autocomplete="off" disabled/>
 							</div>
-							<div class="voldate">
-								<p>모집마감</p>
-								<input type="text" id="volDuedate" class="topInput" name="volDuedate" placeholder="2020-01-01" autocomplete="off"/>
+							<div class="nadate">
+								<p>마감</p>
+								<!-- <input type="text" id="boardRegdate" class="topInput" name="boardRegdate" placeholder="2020-01-01" autocomplete="off"/> -->
 							</div>
-							<div class="voldate">
-								<p>시작일</p>
-								<input type="text" id="volWdate1" class="topInput" name="volWdate1" placeholder="2020-01-01" autocomplete="off"/>
-							</div>
-							<div class="voldate">
-								<p>종료일</p>
-								<input type="text" id="volWdate2" class="topInput" name="volWdate2" placeholder="2020-01-01" autocomplete="off"/>
-							</div>							
-							<jsp:include
-								page="/WEB-INF/views/daumOpenEditor/editor_frame.jsp"></jsp:include>
+							<jsp:include page="/WEB-INF/views/daumOpenEditor/editor_frame.jsp"></jsp:include>
 
 							<div>
 								<input id="submitBtn" class="btn btn-success" type="button" value="등록">
@@ -93,8 +86,7 @@
 							
 							<!-- End: Saving Contents -->
 							
-							<input type="hidden" id="volLocshort" name="volLocshort"/>
-							<input type="hidden" id="volLocation2" name="volLocation2"/>
+							<input type="hidden" id="memberNo" name="${loginuser.memberNo}"/>
 						</form>
 
 					</div>
@@ -168,18 +160,6 @@
 				if($("#boardTitle").val() == ""){
 					alert('제목을 입력해주세요.');
 					return false;
-				} else if($("#volLocation").val() == ""){
-					alert('지역을 입력해주세요.');
-					return false;
-				} else if($("#volDuedate").val() == ""){
-					alert('마감일을 입력해주세요.');
-					return false;
-				} else if($("#volWdate1").val() == ""){
-					alert('시작일을 입력해주세요.');
-					return false;
-				} else if($("#volWdate2").val() == ""){
-					alert('종료일을 입력해주세요.');
-					return false;
 				}
 				
 				Editor.save();
@@ -194,6 +174,8 @@
 					//location.href="/corona/volunteer";
 				}
 			})
+
+			$("#tx_canvas_wysiwyg").contents().find("#tx-content-container").css({"margin-left":"0"});
 
 		});
 

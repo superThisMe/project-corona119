@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.corona.mapper.NanumMapper">
+
+	<resultMap type="BoardVO" id="BoardMap">
+		<id property="boardNo" column="board_no" />
+		<result property="boardTitle" column="board_title" />
+		<result property="boardContent" column="board_content" />
+		<result property="boardCount" column="board_count" />
+		<result property="boardRegdate" column="board_regdate" />
+		<result property="boardDeleted" column="board_deleted" />
+		<result property="memberNo" column="member_no" />
+		<result property="catNo" column="cat_no" />
+		<result property="boardReco" column="board_reco" />
+		<result property="boardNreco" column="board_nreco" />
+		<result property="boardTag" column="board_tag" />
+		<result property="boardSingo" column="board_singo" />
+		<association property="volunteers" javaType="VolunteerVO">
+			<id property="volNo" column="vol_no" />
+			<result property="volLocation" column="vol_location" />
+			<result property="volConfirm" column="vol_confirm" />
+			<result property="volDuedate" column="vol_duedate" />
+			<result property="volWdate1" column="vol_wdate1" />
+			<result property="volWdate2" column="vol_wdate2" />
+			<result property="volLocation2" column="vol_location2" />
+			<result property="volLocshort" column="vol_locshort" />
+		</association>
+		<association property="member" column="member_no" resultMap="MemberMap" />
+		<collection property="image" column="board_no" resultMap="ImageMap" />
+	</resultMap>
+	<resultMap type="MemberVO" id="MemberMap">
+		<id column="member_no" property="memberNo"/>
+		<result column="member_nickname" property="memberNickname"/>
+	</resultMap>
+	<resultMap type="ImageVO" id="ImageMap">
+		<id column="image_no" property="imageNo" />
+		<result column="board_no" property="boardNo" />
+		<result column="image_path" property="imagePath" />
+		<result column="image_spath" property="imagesPath" />
+		<result column="image_real" property="imageReal" />
+		<result column="image_size" property="imageSize" />
+	</resultMap>
+	
+	<select id="selectAllNanum" resultMap="BoardMap">
+		SELECT b.board_no, b.board_title, b.board_count, m.member_nickname, i.image_spath, i.image_path, b.board_regdate
+		FROM BOARD b
+		LEFT OUTER JOIN IMAGE i
+		ON b.board_no = i.board_no
+		INNER JOIN MEMBER m
+		ON b.member_no = m.member_no
+		WHERE board_deleted = 0 AND cat_no = 2
+	</select>
+	
+	<insert id="insertImage">
+		INSERT INTO IMAGE (board_no, image_path, image_spath, image_real, image_size)
+		VALUES (#{boardNo}, #{imagePath}, #{imagesPath}, #{imageReal}, #{imageSize})
+	</insert>
+	
+	<select id="selectNanumByBoardNo" parameterType="int" resultMap="BoardMap">
+		SELECT *
+		FROM BOARD b
+		INNER JOIN MEMBER m
+		ON b.member_no = m.member_no
+		WHERE board_no = #{boardNo}
+	</select>
+
+	
+	
+	<resultMap type="ReplyVO" id="ReplyMap">
+		<id column="rno" property="rno" />
+		<result column="reply" property="reply" />
+		<association property="member" column="member_no" javaType="MemberVO">
+			<id column="member_no" property="memberNo" />
+			<id column="member_id" property="memberId" />
+			<result column="member_nickname" property="memberNickname" />
+			<result column="member_addr" property="memberAddr" />
+		</association>
+	</resultMap>
+	
+	<select id="selectAllReply" parameterType="int" resultMap="ReplyMap">
+		SELECT *
+		FROM REPLY r
+		INNER JOIN MEMBER m
+		ON r.member_no = m.member_no
+		WHERE board_no = #{board_no}
+	</select> 
+	
+	
+
+</mapper>

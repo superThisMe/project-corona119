@@ -29,7 +29,13 @@ public class NoticeServiceImpl implements NoticeService{
 
 		return noticeMapper.selectNoticeByBoardNo(boardNo);
 	}
-	
+
+	@Override
+	public void changeCount(int boardNo) {
+		
+		noticeMapper.updateCountByBoardNo(boardNo);
+	}
+
 	
 
 }

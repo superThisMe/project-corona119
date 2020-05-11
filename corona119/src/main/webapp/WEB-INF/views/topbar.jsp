@@ -84,13 +84,13 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputAddress">Address</label> <input type="text" class="form-control"
-                            id="inputAddress" name="memberAddr" placeholder="1234 Main St">
+                        <label for="inputAddress">주소</label> <input type="text" class="form-control"
+                            id="inputAddress" name="memberAddr" placeholder="서울특별시 구로구 시흥대로">
                             
                     </div>
                     <div class="form-group">
-                        <label for="inputAddress2">Address 2</label> <input type="text" class="form-control"
-                            id="inputAddress2" name="memberAddrDetail" placeholder="Apartment, studio, or floor">
+                        <label for="inputAddress2">상세주소</label> <input type="text" class="form-control"
+                            id="inputAddress2" name="memberAddrDetail" placeholder="">
                     </div>
                     <!-- 
                     <div class="form-row">

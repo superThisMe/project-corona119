@@ -14,14 +14,10 @@
 	
 	<title>코로나 119 - 신종 코로나 바이러스 종합 정보 포털</title>
 	
-	<!-- Bootstrap core CSS -->
-	<link href="/corona/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<jsp:include page="/WEB-INF/views/ccss.jsp" />
 	
 	<!-- Custom styles for this template -->
-	<link href="/corona/resources/css/simple-sidebar.css" rel="stylesheet">
-	
-	<!-- Custom styles for this template -->
-	<link href="/corona/resources/css/sb-admin-2.min.css" rel="stylesheet">
+	<!-- <link href="/corona/resources/css/sb-admin-2.min.css" rel="stylesheet"> -->
 	
 	<!-- Custom styles for this page -->
 	<link href="/corona/resources/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -37,17 +33,17 @@
 		<jsp:include page="/WEB-INF/views/sidebar.jsp" />
 
 		<!-- Page Content -->
-		<div id="page-content-wrapper">
+		<div id="page-content-wrapper" class="notboardbg">
 
 			<jsp:include page="/WEB-INF/views/topbar.jsp" />
 
-			<div class="container-fluid">
+			<div class="container-fluid" >
 
 				<!-- Page Heading -->
 				<h1 class="h3 mb-2 text-gray-800"></h1>
 
 				<!-- DataTales Example -->
-				<div class="card shadow mb-4">
+				<div class="card shadow mb-4" id="cardFrameWidth">
 					<div class="card-header py-3">
 						<h6 class="m-0 font-weight-bold text-primary">공지사항</h6>
 					</div>

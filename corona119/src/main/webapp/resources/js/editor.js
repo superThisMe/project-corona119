@@ -84,6 +84,12 @@ function setForm(editor) {
 			inputurl.value = images[i].data.imageurl;  // 예에서는 이미지경로만 받아서 사용
 			form.createField(inputurl);
 			
+			inputurl = document.createElement('input');
+			inputurl.type = 'hidden';
+			inputurl.name = 'imagesPath';
+			inputurl.value = images[i].data.thumburl;  // 예에서는 이미지경로만 받아서 사용
+			form.createField(inputurl);
+			
 			inputreal = document.createElement('input');
 			inputreal.type = 'hidden';
 			inputreal.name = 'imageReal';

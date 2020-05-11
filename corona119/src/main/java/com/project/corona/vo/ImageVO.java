@@ -8,6 +8,7 @@ public class ImageVO {
 	private int imageNo;
 	private int boardNo;
 	private String imagePath;
+	private String imagesPath;
 	private String imageReal;
 	private String imageSize;
 	

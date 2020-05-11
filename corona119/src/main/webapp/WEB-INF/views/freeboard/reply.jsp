@@ -15,8 +15,8 @@
 	            <strong class="text-gray-dark">${reply.RNo}/${reply.member.memberNickname} / ${reply.replyDate }</strong>
 	            <span style="padding-left: 7px; font-size: 9pt">
 	               	<c:if test="${ loginuser.memberNo == reply.memberNo }">
-		                <a href=# data-rno="${reply.RNo}" id="updateReply" class="reply-update">수정</a>
-						<a href=# data-rno="${reply.RNo}" id="deleteReply" class="reply-delete">삭제</a>
+		                <a href="javascript:void(0);" data-rno="${reply.RNo}" id="updateReply" class="reply-update">수정</a>
+						<a href="javascript:void(0);" data-rno="${reply.RNo}" id="deleteReply" class="reply-delete">삭제</a>
 					</c:if>				
 	            </span>
 	        </span>
@@ -25,13 +25,13 @@
 	    </p>
 	    </div>
 	   
-	    <div style="display: none" data-rno="${reply.RNo}" id="rid${reply.RNo}" class="rid">
+	    <div id="rid_${reply.RNo}" class="rid" style="display: none" data-rno="${reply.RNo}" >
 	    
 	     	
 	        <table style="width: 100%; font-size: 9pt">
 			                    <tr>	
 			                        <td style="width: 95%" 	>
-			                        <form id="updateReplyForm">
+			                        <form id="updateReplyForm_${reply.RNo }">
 			                            <input id="upReply" name="upReply" style="width: 100%" value="${reply.reply}">
 			                        </form>
 			                        </td>

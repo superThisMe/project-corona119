@@ -20,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.project.corona.service.NoticeService;
 
+import net.coobird.thumbnailator.Thumbnails;
+
 @Controller
 public class HomeController {
 
@@ -35,148 +37,161 @@ public class HomeController {
 		return "index";
 	}
 
-	// ÀÌ¹ÌÁö Ã·ºÎ ÆË¾÷
+	// ì´ë¯¸ì§€ ì²¨ë¶€ íŒì—…
 	@RequestMapping(value = "/daumOpenEditor/imagePopup")
 	public String imagePopup() {
 		return "/daumOpenEditor/image";
 	}
 
-	// ´ÜÀÏ ÆÄÀÏ ¾÷·Îµå Ajax
+	// ë‹¨ì¼ íŒŒì¼ ì—…ë¡œë“œ Ajax
 	@RequestMapping(value = "/daumOpenEditor/singleUploadImageAjax", method = RequestMethod.POST)
 	public @ResponseBody HashMap singleUploadImageAjax(@RequestParam("Filedata") MultipartFile multipartFile,
 			HttpSession httpSession) {
-		HashMap fileInfo = new HashMap(); // CallBackÇÒ ¶§ ÀÌ¹ÌÁö Á¤º¸¸¦ ´ãÀ» Map
-		// ¾÷·Îµå ÆÄÀÏÀÌ Á¸ÀçÇÏ¸é
+		HashMap fileInfo = new HashMap(); // CallBackí•  ë•Œ ì´ë¯¸ì§€ ì •ë³´ë¥¼ ë‹´ì„ Map
+		// ì—…ë¡œë“œ íŒŒì¼ì´ ì¡´ì¬í•˜ë©´
 		if (multipartFile != null && !(multipartFile.getOriginalFilename().equals(""))) {
-			// È®ÀåÀÚ Á¦ÇÑ
-			String originalName = multipartFile.getOriginalFilename(); // ½ÇÁ¦ ÆÄÀÏ¸í
-			String originalNameExtension = originalName.substring(originalName.lastIndexOf(".") + 1).toLowerCase(); // ½ÇÁ¦ÆÄÀÏ
-																													// È®ÀåÀÚ
-																													// (¼Ò¹®ÀÚº¯°æ)
+			// í™•ì¥ì ì œí•œ
+			String originalName = multipartFile.getOriginalFilename(); // ì‹¤ì œ íŒŒì¼ëª…
+			String originalNameExtension = originalName.substring(originalName.lastIndexOf(".") + 1).toLowerCase(); // ì‹¤ì œíŒŒì¼
+																													// í™•ì¥ì
+																													// (ì†Œë¬¸ìë³€ê²½)
 			if (!((originalNameExtension.equals("jpg")) || (originalNameExtension.equals("gif"))
 					|| (originalNameExtension.equals("png")) || (originalNameExtension.equals("bmp")))) {
-				fileInfo.put("result", -1); // Çã¿ë È®ÀåÀÚ°¡ ¾Æ´Ò °æ¿ì
+				fileInfo.put("result", -1); // í—ˆìš© í™•ì¥ìê°€ ì•„ë‹ ê²½ìš°
 				return fileInfo;
 			}
-			// ÆÄÀÏÅ©±âÁ¦ÇÑ (1MB)
-			long filesize = multipartFile.getSize(); // ÆÄÀÏÅ©±â
+			// íŒŒì¼í¬ê¸°ì œí•œ (1MB)
+			long filesize = multipartFile.getSize(); // íŒŒì¼í¬ê¸°
 			long limitFileSize = 1 * 1024 * 1024; // 1MB
-			if (limitFileSize < filesize) { // Á¦ÇÑº¸´Ù ÆÄÀÏÅ©±â°¡ Å¬ °æ¿ì
+			if (limitFileSize < filesize) { // ì œí•œë³´ë‹¤ íŒŒì¼í¬ê¸°ê°€ í´ ê²½ìš°
 				fileInfo.put("result", -2);
 				return fileInfo;
 			}
-			// ÀúÀå°æ·Î
-			String defaultPath = httpSession.getServletContext().getRealPath("/"); // ¼­¹ö±âº»°æ·Î (ÇÁ·ÎÁ§Æ® Æú´õ ¾Æ´Ô)
+			// ì €ì¥ê²½ë¡œ
+			String defaultPath = httpSession.getServletContext().getRealPath("/"); // ì„œë²„ê¸°ë³¸ê²½ë¡œ (í”„ë¡œì íŠ¸ í´ë” ì•„ë‹˜)
 			String path = defaultPath + File.separator + "upload" + File.separator + "board" + File.separator + "images"
 					+ File.separator + "";
-			// ÀúÀå°æ·Î Ã³¸®
+			String thumbpath = defaultPath + File.separator + "upload" + File.separator + "board" + File.separator + "images" + File.separator + "thumb"
+					+ File.separator + "";
+			// ì €ì¥ê²½ë¡œ ì²˜ë¦¬
 			File file = new File(path);
-			if (!file.exists()) { // µğ·ºÅä¸® Á¸ÀçÇÏÁö ¾ÊÀ»°æ¿ì µğ·ºÅä¸® »ı¼º
+			if (!file.exists()) { // ë””ë ‰í† ë¦¬ ì¡´ì¬í•˜ì§€ ì•Šì„ê²½ìš° ë””ë ‰í† ë¦¬ ìƒì„±
 				file.mkdirs();
 			}
-			// ÆÄÀÏ ÀúÀå¸í Ã³¸® (20150702091941-fd8-db619e6040d5.È®ÀåÀÚ)
+			File thumbfile = new File(thumbpath);
+			if (!thumbfile.exists()) { // ë””ë ‰í† ë¦¬ ì¡´ì¬í•˜ì§€ ì•Šì„ê²½ìš° ë””ë ‰í† ë¦¬ ìƒì„±
+				thumbfile.mkdirs();
+			}
+
+			// íŒŒì¼ ì €ì¥ëª… ì²˜ë¦¬ (20150702091941-fd8-db619e6040d5.í™•ì¥ì)
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
 			String today = formatter.format(new Date());
-			String modifyName = today + "-" + UUID.randomUUID().toString().substring(20) + "." + originalNameExtension;
-			// Multipart Ã³¸®
+			String imageGenName = today + "-" + UUID.randomUUID().toString().substring(20);
+			String modifyName = imageGenName + "." + originalNameExtension;
+			
+			String thumbName = "s_" + imageGenName + "." + originalNameExtension;
+			// Multipart ì²˜ë¦¬
 			try {
-				// ¼­¹ö¿¡ ÆÄÀÏ ÀúÀå (¾²±â)
+				// ì„œë²„ì— íŒŒì¼ ì €ì¥ (ì“°ê¸°)
 				multipartFile.transferTo(new File(path + modifyName));
-				// ·Î±×
-//				System.out.println("** upload Á¤º¸ **");
+				Thumbnails.of(new File(path + modifyName)).size(50, 50).toFile(thumbpath + thumbName);
+				
+				// ë¡œê·¸
+//				System.out.println("** upload ì •ë³´ **");
 //				System.out.println("** path : " + path + " **");
 //				System.out.println("** originalName : " + originalName + " **");
 //				System.out.println("** modifyName : " + modifyName + " **");
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.out.println("ÀÌ¹ÌÁöÆÄÀÏ¾÷·Îµå ½ÇÆĞ - singleUploadImageAjax");
+				System.out.println("ì´ë¯¸ì§€íŒŒì¼ì—…ë¡œë“œ ì‹¤íŒ¨ - singleUploadImageAjax");
 			}
-			// CallBack - Map¿¡ ´ã±â
-			String imageurl = httpSession.getServletContext().getContextPath() + "/upload/board/images/" + modifyName; // separator¿Í´Â
-																														// ´Ù¸§!
-			fileInfo.put("imageurl", imageurl); // »ó´ëÆÄÀÏ°æ·Î(»çÀÌÁîº¯È¯ÀÌ³ª º¯ÇüµÈ ÆÄÀÏ)
-			//fileInfo.put("filename", modifyName); // ÆÄÀÏ¸í
-			fileInfo.put("filename", originalName); // ÆÄÀÏ¸í
-			fileInfo.put("filesize", filesize); // ÆÄÀÏ»çÀÌÁî
-			fileInfo.put("imagealign", "C"); // ÀÌ¹ÌÁöÁ¤·Ä(C:center)
-			fileInfo.put("originalurl", imageurl); // ½ÇÁ¦ÆÄÀÏ°æ·Î
-			fileInfo.put("thumburl", imageurl); // ½æ³×ÀÏÆÄÀÏ°æ·Î(»çÀÌÁîº¯È¯ÀÌ³ª º¯ÇüµÈ ÆÄÀÏ)
-			fileInfo.put("result", 1); // -1, -2¸¦ Á¦¿ÜÇÑ ¾Æ¹«°Å³ª ½Æ¾îµµ µÊ
+			// CallBack - Mapì— ë‹´ê¸°
+			String imageurl = httpSession.getServletContext().getContextPath() + "/upload/board/images/" + modifyName; // separatorì™€ëŠ”
+																														// ë‹¤ë¦„!
+			String simageurl = httpSession.getServletContext().getContextPath() + "/upload/board/images/thumb/" + thumbName;
+			fileInfo.put("imageurl", imageurl); // ìƒëŒ€íŒŒì¼ê²½ë¡œ(ì‚¬ì´ì¦ˆë³€í™˜ì´ë‚˜ ë³€í˜•ëœ íŒŒì¼)
+			//fileInfo.put("filename", modifyName); // íŒŒì¼ëª…
+			fileInfo.put("filename", originalName); // íŒŒì¼ëª…
+			fileInfo.put("filesize", filesize); // íŒŒì¼ì‚¬ì´ì¦ˆ
+			fileInfo.put("imagealign", "C"); // ì´ë¯¸ì§€ì •ë ¬(C:center)
+			fileInfo.put("originalurl", imageurl); // ì‹¤ì œíŒŒì¼ê²½ë¡œ
+			fileInfo.put("thumburl", simageurl ); // ì¸ë„¤ì¼íŒŒì¼ê²½ë¡œ(ì‚¬ì´ì¦ˆë³€í™˜ì´ë‚˜ ë³€í˜•ëœ íŒŒì¼)
+			fileInfo.put("result", 1); // -1, -2ë¥¼ ì œì™¸í•œ ì•„ë¬´ê±°ë‚˜ ì‹£ì–´ë„ ë¨
 
 		}
 		
-		return fileInfo; // @ResponseBody ¾î³ëÅ×ÀÌ¼ÇÀ» »ç¿ëÇÏ¿© MapÀ» JSONÇüÅÂ·Î ¹İÈ¯
+		return fileInfo; // @ResponseBody ì–´ë…¸í…Œì´ì…˜ì„ ì‚¬ìš©í•˜ì—¬ Mapì„ JSONí˜•íƒœë¡œ ë°˜í™˜
 
 	}
 
-	// ÆÄÀÏ Ã·ºÎ ÆË¾÷
+	// íŒŒì¼ ì²¨ë¶€ íŒì—…
 	@RequestMapping(value = "/daumOpenEditor/filePopup")
 	public String filePopup() {
 		return "/daumOpenEditor/file";
 	}
 	
-	// ´ÜÀÏ ÆÄÀÏ ¾÷·Îµå Ajax
+	// ë‹¨ì¼ íŒŒì¼ ì—…ë¡œë“œ Ajax
 	@RequestMapping(value = "/daumOpenEditor/singleUploadFileAjax", method = RequestMethod.POST)
 	public @ResponseBody HashMap singleUploadFileAjax(@RequestParam("Filedata") MultipartFile multipartFile, HttpSession httpSession) {
 
-	    HashMap fileInfo = new HashMap(); // CallBackÇÒ ¶§ ÆÄÀÏ Á¤º¸¸¦ ´ãÀ» Map
+	    HashMap fileInfo = new HashMap(); // CallBackí•  ë•Œ íŒŒì¼ ì •ë³´ë¥¼ ë‹´ì„ Map
 
-	    // ¾÷·Îµå ÆÄÀÏÀÌ Á¸ÀçÇÏ¸é
+	    // ì—…ë¡œë“œ íŒŒì¼ì´ ì¡´ì¬í•˜ë©´
 	    if(multipartFile != null && !(multipartFile.getOriginalFilename().equals(""))) {
 
-	        // ÆÄÀÏÅ©±âÁ¦ÇÑ (5MB)
-	        long filesize = multipartFile.getSize(); // ÆÄÀÏÅ©±â
+	        // íŒŒì¼í¬ê¸°ì œí•œ (5MB)
+	        long filesize = multipartFile.getSize(); // íŒŒì¼í¬ê¸°
 	        long limitFileSize = 5*1024*1024; // 5MB
-	        if(limitFileSize < filesize){ // Á¦ÇÑº¸´Ù ÆÄÀÏÅ©±â°¡ Å¬ °æ¿ì
+	        if(limitFileSize < filesize){ // ì œí•œë³´ë‹¤ íŒŒì¼í¬ê¸°ê°€ í´ ê²½ìš°
 	            fileInfo.put("result", -1);
 	            return fileInfo;
 	        }
 
-	        // ÀúÀå°æ·Î
-	        String defaultPath = httpSession.getServletContext().getRealPath("/"); // ¼­¹ö±âº»°æ·Î (ÇÁ·ÎÁ§Æ® Æú´õ ¾Æ´Ô)
+	        // ì €ì¥ê²½ë¡œ
+	        String defaultPath = httpSession.getServletContext().getRealPath("/"); // ì„œë²„ê¸°ë³¸ê²½ë¡œ (í”„ë¡œì íŠ¸ í´ë” ì•„ë‹˜)
 	        String path = defaultPath + File.separator + "upload" + File.separator + "board" + File.separator + "files" + File.separator + "";
 
-	        // ÀúÀå°æ·Î Ã³¸®
+	        // ì €ì¥ê²½ë¡œ ì²˜ë¦¬
 	        File file = new File(path);
-	        if(!file.exists()) { // µğ·ºÅä¸® Á¸ÀçÇÏÁö ¾ÊÀ»°æ¿ì µğ·ºÅä¸® »ı¼º
+	        if(!file.exists()) { // ë””ë ‰í† ë¦¬ ì¡´ì¬í•˜ì§€ ì•Šì„ê²½ìš° ë””ë ‰í† ë¦¬ ìƒì„±
 	            file.mkdirs();
 	        }
 
-	        // ÆÄÀÏ ÀúÀå¸í Ã³¸® (20150702091941-ÆÄÀÏ¸í)
+	        // íŒŒì¼ ì €ì¥ëª… ì²˜ë¦¬ (20150702091941-íŒŒì¼ëª…)
 	        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
 	        String today= formatter.format(new Date());
-	        String originalName = multipartFile.getOriginalFilename(); // ÆÄÀÏÀÌ¸§
+	        String originalName = multipartFile.getOriginalFilename(); // íŒŒì¼ì´ë¦„
 	        String modifyName = today + "-" + originalName; 
 
-	        // Multipart Ã³¸®
+	        // Multipart ì²˜ë¦¬
 	        try {
-	            // ¼­¹ö¿¡ ÆÄÀÏ ÀúÀå (¾²±â)
+	            // ì„œë²„ì— íŒŒì¼ ì €ì¥ (ì“°ê¸°)
 	            multipartFile.transferTo(new File(path + modifyName));
 
-	            // ·Î±×
-//	            System.out.println("** upload Á¤º¸ **");
+	            // ë¡œê·¸
+//	            System.out.println("** upload ì •ë³´ **");
 //	            System.out.println("** path : " + path + " **");
 //	            System.out.println("** originalName : " + originalName + " **");
 //	            System.out.println("** modifyName : " + modifyName + " **");
 	        } catch (Exception e) {
 	            e.printStackTrace();
-	            System.out.println("ÆÄÀÏ¾÷·Îµå ½ÇÆĞ - singleUploadFileAjax");
+	            System.out.println("íŒŒì¼ì—…ë¡œë“œ ì‹¤íŒ¨ - singleUploadFileAjax");
 	        }
 
 	        // mime
 	        String fileMime = multipartFile.getContentType();
 
-	        // CallBack - Map¿¡ ´ã±â
-	        String attachurl = httpSession.getServletContext().getContextPath() + "/upload/board/files/" + modifyName; // separator¿Í´Â ´Ù¸§!
-	        fileInfo.put("attachurl", attachurl); // »ó´ëÆÄÀÏ°æ·Î(»çÀÌÁîº¯È¯ÀÌ³ª º¯ÇüµÈ ÆÄÀÏ)
+	        // CallBack - Mapì— ë‹´ê¸°
+	        String attachurl = httpSession.getServletContext().getContextPath() + "/upload/board/files/" + modifyName; // separatorì™€ëŠ” ë‹¤ë¦„!
+	        fileInfo.put("attachurl", attachurl); // ìƒëŒ€íŒŒì¼ê²½ë¡œ(ì‚¬ì´ì¦ˆë³€í™˜ì´ë‚˜ ë³€í˜•ëœ íŒŒì¼)
 	        fileInfo.put("filemime", fileMime); // mime
-	        //fileInfo.put("filename", modifyName); // ÆÄÀÏ¸í
-	        fileInfo.put("filename", originalName); // ÆÄÀÏ¸í
-	        fileInfo.put("filesize", filesize); // ÆÄÀÏ»çÀÌÁî
-	        fileInfo.put("result", 1); // -1À» Á¦¿ÜÇÑ ¾Æ¹«°Å³ª ½Æ¾îµµ µÊ
+	        //fileInfo.put("filename", modifyName); // íŒŒì¼ëª…
+	        fileInfo.put("filename", originalName); // íŒŒì¼ëª…
+	        fileInfo.put("filesize", filesize); // íŒŒì¼ì‚¬ì´ì¦ˆ
+	        fileInfo.put("result", 1); // -1ì„ ì œì™¸í•œ ì•„ë¬´ê±°ë‚˜ ì‹£ì–´ë„ ë¨
 	    }
 
-	    return fileInfo;    // @ResponseBody ¾î³ëÅ×ÀÌ¼ÇÀ» »ç¿ëÇÏ¿© MapÀ» JSONÇüÅÂ·Î ¹İÈ¯
+	    return fileInfo;    // @ResponseBody ì–´ë…¸í…Œì´ì…˜ì„ ì‚¬ìš©í•˜ì—¬ Mapì„ JSONí˜•íƒœë¡œ ë°˜í™˜
 	}
 
 }

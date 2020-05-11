@@ -17,16 +17,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.project.corona.service.NanumService;
 import com.project.corona.service.NoticeService;
 import com.project.corona.service.VolunteerService;
 import com.project.corona.vo.BoardVO;
 import com.project.corona.vo.FileVO;
 import com.project.corona.vo.ImageVO;
 import com.project.corona.vo.MemberVO;
+import com.project.corona.vo.ReplyVO;
 
 @Controller
-@RequestMapping(path = { "/notice" })
-public class NoticeController {
+@RequestMapping(path = { "/nanum" })
+public class NanumController {
+	
+	@Autowired
+	@Qualifier("nanumService")
+	private NanumService nanumService;
 	
 	@Autowired
 	@Qualifier("noticeService")
@@ -37,36 +43,52 @@ public class NoticeController {
 	private VolunteerService volunteerService;
 	
 	@GetMapping(path = {"", "/"})
-	public String noticeList(Model model) {
+	public String nanumList(Model model) {
 		
-		List<BoardVO> notice = noticeService.findAllNotice();
-		model.addAttribute("notice", notice);
+		List<BoardVO> nanum = nanumService.findAllNanum();
+
+		model.addAttribute("nanum", nanum);
 		
-		return "/notice/notice";
+		return "/nanum/nanum";
+	}
+	
+	@GetMapping(path = "/write")
+	public String nanumWrite(Model model, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("loginuser");
+		if(member == null) {
+			return "redirect:/nanum";
+		}
+		
+		return "/nanum/write";
 	}
 	
 	@PostMapping(path = "/write")
-	public String noticeWrite(BoardVO board, ImageVO image, FileVO file, HttpSession session) {
-		MemberVO admin = (MemberVO) session.getAttribute("loginuser");
-		if(admin == null) {
-			return "redirect:/admin";
+	public String nanumWriteP(BoardVO board, ImageVO image, FileVO file, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("loginuser");
+		if(member == null) {
+			return "redirect:/nanum";
 		}
 		
-		board.setCatNo(4);
+		board.setCatNo(2);
+		board.setMemberNo(member.getMemberNo());
+		board.setMember(member);
+		
 		volunteerService.writeBoard(board);
 		
 		if(image.getImagePath() != null) {
 			image.setBoardNo(board.getBoardNo());		
 			String[] imagePath = image.getImagePath().split(",");
+			String[] imagesPath = image.getImagesPath().split(",");
 			String[] imageReal = image.getImageReal().split(",");
 			String[] imageSize = image.getImageSize().split(",");
 			List<ImageVO> imageList = new ArrayList<>();
 			for(int i = 0; i < imagePath.length; i++) {
 				image.setImagePath(imagePath[i]);
+				image.setImagesPath(imagesPath[i]);
 				image.setImageReal(imageReal[i]);
 				image.setImageSize(imageSize[i]);
 				imageList.add(image);
-				volunteerService.uploadImage(image);
+				nanumService.uploadImage(image);
 			}
 		}
 		
@@ -85,15 +107,15 @@ public class NoticeController {
 			}
 		}
 		
-		return "redirect:/admin";
+		return "redirect:/nanum";
 	}
 	
 	@GetMapping(path = {"/detail/{boardNo}"})
-	public String detailNotice(@PathVariable("boardNo") int boardNo, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+	public String detailNanum(@PathVariable("boardNo") int boardNo, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 
-		BoardVO noticeDetail = noticeService.findNoticeByBoardNo(boardNo);
-		if (noticeDetail == null) {
-			return "redirect:/notice";
+		BoardVO nanumDetail = nanumService.findNanumByBoardNo(boardNo);
+		if (nanumDetail == null) {
+			return "redirect:/nanum";
 		}
 		
 		String boardRead = "";
@@ -106,19 +128,27 @@ public class NoticeController {
 
 		if(!boardRead.contains(String.format("[%d]", boardNo))){
 			noticeService.changeCount(boardNo);
-			noticeDetail.setBoardCount(noticeDetail.getBoardCount() + 1);
+			nanumDetail.setBoardCount(nanumDetail.getBoardCount() + 1);
 		
 			Cookie newCookie = new Cookie("readBoard", String.format("%s[%d]", boardRead, boardNo));
 			response.addCookie(newCookie);
 		}
-		
-		
-		
-	 	model.addAttribute("noticeDetail", noticeDetail);
 
-		return "/notice/detail";
+	 	model.addAttribute("nanumDetail", nanumDetail);
+
+		return "/nanum/detail";
 	}
-	
 
+	@GetMapping(path = {"/reply/{boardNo}"})
+	public String replyNanum(@PathVariable("boardNo") int boardNo, Model model) {
+
+		List<ReplyVO> nanumReply = nanumService.findAllReply(boardNo);
+
+	 	model.addAttribute("nanumReply", nanumReply);
+	 	
+	 	return "/nanum/reply/reply";
+	}
+
+	
 
 }

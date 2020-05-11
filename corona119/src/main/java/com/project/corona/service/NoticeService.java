@@ -11,5 +11,7 @@ public interface NoticeService{
 	List<BoardVO> findAllNotice();
 
 	BoardVO findNoticeByBoardNo(int boardNo);
+
+	void changeCount(int boardNo);
 	
 }

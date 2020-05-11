@@ -43,6 +43,7 @@
 	<import resource="admin-context.xml" />
 	<import resource="account-context.xml"/>
 	<import resource="notice-context.xml"/>
+	<import resource="nanum-context.xml"/>
 	<import resource="member-context.xml" />
 	<import resource="volunteer-context.xml" />
 	<import resource="news-context.xml" />

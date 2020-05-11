@@ -39,7 +39,7 @@
 		<jsp:include page="/WEB-INF/views/sidebar.jsp" />
 
 		<!-- Page Content -->
-		<div id="page-content-wrapper" class="notboardbg">
+		<div id="page-content-wrapper">
 
 			<jsp:include page="/WEB-INF/views/topbar.jsp" />
 
@@ -49,24 +49,34 @@
 				<h1 class="h3 mb-2 text-gray-800"></h1>
 
 				<!-- DataTales Example -->
-				<div class="card shadow mb-4" id="cardFrameWidth">
+				<div class="card shadow mb-4">
 					<div class="card-header py-3">
-						<h6 class="m-0 font-weight-bold text-primary">${noticeDetail.boardTitle}</h6>
+						<h6 class="m-0 font-weight-bold text-primary">${nanumDetail.boardTitle}</h6>
+						<h6 style="float:right;">${nanumDetail.member.memberNickname}</h6>
 					</div>
 					<div class="card-body">
 													
 						<div>
 						
-							${noticeDetail.boardContent}
+							${nanumDetail.boardContent}
 											
 						</div>
 						<hr>
 						<div style="padding-top: 10px">
-							<button class='btn btn-primary' id="noticeList" type="button">목록</button>
+							<button class='btn btn-primary' id="nanumList" type="button">목록</button>
 						</div>
 
 					</div>
 				</div>
+
+				<div class="card shadow mb-4">
+					<div class="card-body">
+						<div id="replyList">
+							<jsp:include page="/WEB-INF/views/nanum/reply/reply.jsp"></jsp:include>
+						</div>
+					</div>
+				</div>
+
 
 			</div>
 		</div>
@@ -108,10 +118,11 @@
 				}
 			});
 
-			$("#noticeList").on('click', function() {
-				location.href = "/corona/notice";
+			$("#nanumList").on('click', function() {
+				location.href = "/corona/nanum";
 			});
 
+			$('#replyList').load("/corona/nanum/reply/${nanumDetail.boardNo}");
 		});
 	</script>
 
