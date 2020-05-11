@@ -43,7 +43,7 @@
 
 			<jsp:include page="/WEB-INF/views/topbar.jsp" />
 
-			<div class="container-fluid">
+			<div class="container-fluid volboardbg">
 
 				<!-- Page Heading -->
 				<h1 class="h3 mb-2 text-gray-800"></h1>
@@ -382,15 +382,17 @@
 						switch(data){
 						case 'reco':
 							alert('${vDetail.boardNo}번 글을 추천하였습니다');
-							location.replace('/corona/volunteer/detail/${vDetail.boardNo}'); 
+							$('#recoBtn').html('<img src="/corona/resources/img/thumbups.png"> 추천 ${vDetail.boardReco + 1}');
+							//location.replace('/corona/volunteer/detail/${vDetail.boardNo}'); 
 							break;
 						case 'nreco':
 							alert('${vDetail.boardNo}번 글을 비추천하였습니다');
-							location.replace('/corona/volunteer/detail/${vDetail.boardNo}');
+							$('#nrecoBtn').html('<img src="/corona/resources/img/thumbups.png"> 비추천 ${vDetail.boardNreco + 1}');
+							//location.replace('/corona/volunteer/detail/${vDetail.boardNo}');
 							break;
 						case 'singo':
 							alert('신고가 완료되었습니다');
-							location.replace('/corona/volunteer/detail/${vDetail.boardNo}');
+							//location.replace('/corona/volunteer/detail/${vDetail.boardNo}');
 							break;
 						case 'complete':
 							alert('이미 완료되었습니다');

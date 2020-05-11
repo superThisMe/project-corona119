@@ -38,18 +38,8 @@ public class AdminController {
 		if (auth == null || auth.getMemberType().contains("USER")) {
 			return "redirect:/admin/login";
 		} else {
-			List<MemberVO> member = adminService.findAllMember();
-			
-			List<BoardVO> notice = noticeService.findAllNotice();
-			
-			List<BoardVO> board = adminService.findAllBoard();
-			List<VolunteerVO> volunteer = adminService.findAllVolunteer();
 
 			model.addAttribute("loginuser", auth);
-			model.addAttribute("member", member);
-			model.addAttribute("notice", notice);
-			model.addAttribute("board", board);
-			model.addAttribute("volunteer", volunteer);
 			
 			return "/admin/admin";	
 		}
@@ -98,4 +88,49 @@ public class AdminController {
 		}
 	}
 
+	@GetMapping(path = {"/mem"})
+	public String adminmem(Model model) {
+		List<MemberVO> member = adminService.findAllMember();
+		
+		model.addAttribute("member", member);
+		
+		return "/admin/amem";
+	}
+	
+	@GetMapping(path = {"/not"})
+	public String adminnot(Model model) {
+		List<BoardVO> notice = noticeService.findAllNotice();
+		
+		model.addAttribute("notice", notice);
+		
+		return "/admin/anot";
+	}
+
+	@GetMapping(path = {"/bor"})
+	public String adminbor(Model model) {
+		List<BoardVO> board = adminService.findAllBoard();
+		
+		model.addAttribute("board", board);
+		
+		return "/admin/abor";
+	}
+
+	@GetMapping(path = {"/vol"})
+	public String adminvol(Model model) {
+		List<VolunteerVO> volunteer = adminService.findAllVolunteer();
+		
+		model.addAttribute("volunteer", volunteer);
+		
+		return "/admin/avol";
+	}
+
+	@GetMapping(path = {"/new"})
+	public String adminnew(Model model) {
+//		List<MemberVO> member = adminService.findAllMember();
+//		
+//		model.addAttribute("member", member);
+//		
+		return "/admin/anew";
+	}
+	
 }

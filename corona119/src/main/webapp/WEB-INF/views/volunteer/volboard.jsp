@@ -44,7 +44,7 @@
 
             <jsp:include page="/WEB-INF/views/topbar.jsp" />
 
-            <div class="container-fluid">
+            <div class="container-fluid volboardbg">
 
                 <!-- Page Heading -->
                 <h1 class="h3 mb-2 text-gray-800"><!-- 제목 --></h1>
@@ -96,10 +96,13 @@
 							</div>
 
 							<div>
+							<img src="/corona/resources/img/volun.jpg" style="width:50%;height:340px;">
+							
+							<!-- 
 								<textarea style="width:50%;height:300px">뭔가 들어갈 공간
 근데 뭐 넣지
 								</textarea>
-								
+		 -->						
 							</div>
 
 						</div>
