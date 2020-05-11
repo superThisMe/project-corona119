@@ -52,28 +52,32 @@
           
 				<div class="card shadow mb-4">
 				  <div class="card-header bg-white py-2">
-				    <p class="m-0 font-weight-bold text-primary">${ndtl.member.memberNickname}</p>
-				    <p class="m-0 font-weight-normal text-gray-600">
+				    <p class="m-0 font-weight-bold text-primary">관리자</p>
+				   <%--  <p class="m-0 font-weight-normal text-gray-600">
 				    	<fmt:formatDate value="${ndtl.boardRegdate}" pattern="yyyy-MM-dd HH:mm:ss" />
-				    </p>
+				    </p> --%>
 				  </div>
 				  <div class="card-header bg-white py-3">
 				    <p class="m-0 font-weight-normal text-gray-700">
-				    	#${ndtl.boardNo}&nbsp; <button id="tag-button" type="button" class="btn btn-sm btn-info">${ndtl.boardTag}</button>
+				    	#${ndtl.newsNo}&nbsp; 
+				    	<a id="tag-button" 
+				    	   type="button" 
+				    	   class="btn btn-sm btn-info text-white"
+				    	   href="${ndtl.newsLink}">링크</a>
 				    	<h3></h3>
-				    	<h1 class="h3 mb-2 font-weight-normal text-dark">${ndtl.boardTitle}</h1>
+				    	<h1 class="h3 mb-2 font-weight-normal text-dark">${ndtl.newsTitle}</h1>
 				    </p>
 				  </div>
 				  <div class="card-body font-weight-light text-dark">
-					${ndtl.boardContent}
+					${ndtl.newsContent}
 				  </div>
-				  <div class="card-body">
+				 <%--  <div class="card-body">
 				  	<c:if test="${ loginuser.memberNo == ndtl.member.memberNo }">
 					<button id="update" class="btn btn-success" type="button">수정</button>
 					<button id="delete" class="btn btn-success" type="button">삭제</button>
 					</c:if>
 					<button id="tolist" class="btn btn-success" type="button">목록</button>
-				  </div>
+				  </div> --%>
 				</div>
 
 			</div>
@@ -114,22 +118,6 @@
 			} else {
 				$("#menu-toggle").html("메뉴 닫기");
 			}
-		});
-	</script>
-	<script type="text/javascript">
-	$(function(){
-		$('#update').on('click', function(){
-			location.href = "update?bno=${ ndtl.boardNo }";
-			});
-		$('#delete').on('click', function(){
-			var check = confirm("정말 삭제 하시겠습니까?")
-			if(check){
-				location.href = "delete?bno=${ ndtl.boardNo }";
-				};
-			});
-		$('#tolist').on('click', function(){
-			location.href = "list";
-			});
 		});
 	</script>
 

@@ -58,21 +58,27 @@
 							<table class="table table-bordered" id="dataTableVol2" width="100%" cellspacing="0">
 								<thead>
 									<tr>
-										<th>글번호</th>
+										<!-- <th>글번호</th>
 										<th>제목</th>
 										<th>조회수</th>
 										<th>작성자</th>
-										<th>작성일</th>
+										<th>작성일</th> -->
+										<th>글번호</th>
+										<th>제목</th>
+										<th>작성자</th>
 									</tr>
 								</thead>
 								<tbody>
 									<c:forEach items="${newsList}" var="nlist">
 										<tr>
-											<td>${nlist.boardNo}</td>
+											<%-- <td>${nlist.boardNo}</td>
 											<td onclick="location.href='/corona/news/detail?bno=${ nlist.boardNo }'" style="cursor:pointer">${nlist.boardTitle}</td>
 											<td>${nlist.boardCount}</td>
 											<td>${nlist.member.memberNickname}</td>
-											<td><fmt:formatDate value="${nlist.boardRegdate}" pattern="yyyy-MM-dd" /></td>
+											<td><fmt:formatDate value="${nlist.boardRegdate}" pattern="yyyy-MM-dd" /></td> --%>
+											<td>${nlist.newsNo}</td>
+											<td onclick="location.href='/corona/news/detail?bno=${ nlist.newsNo }'" style="cursor:pointer">${nlist.newsTitle}</td>
+											<td>관리자</td>
 										</tr>
 									</c:forEach>
 								</tbody>

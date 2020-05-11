@@ -5,6 +5,7 @@ import java.util.List;
 import com.project.corona.mapper.NewsMapper;
 import com.project.corona.service.NewsService;
 import com.project.corona.vo.BoardVO;
+import com.project.corona.vo.NewsVO;
 
 import lombok.Setter;
 
@@ -14,21 +15,21 @@ public class NewsServiceImpl implements NewsService {
 	private NewsMapper newsMapper;
 	
 	@Override
-	public List<BoardVO> findNewsList() {
+	public List<NewsVO> findNewsList() {
 		
 		return newsMapper.selectNewsList();
 		
 	}
 
-	@Override
-	public int insertBoard(BoardVO board) {
-		
-		newsMapper.insertBoard(board);
-		return board.getBoardNo();		
-	}
+//	@Override
+//	public int insertBoard(BoardVO board) {
+//		
+//		newsMapper.insertBoard(board);
+//		return board.getBoardNo();		
+//	}
 
 	@Override
-	public BoardVO findBoardByBno(int bno) {
+	public NewsVO findBoardByBno(int bno) {
 		
 		return newsMapper.selectBoardByBno(bno);
 	}

@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.project.corona.service.NewsService;
 import com.project.corona.vo.BoardVO;
 import com.project.corona.vo.MemberVO;
+import com.project.corona.vo.NewsVO;
 
 @Controller
 @RequestMapping(path = { "/news" })
@@ -28,31 +29,31 @@ public class NewsController {
 	@GetMapping(path = { "/list" })
 	public String newsList(Model model) {
 		
-		List<BoardVO> newsList = newsService.findNewsList();
+		List<NewsVO> newsList = newsService.findNewsList();
 		model.addAttribute("newsList", newsList);
 		
 		return "news/list";
 	}
 	
-	@GetMapping(path = { "/write" })
-	public String showWriteForm() {
-		
-		return "news/write";
-	}
-	
-	@PostMapping(path = { "/write" })
-	public String newsWrite(BoardVO board, RedirectAttributes attr) {
-		
-		int boardNo = newsService.insertBoard(board);
-		attr.addAttribute("boardNo", boardNo);
-		
-		return "redirect:/news/list";
-	}
+//	@GetMapping(path = { "/write" })
+//	public String showWriteForm() {
+//		
+//		return "news/write";
+//	}
+//	
+//	@PostMapping(path = { "/write" })
+//	public String newsWrite(BoardVO board, RedirectAttributes attr) {
+//		
+//		int boardNo = newsService.insertBoard(board);
+//		attr.addAttribute("boardNo", boardNo);
+//		
+//		return "redirect:/news/list";
+//	}
 	
 	@GetMapping(path = { "/detail" })
 	public String newsDetail(Model model, int bno) {
 		
-		BoardVO newsDetail = newsService.findBoardByBno(bno);
+		NewsVO newsDetail = newsService.findBoardByBno(bno);
 		System.out.println(newsDetail);
 		if (newsDetail == null) {
 			return "redirect:/news/list";
