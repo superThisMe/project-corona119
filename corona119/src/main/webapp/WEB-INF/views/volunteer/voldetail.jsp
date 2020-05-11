@@ -39,11 +39,11 @@
 		<jsp:include page="/WEB-INF/views/sidebar.jsp" />
 
 		<!-- Page Content -->
-		<div id="page-content-wrapper">
+		<div id="page-content-wrapper" class="volboardbg">
 
 			<jsp:include page="/WEB-INF/views/topbar.jsp" />
 
-			<div class="container-fluid volboardbg">
+			<div class="container-fluid">
 
 				<!-- Page Heading -->
 				<h1 class="h3 mb-2 text-gray-800"></h1>

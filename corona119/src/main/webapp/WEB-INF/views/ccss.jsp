@@ -8,11 +8,15 @@
 
 <!-- <link href="/corona/resources/css/style.css" rel="stylesheet"> -->
 <link href="/corona/resources/css/commonstyle.css" rel="stylesheet">
+
   
   
 <style>
 .volboardbg {
-	background: url("/corona/resources/img/volvol2.png") no-repeat center !important;
+	background: url("/corona/resources/img/volvol2.png") no-repeat !important;
+}
+.notboardbg {
+	background: url("/corona/resources/img/notnot.png") no-repeat !important;
 }
 #dataTableVol {
 	color: #222 !important;

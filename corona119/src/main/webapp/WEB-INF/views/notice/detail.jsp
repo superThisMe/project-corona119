@@ -39,7 +39,7 @@
 		<jsp:include page="/WEB-INF/views/sidebar.jsp" />
 
 		<!-- Page Content -->
-		<div id="page-content-wrapper">
+		<div id="page-content-wrapper" class="notboardbg">
 
 			<jsp:include page="/WEB-INF/views/topbar.jsp" />
 
