@@ -125,7 +125,7 @@ public class VolunteerController {
 		if (volboardUpdate == null || volMem == null || volboardUpdate.getMemberNo() != volMem.getMemberNo()) {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
-			out.printf("<script>alert('ì˜ëª»ëœ ì ‘ê·¼ì…ë‹ˆë‹¤'); location.href='/corona/volunteer/detail/%d';</script>\n", boardNo);
+			out.printf("<script>alert('Á¢±Ù ±ÇÇÑÀÌ ¾ø½À´Ï´Ù'); location.href='/corona/volunteer/detail/%d';</script>\n", boardNo);
 			out.flush();
 		}
 		
@@ -152,7 +152,7 @@ public class VolunteerController {
 		if(volMem == null || volMem.getMemberNo() != memberNo) {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
-			out.printf("<script>alert('ì˜ëª»ëœ ì ‘ê·¼ì…ë‹ˆë‹¤'); location.href='/corona/volunteer/detail/%d';</script>\n", boardNo);
+			out.printf("<script>alert('Á¢±Ù ±ÇÇÑÀÌ ¾ø½À´Ï´Ù'); location.href='/corona/volunteer/detail/%d';</script>\n", boardNo);
 			out.flush();
 		}
 		

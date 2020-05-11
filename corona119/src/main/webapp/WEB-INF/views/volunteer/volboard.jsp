@@ -15,18 +15,14 @@
 
     <title>코로나 119 - 신종 코로나 바이러스 종합 정보 포털</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="/corona/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="/corona/resources/css/simple-sidebar.css" rel="stylesheet">
+	<jsp:include page="/WEB-INF/views/ccss.jsp" />
 
 	<!-- Custom fonts for this template-->
 	<link href="/corona/resources/vendor/fontawesome-free-5.13.0-web/css/all.css" rel="stylesheet"> <!--load all styles -->
-
- 	<!-- Custom styles for this template -->
+<!-- 
+ 	Custom styles for this template
     <link href="/corona/resources/css/sb-admin-2.min.css" rel="stylesheet">
-
+ -->
     <!-- Custom styles for this page -->
 	<link href="/corona/resources/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     
@@ -144,8 +140,8 @@
                                			<td onClick="location.href='/corona/volunteer/detail/${vList.boardNo}'" style="cursor:pointer;">
                                				<span style="font-size:1.1em;/* font-weight:500; */">
                                					<c:choose>
-                        							<c:when test="${fn:length(vList.boardTitle) > 19}">
-                        								${ fn:substring(vList.boardTitle,0,19) }...
+                        							<c:when test="${fn:length(vList.boardTitle) > 25}">
+                        								${ fn:substring(vList.boardTitle,0,25) }...
                         							</c:when>
                         							<c:otherwise>${ vList.boardTitle }</c:otherwise>
                        							</c:choose>

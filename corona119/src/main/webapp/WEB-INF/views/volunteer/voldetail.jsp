@@ -15,25 +15,17 @@
 
 <title>코로나 119 - 신종 코로나 바이러스 종합 정보 포털</title>
 
-<!-- Bootstrap core CSS -->
-<link href="/corona/resources/vendor/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
-
-<!-- Custom styles for this template -->
-<link href="/corona/resources/css/simple-sidebar.css" rel="stylesheet">
+<jsp:include page="/WEB-INF/views/ccss.jsp" />
 
 <!-- Custom fonts for this template-->
-<link
-	href="/corona/resources/vendor/fontawesome-free-5.13.0-web/css/all.css"
-	rel="stylesheet">
+<link href="/corona/resources/vendor/fontawesome-free-5.13.0-web/css/all.css" rel="stylesheet">
 <!--load all styles -->
-
+ 
 <!-- Custom styles for this template -->
-<link href="/corona/resources/css/sb-admin-2.min.css" rel="stylesheet">
-
+<!-- <link href="/corona/resources/css/sb-admin-2.min.css" rel="stylesheet">
+ -->
 <!-- Custom styles for this page -->
-<link href="/corona/resources/datatables/dataTables.bootstrap4.min.css"
-	rel="stylesheet">
+<link href="/corona/resources/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 <link href="/corona/resources/css/common.css" rel="stylesheet">
 
@@ -57,7 +49,7 @@
 				<h1 class="h3 mb-2 text-gray-800"></h1>
 
 				<!-- DataTales Example -->
-				<div class="card shadow mb-4">
+				<div class="card shadow mb-4" id="cardFrameWidth">
 					<c:choose>
 					<c:when test="${!vDetail.volunteers.volConfirm}">
 					<div class="card-header py-3" style="background-color:#f6c23e">
@@ -130,8 +122,9 @@
 									</dl>
 								</div>
 							</div>
+							<div>
 							${vDetail.boardContent}
-							
+							</div>
 							<div id="reco">
 							<c:choose>
 							<c:when test="${ loginuser.memberNo ne vDetail.memberNo }">
@@ -187,7 +180,7 @@
 
 					</div>
 				</div>
-				<div class="card shadow mb-4">
+				<div class="card shadow mb-4" id="cardFrameWidth">
 					<div class="card-body">
 						<div id="applyList">
 							<jsp:include page="/WEB-INF/views/volunteer/apply/apply.jsp"></jsp:include>
@@ -266,8 +259,8 @@
 	<!-- Page level custom scripts -->
 	<script src="/corona/resources/js/common.js"></script>
 
-	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6013e82693c4074b861da547ceb13186&libraries=services"></script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cabf55639c1474c9f288939642d439aa&libraries=services"></script>
+	<!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6013e82693c4074b861da547ceb13186&libraries=services"></script> -->
 	<script type="text/javascript" src="/corona/resources/js/volmap.js"></script>
 	<!-- Menu Toggle Script -->
 	<script>

@@ -37,6 +37,7 @@
 	</resultMap>
 	
 	<select id="selectBoardList" resultMap="BoardMap">
+	<![CDATA[
 		SELECT b.board_no, b.board_title, b.cat_no, b.member_no, v.vol_no, v.vol_locshort, v.vol_confirm, v.vol_duedate, m.member_nickname 
 		FROM BOARD b
 		INNER JOIN VOLUNTEER v
@@ -44,24 +45,32 @@
 		INNER JOIN MEMBER m
 		ON b.MEMBER_NO = m.MEMBER_NO
 		WHERE b.CAT_NO = 1 AND b.BOARD_DELETED = 0
+	]]>
 	</select>
 	
 	<select id="countApplyByBoardNo" parameterType="int" resultType="int">
+	<![CDATA[
 		SELECT count(vol_no)
 		FROM APPLY
 		WHERE vol_no = #{boardNo}
+	]]>
 	</select>
 	
 	<insert id="insertBoard" parameterType="BoardVO" useGeneratedKeys="true" keyProperty="boardNo">
+	<![CDATA[
 		INSERT INTO BOARD (member_no, board_title, board_content, cat_no)
 		VALUES (#{memberNo}, #{boardTitle}, #{boardContent}, #{catNo})
+	]]>
 	</insert>
 	<insert id="insertVolunteer" parameterType="VolunteerVO">
+	<![CDATA[
 		INSERT INTO VOLUNTEER (vol_no, vol_location, vol_duedate, vol_wdate1, vol_wdate2, vol_location2, vol_locshort)
-		VALUES (#{volNo}, #{volLocation}, #{volDuedate}, #{volWdate1}, #{volWdate2}, #{volLocation2}, #{volLocshort}) 
+		VALUES (#{volNo}, #{volLocation}, #{volDuedate}, #{volWdate1}, #{volWdate2}, #{volLocation2}, #{volLocshort})
+	]]> 
 	</insert>
 	
 	<select id="selectBoardListByBoardNo" parameterType="int" resultMap="BoardMap">
+	<![CDATA[
 		SELECT b.board_no, b.board_title, b.board_content, b.cat_no, b.member_no, b.board_reco, b.board_nreco, b.board_singo, v.vol_no, v.vol_location, v.vol_location2, v.vol_locshort, v.vol_confirm, v.vol_duedate, v.vol_wdate1, v.vol_wdate2, m.member_nickname
 		FROM BOARD b
 		INNER JOIN VOLUNTEER v
@@ -69,17 +78,22 @@
 		INNER JOIN MEMBER m
 		ON b.MEMBER_NO = m.MEMBER_NO
 		WHERE b.BOARD_NO = #{boardNo} AND board_deleted = 0
+	]]>
 	</select>
 	
 	<update id="deleteBoard" parameterType="int">
+	<![CDATA[
 		UPDATE BOARD
 		SET board_deleted = 1
 		WHERE board_no = #{boardNo}
+	]]>
 	</update>
 	
 	<insert id="insertApply" parameterType="ApplyVO">
+	<![CDATA[
 		INSERT INTO APPLY (apply_id, apply_phone, apply_birth, member_no, vol_no)
 		VALUES (#{applyId}, #{applyPhone}, #{applyBirth}, #{memberNo}, #{volNo})
+	]]>
 	</insert>
 <!-- 	
 	<resultMap type="VolunteerVO" id="VolunteerMap">
@@ -110,127 +124,173 @@
 	</select>
  -->	
  	<select id="selectApplyByBoardNo" parameterType="int" resultType="ApplyVO">
+ 	<![CDATA[
  		SELECT *
  		FROM APPLY
  		WHERE vol_no = #{volNo}
+ 	]]>
  	</select>
  	
- 	<select id="selectMemberByBoardNo" parameterType="int" resultType="BoardVO">
+ 	<select id="selectMemberByBoardNo" parameterType="int" resultMap="BoardMap">
+	<![CDATA[ 
  		SELECT *
- 		FROM BOARD
+ 		FROM BOARD b
+ 		INNER JOIN VOLUNTEER v
+ 		ON b.board_no = v.vol_no
  		WHERE board_no = #{boardNo}
+ 	]]>
  	</select>
 
 	<select id="selectMemberByBoardNoMemberNo" parameterType="hashmap" resultType="ApplyVO">
+	<![CDATA[
 		SELECT *
 		FROM APPLY
 		WHERE vol_no = #{boardNo} AND member_no = #{memberNo}
+	]]>
 	</select>
 
   	<insert id="insertImage" parameterType="ImageVO">
+  	<![CDATA[
  		INSERT INTO IMAGE (board_no, image_path, image_real, image_size)
  		VALUES (#{boardNo}, #{imagePath}, #{imageReal}, #{imageSize})
+ 	]]>
  	</insert>
  	
  	<insert id="insertFile" parameterType="FileVO">
+ 	<![CDATA[
  		INSERT INTO FILE (board_no, file_path, file_real, file_size)
  		VALUES (#{boardNo}, #{filePath}, #{fileReal}, #{fileSize})
+ 	]]>
  	</insert>
  	 	
 	<select id="selectImageByBoardNo" parameterType="int" resultType="ImageVO">
+	<![CDATA[
  		SELECT *
  		FROM IMAGE
  		WHERE board_no = #{boardNo}
+ 	]]>
  	</select>
  	
 	<select id="selectFileByBoardNo" parameterType="int" resultType="FileVO">
+	<![CDATA[
  		SELECT *
  		FROM FILE
  		WHERE board_no = #{boardNo}
+ 	]]>
  	</select>
  
  	<update id="updateBoard" parameterType="BoardVO">
+ 	<![CDATA[
 		UPDATE BOARD
 		SET board_title = #{boardTitle}, board_content = #{boardContent} 
-		WHERE board_no = #{boardNo} 	
+		WHERE board_no = #{boardNo}
+	]]> 	
  	</update>
  	
  	<update id="updateVolunteer" parameterType="VolunteerVO">
+ 	<![CDATA[
 		UPDATE VOLUNTEER
 		SET vol_location = #{volLocation}, vol_duedate = #{volDuedate}, vol_wdate1 = #{volWdate1}, vol_wdate2 = #{volWdate2}, vol_location2 = #{volLocation2}, vol_locshort = #{volLocshort}
-		WHERE vol_no = #{volNo} 	
+		WHERE vol_no = #{volNo}
+	]]> 	
  	</update>
  	
  	<delete id="deleteImage" parameterType="int">
+ 	<![CDATA[
  		DELETE FROM IMAGE
  		WHERE board_no = #{boardNo}
+ 	]]>
  	</delete>
  	
 	<delete id="deleteFile" parameterType="int">
+	<![CDATA[
  		DELETE FROM FILE
  		WHERE board_no = #{boardNo}
+ 	]]>
  	</delete>
  	
  	<update id="updateRecoByBoardNo" parameterType="int">
+ 	<![CDATA[
 		UPDATE BOARD
 		SET board_reco = board_reco + 1
 		WHERE board_no = #{boardNo}
+	]]>
  	</update>
  	
  	<update id="updateNrecoByBoardNo" parameterType="int">
+ 	<![CDATA[
 		UPDATE BOARD
 		SET board_nreco = board_nreco + 1
 		WHERE board_no = #{boardNo}
+	]]>
  	</update>
  	
  	<update id="updateSingoByBoardNo" parameterType="int">
+ 	<![CDATA[
 		UPDATE BOARD
 		SET board_singo = board_singo + 1
 		WHERE board_no = #{boardNo}
+	]]>
  	</update>
  	
  	<select id="selectRecoByBoardNoMemberNo" parameterType="hashmap" resultType="int">
+ 	<![CDATA[
  		SELECT member_no
  		FROM RECO
  		WHERE board_no = #{boardNo} AND member_no = #{memberNo}
+ 	]]>
  	</select>
  	
  	<insert id="insertReco" parameterType="hashmap">
+ 	<![CDATA[
  		INSERT INTO RECO (board_no, member_no)
  		VALUES (#{boardNo}, #{memberNo})
+ 	]]>
  	</insert>
 
  	<select id="selectNrecoByBoardNoMemberNo" parameterType="hashmap" resultType="int">
+ 	<![CDATA[
  		SELECT member_no
  		FROM NRECO
  		WHERE board_no = #{boardNo} AND member_no = #{memberNo}
+ 	]]>
  	</select>
  	
  	<insert id="insertNreco" parameterType="hashmap">
+ 	<![CDATA[
  		INSERT INTO NRECO (board_no, member_no)
  		VALUES (#{boardNo}, #{memberNo})
+ 	]]>
  	</insert>
 
  	<select id="selectSingoByBoardNoMemberNo" parameterType="hashmap" resultType="int">
+ 	<![CDATA[
  		SELECT member_no
  		FROM SINGO
  		WHERE board_no = #{boardNo} AND member_no = #{memberNo}
+ 	]]>
  	</select>
  	
  	<insert id="insertSingo" parameterType="hashmap">
+ 	<![CDATA[
  		INSERT INTO SINGO (board_no, member_no)
  		VALUES (#{boardNo}, #{memberNo})
+ 	]]>
  	</insert>
 
  	<select id="selectApplyMemberByBoardNo" parameterType="int" resultType="int">
+ 	<![CDATA[
  		SELECT member_no
  		FROM APPLY
  		WHERE vol_no = #{boardNo}
+ 	]]>
  	</select>
  	
  	<delete id="deleteApply" parameterType="hashmap">
+ 	<![CDATA[
  		DELETE FROM APPLY
  		WHERE vol_no = #{boardNo}
+ 	]]>
  	</delete>
  	
 </mapper>

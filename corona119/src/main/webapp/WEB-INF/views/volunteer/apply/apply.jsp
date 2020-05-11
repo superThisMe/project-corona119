@@ -10,9 +10,11 @@
 	<c:when test="${loginuser ne null && loginuser.memberNo eq applyMember.memberNo}">
 	<div class="form-row">
 		<div class="form-group col-md-10 applyDiv">
-			${applyMember.applyId}님 ${applyMember.applyPhone} ${applyMember.applyBirth}년생 의 내용으로 신청이 완료되었습니다.
+			${applyMember.applyId}님 ${nowTime - applyMember.applyBirth + 1}세 (${applyMember.applyPhone}) 의 내용으로 신청이 완료되었습니다.
 		</div>
-		<div class="form-group col-md-2 applyDiv"><button id="applyCancel" type="button" name="applyCancel">신청 취소</button></div>
+		<c:if test="${board.volunteers.volDuedate ge now}">
+			<div class="form-group col-md-2 applyDiv"><button id="applyCancel" type="button" name="applyCancel">신청 취소</button></div>
+		</c:if>
 	</div>
 	</c:when>
 	<c:when test="${loginuser.memberNo eq board.memberNo}">
@@ -28,14 +30,17 @@
 	<c:otherwise>
 	<div class="form-row">
 		<div class="form-group col-md-10 applyDiv">
-			현재 총 ${applyCount}명이 신청하였습니다.
+			총 ${applyCount}명이 신청하였습니다.
 		</div>
 	</div>
 	</c:otherwise>
 	</c:choose>
 </c:when>
 <c:otherwise>
-	신청자 모집 중입니다.
+	<c:choose>
+		<c:when test="${board.volunteers.volDuedate ge now}">신청자 모집 중입니다.</c:when>
+		<c:otherwise>모집이 종료되어 신청이 불가합니다.</c:otherwise>
+	</c:choose>
 </c:otherwise>
 </c:choose>
 </div>

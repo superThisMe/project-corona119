@@ -15,34 +15,25 @@
 
 <title>코로나 119 - 신종 코로나 바이러스 종합 정보 포털</title>
 
-<!-- Bootstrap core CSS -->
-<link href="/corona/resources/vendor/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
-
-<!-- Custom styles for this template -->
-<link href="/corona/resources/css/simple-sidebar.css" rel="stylesheet">
+<jsp:include page="/WEB-INF/views/ccss.jsp" />
 
 <!-- Custom fonts for this template-->
-<link
-	href="/corona/resources/vendor/fontawesome-free-5.13.0-web/css/all.css"
-	rel="stylesheet">
+<link href="/corona/resources/vendor/fontawesome-free-5.13.0-web/css/all.css" rel="stylesheet">
 <!--load all styles -->
-
+ 
 <!-- Custom styles for this template -->
+<!--
 <link href="/corona/resources/css/sb-admin-2.min.css" rel="stylesheet">
-
+ -->
 <!-- Custom styles for this page -->
-<link href="/corona/resources/datatables/dataTables.bootstrap4.min.css"
-	rel="stylesheet">
+<link href="/corona/resources/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
-<link rel="stylesheet"
-	href="/corona/resources/daumOpenEditor/css/editor.css" type="text/css"
-	charset="utf-8" />
+<link rel="stylesheet" href="/corona/resources/daumOpenEditor/css/editor.css" type="text/css" charset="utf-8" />
 	
-<link href="/corona/resources/css/common.css"
-	rel="stylesheet">
+<link href="/corona/resources/css/common.css" rel="stylesheet">
 
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
+<link href="/corona/resources/css/jquery-ui.css" rel="stylesheet">
 
 </head>
 
@@ -63,7 +54,7 @@
 				<h1 class="h3 mb-2 text-gray-800"></h1>
 
 				<!-- DataTales Example -->
-				<div class="card shadow mb-4">
+				<div class="card shadow mb-4" id="cardFrameWidth">
 					<div class="card-header py-3">
 						<h6 class="m-0 font-weight-bold text-primary">봉사활동 모집 글쓰기</h6>
 					</div>
@@ -176,6 +167,23 @@
 	    	})
 		    				 
 			$("#submitBtn").on('click', function(){
+				if($("#boardTitle").val() == ""){
+					alert('제목을 입력해주세요.');
+					return false;
+				} else if($("#volLocation").val() == ""){
+					alert('지역을 입력해주세요.');
+					return false;
+				} else if($("#volDuedate").val() == ""){
+					alert('마감일을 입력해주세요.');
+					return false;
+				} else if($("#volWdate1").val() == ""){
+					alert('시작일을 입력해주세요.');
+					return false;
+				} else if($("#volWdate2").val() == ""){
+					alert('종료일을 입력해주세요.');
+					return false;
+				}
+				
 				if('${vUpdate!=null}') {
 					Editor.save();
 				} else {
