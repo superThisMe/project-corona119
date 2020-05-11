@@ -31,7 +31,7 @@
 		                			<a class="dropdown-item" href="/corona/admin">관리페이지</a>
 		                		</c:when>
 		                		<c:otherwise>
-		                			<a class="dropdown-item" href="/corona/mypage/main">마이페이지</a>
+		                			<a class="dropdown-item" href="/corona/mypage/main?memberNo=${loginuser.memberNo }">마이페이지</a>
 		                		</c:otherwise>
 		                    </c:choose>
 		                    <div class="dropdown-divider"></div>

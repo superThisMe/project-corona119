@@ -14,5 +14,7 @@ public interface AccountMapper {
 	String selectMemberEmail(String memberEmail);
 	
 	String selectMemberNick(String memberNick);
+
+	void deleteMember(int memberNo);
 	
 }

@@ -36,4 +36,10 @@ public class AccountServiceImpl implements AccountService{
 		return accountMapper.selectMemberNick(memberNick);
 	}
 
+	@Override
+	public void memberDel(int memberNo) {
+		accountMapper.deleteMember(memberNo);
+		
+	}
+
 }

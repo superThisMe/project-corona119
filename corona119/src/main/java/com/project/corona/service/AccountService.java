@@ -12,4 +12,6 @@ public interface AccountService {
 	
 	String nickCheck(String memberNick);
 
+	void memberDel(int memberNo);
+
 }

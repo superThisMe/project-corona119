@@ -50,4 +50,5 @@
 	<import resource="freeboard-context.xml" />
 	<import resource="move-context.xml" />
 	<import resource="reply-context.xml" />
+	<import resource="mypage-context.xml" />
 </beans>

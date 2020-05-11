@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.corona.mapper.MypageMapper">
+
+	<resultMap type="BoardVO" id="BoardMap">
+		<id property="boardNo" column="board_no" />
+		<result property="boardTitle" column="board_title" />
+		<result property="boardContent" column="board_content" />
+		<result property="boardCount" column="board_count" />
+		<result property="boardRegdate" column="board_regdate" />
+		<result property="boardDeleted" column="board_deleted" />
+		<result property="memberNo" column="member_no" />
+		<result property="catNo" column="cat_no" />
+		<result property="boardReco" column="board_reco" />
+		<result property="boardNreco" column="board_nreco" />	
+		<result property="boardTag" column="board_tag" />
+		<result property="boardSingo" column="board_singo" />
+		<association property="member" column="member_no" resultMap="memberMap" />
+		<association property="category" column="cat_no" resultMap="categoryMap"/>
+	</resultMap>
+	<resultMap type="MemberVO" id="memberMap">
+		<id property="memberNo" column="member_no" />
+		<result property="memberNickname" column="member_nickname" />
+	</resultMap>
+	<resultMap type="CategoryVO" id="categoryMap">
+		<id property="catNo" column="cat_no" />
+		<result property="category" column="category" />
+	</resultMap>
+	
+<!-- 	<resultMap type="ReplyVO" id="replyMap">
+		<id property="rNo" column="rno" />
+		<result property="reply" column="reply" />
+		<result property="replyer" column="replyer" />
+		<result property="replyDate" column="reply_date" />
+		<result property="replyDeleted" column="reply_deleted" />
+		<result property="gno" column="gNo" />
+		<result property="sno" column="sNo" />
+		<result property="boardNo" column="board_no" />
+		<result property="memberNo" column="member_no" />
+	</resultMap> -->
+	
+	<select id="myBoard" resultMap="BoardMap">
+		SELECT b.board_no, b.board_title, b.board_count, b.board_regdate, b.board_reco, b.member_no, b.board_reco, m.member_nickname, c.category
+		FROM BOARD b		
+		INNER JOIN MEMBER m 
+		ON b.member_no = m.member_no
+		INNER JOIN CATEGORY c
+		ON b.CAT_NO = c.CAT_NO
+		WHERE b.member_no = #{ memberNo } AND board_deleted = '0'
+		order by b.board_no DESC
+		LIMIT 10;
+	</select>
+	
+	
+
+</mapper>

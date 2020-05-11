@@ -8,13 +8,13 @@
                             <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th width="7%">번호</th>
-                                        <th width="7%">분류</th>
-                                        <th width="59%">제목</th>
-                                        <th width="10%">글쓴이</th>
-                                        <th width="10%">날짜</th>
-                                        <th width="7%">추천</th>
-                                        <th width="7%">조회</th>
+                                        <th style="width:45px">번호</th>
+                                        <th style="width:45px">분류</th>
+                                        <th >제목</th>
+                                        <th style="width:55px">글쓴이</th>
+                                        <th style="width:55px">날짜</th>
+                                        <th style="width:45px">추천</th>
+                                        <th style="width:45px">조회</th>
                                     </tr>
                                 </thead>
                                 <tbody>

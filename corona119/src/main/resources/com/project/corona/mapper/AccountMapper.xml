@@ -28,5 +28,11 @@
 		FROM MEMBER
 		WHERE member_nickname LIKE #{memberNick}
 	</select>
+	
+	<update id="deleteMember" parameterType="int">
+		UPDATE MEMBER
+		SET member_deleted = 1
+		WHERE member_no = #{memeberNo};
+	</update>
 		
 </mapper>

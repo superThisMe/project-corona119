@@ -32,7 +32,7 @@
 			parameterType="MemberVO" resultType="MemberVO">
 		SELECT *
 		FROM MEMBER
-		WHERE member_id = #{ memberId } AND member_psw = #{ memberPsw }
+		WHERE member_id = #{ memberId } AND member_psw = #{ memberPsw } AND member_deleted = 0
 	</select>	
 
 </mapper>

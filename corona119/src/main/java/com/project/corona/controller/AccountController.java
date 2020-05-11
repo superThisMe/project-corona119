@@ -83,5 +83,12 @@ public class AccountController {
 		return accountService.nickCheck(memberNick);
 	}
 	
+	@GetMapping(path = "/account/memberDel")
+	public String memberDel( int memberNo, HttpSession session) {
+		accountService.memberDel(memberNo);
+		session.removeAttribute("loginuser");
+		return "redirect:/";
+	}
+	
 	
 }

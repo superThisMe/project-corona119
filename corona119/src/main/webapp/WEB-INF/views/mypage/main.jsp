@@ -1,5 +1,6 @@
 <%@ page pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -36,15 +37,15 @@
             		<tbody>
                 	<tr>
 	                	<td width="120" align="center" bgcolor="eeeeee" height="30">회원 가입일</td>
-	                	<td>&nbsp&nbsp</td>
+	                	<td>${myInfo.memberRegdate }</td>
 	                	<td width="120" align="center" bgcolor="eeeeee" height="30">보유 포인트</td>
-	                	<td>&nbsp&nbsp</td>
+	                	<td>${myInfo.memberPoint }</td>
                 	</tr>
                 	<tr>
 	                	<td width="120" align="center" bgcolor="eeeeee" height="30">회원 정보 수정</td>
 	                	<td>&nbsp&nbsp<a href=#>회원 정보 수정하기</a></td>
 	                	<td width="120" align="center" bgcolor="eeeeee" height="30">회원 탈퇴</td>
-	                	<td>&nbsp&nbsp<a href=#>회원탈퇴하기</a></td>
+	                	<td>&nbsp&nbsp<a id="memberDel" href="javascript:void(0);">회원탈퇴하기</a></td>
                 	</tr>
                 	</tbody>
                 </table>
@@ -69,34 +70,23 @@
 									<td>
 										<table width="100%">
 											<tbody>
-												<tr>
-													<td><a href=#>이것이야 말로 최고!!</a></td>
-													<td>2020-04-08</td>
-												</tr>
-												<tr>
-													<td><a href=#>믿을 만한 정보!!</a></td>
-													<td>2020-04-08</td>
-												</tr>
-												<tr>
-													<td><a href=#>믿을 만한 정보!!</a></td>
-													<td>2020-04-08</td>
-												</tr>
-												<tr>
-													<td><a href=#>믿을 만한 정보!!</a></td>
-													<td>2020-04-08</td>
-												</tr>
-												<tr>
-													<td><a href=#>믿을 만한 정보!!</a></td>
-													<td>2020-04-08</td>
-												</tr>
-												<tr>
-													<td><a href=#>믿을 만한 정보!!</a></td>
-													<td>2020-04-08</td>
-												</tr>
-												<tr>
-													<td><a href=#>믿을 만한 정보!!</a></td>
-													<td>2020-04-08</td>
-												</tr>
+												
+													<c:forEach items="${ myBoard }" var="myBoard">
+													
+                                						<tr>
+						                                	<td width="60px">[${ myBoard.category.category }] 
+						                                        
+						                                    </td>
+						                                    <td>
+						                                    	<a href="/corona/freeboard/freeDetail?boardNo=${ myBoard.boardNo }">${ myBoard.boardTitle }</a>
+						                                   </td> 
+						                                   <td width="60px">
+						                                   		<fmt:formatDate value="${ myBoard.boardRegdate }" pattern="yyyy.MM.dd"/>
+						                                   </td> 
+					                                    </tr>
+					                                    
+					                                </c:forEach>
+													
 											</tbody>
 										
 										</table>
@@ -119,7 +109,26 @@
 									</td>
 								</tr>
 								<tr>
-									<td>작성된 글이 없습니다.
+									<td>
+										<table width="100%">
+											<tbody>
+												
+													<c:forEach items="${ myReply }" var="myReply">
+													
+                                						<tr>
+						                                	<td>
+						                                    	<a href="/corona/reply/freeDetail?boardNo=${ myReply.boardNo }">${ myReply.reply }</a>
+						                                   </td> 
+						                                   <td width="60px">
+						                                   		<fmt:formatDate value="${ myReply.replyDate }" pattern="yyyy.MM.dd"/>
+						                                   </td> 
+					                                    </tr>
+					                                    
+					                                </c:forEach>
+													
+											</tbody>
+										
+										</table>
 									</td>
 								</tr>
 							</tbody>
@@ -200,7 +209,7 @@
     <script src="/corona/resources/js/common.js"></script>
         
 	<!-- Menu Toggle Script -->
-	<script>
+	<script>	
 	    $("#menu-toggle").click(function (e) {
 	        e.preventDefault();
 	        $("#wrapper").toggleClass("toggled");
@@ -210,6 +219,15 @@
 	            $("#menu-toggle").html("메뉴 닫기");
 	        }
 	    });
+	</script>
+	
+	<script type="text/javascript">
+		$("#memberDel").on('click',function(){
+			var check = confirm("회원님 코로나119 사이트를 탈퇴 하시겠습니까?")
+			if(check){
+				location.href="/corona/account/memberDel?memberNo=${loginuser.memberNo}"
+				}
+			});
 	</script>
 
 </body>

@@ -30,7 +30,7 @@ public class ReplyController {
 	@PostMapping("/saveReply")
 	@ResponseBody
 	public String saveReply(ReplyVO reply, String action) {
-		System.out.println(reply);
+		
 		if (action.equals("reply")) {
 			
 			replyService.saveReply(reply);
@@ -62,7 +62,7 @@ public class ReplyController {
 	@PutMapping(path= {"/updateReply"})
 	@ResponseBody
 	public String updateReply(@RequestBody ReplyVO reply) {
-		System.out.println(reply);
+		
 		replyService.updateReply(reply);
 		
 		return "success";
