@@ -128,7 +128,7 @@
 			 	 		<jsp:include page="/WEB-INF/views/freeboard/reply.jsp" />
 			 	 			    
 			        </div>
-			        <div id="rid" style="display: none">확인용 </div>
+			       
 			    </div>
 			
 			</div>
@@ -197,6 +197,7 @@
 	
 			if ($('#reply').val().length == 0) {
 				alert("댓글 내용을 입력하세요")
+				$("#reply").focus();
 				return;
 			}
 
@@ -228,7 +229,7 @@
 	   
 	    $(document).on('click', '.reply-delete' , function() {
 		    var rno = $(this).attr('data-rno');
-			var check = confirm("댓긍를  삭제 하시겠습니까?");
+			var check = confirm("댓글을  삭제 하시겠습니까?");
 			if (!check) return;
 			
 		
@@ -253,14 +254,15 @@
 		$(document).on('click', '.reply-update', function(event){
 			var rno = $(this).attr('data-rno');
 
-			$('#rid' + rno).css("display","block");
+			$('#rid_' + rno).css("display","block");
+			$("#updateReplyForm_"+ rno +" input[name=upReply]").focus();
 			
 			});
 
 		$(document).on('click', '.updateK', function(event){
 			var rno = $(this).attr('data-rno');
 			
-			var data = 	{"rno": rno, "reply": $("#updateReplyForm input[name=upReply]").val() };
+			var data = 	{"rno": rno, "reply": $("#updateReplyForm_"+ rno +" input[name=upReply]").val() };
 			
 			$.ajax({
 				"url" : "/corona/reply/updateReply",
@@ -280,8 +282,8 @@
 		
 		$(document).on('click', '.updateC', function(event){
 			var rno = $(this).attr('data-rno');
-			
-			$('#rid' + rno).css("display","none");
+				
+			$('#rid_' + rno).css("display","none");
 			
 		});
 
