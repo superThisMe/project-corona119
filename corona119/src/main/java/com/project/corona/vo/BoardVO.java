@@ -20,6 +20,7 @@ public class BoardVO {
 	private int boardNreco;
 	private String boardTag;
 	private int boardSingo;
+	private String boardResult;
 	
 	private VolunteerVO volunteers;
 	private List<BookmarkVO> bookmarks;

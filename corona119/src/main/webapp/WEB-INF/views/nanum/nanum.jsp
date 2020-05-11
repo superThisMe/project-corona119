@@ -66,7 +66,7 @@
 										<fmt:formatDate var="endTime" value="${na.boardRegdate}" pattern="yyyy-MM-dd" />
 										<fmt:parseDate var="eSetDate" value="${ endTime }" pattern="yyyy-MM-dd"/>
 										<fmt:parseNumber var="cDate" value="${ cSetDate.time/(1000*60*60*24) }" integerOnly="true" />
-										<fmt:parseNumber var="eDate" value="${ eSetDate.time/(1000*60*60*24+3) }" integerOnly="true" />
+										<fmt:parseNumber var="eDate" value="${ eSetDate.time/(1000*60*60*24) + 3 }" integerOnly="true" />
 									
 										<tr>
 											<td><img src="${na.image[0].imagesPath}" class="thumbnail" data-path="${na.image[0].imagePath}"></td>

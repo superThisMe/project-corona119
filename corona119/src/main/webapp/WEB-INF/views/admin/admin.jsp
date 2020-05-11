@@ -14,6 +14,8 @@
 
 	<link href="/corona/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
+	<jsp:include page="/WEB-INF/views/ccss.jsp" />
+
 	<link href="/corona/resources/assets/css/components/tabs-accordian/custom-tabs.css" rel="stylesheet" type="text/css">
 
 	<link href="/corona/resources/assets/css/structure.css" rel="stylesheet" type="text/css">
@@ -72,7 +74,7 @@
 				          </div> -->
 						<div class="widget-content widget-content-area br-6">
    							<div class="moveBlank"><a href="/corona/notice" target="_blank">공지사항게시판 새창 열기</a></div>
-   							<div id="writeNoticeArea"><button id="writeBtn">공지글 올리기</button></div>
+   							<div id="writeNoticeArea"><button id="writeBtn" class="btn btn-purple btn-sm">공지글 올리기</button></div>
     							
    							<div id="editorArea">
 								<form name="tx_editor_form" id="tx_editor_form" action="/corona/notice/write" method="post" accept-charset="utf-8">

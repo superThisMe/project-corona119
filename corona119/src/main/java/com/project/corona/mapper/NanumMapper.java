@@ -1,5 +1,6 @@
 package com.project.corona.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -18,5 +19,17 @@ public interface NanumMapper {
 	BoardVO selectNanumByBoardNo(int boardNo);
 
 	List<ReplyVO> selectAllReply(int boardNo);
+
+	void insertReplyByBoardNo(ReplyVO reply);
+
+	String selectReplyByBoardNoMemberNo(HashMap<String, Object> hashmap);
+
+	List<String> selectReplyMemByBoardNo(int boardNo);
+
+	String selectMemberByMemberNo(String get);
+
+	void exireBoardRegDate(int boardNo);
+
+	void updateResult(HashMap<String, String> hashmap);
 
 }

@@ -57,7 +57,7 @@
                     <div class="card-body">
                     	<div id="searchArea">
                     		<div id="viewAllArea">
-								<button type="button" id="viewAllAreaBtn">모든지역</button>
+								<button type="button" class="btn btn-info" id="viewAllAreaBtn">모든지역</button>
 							</div>
 							<input type="hidden" id="areaSearch" value="">
 							<input type="hidden" id="confirmExtSearch" value="">

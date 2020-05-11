@@ -68,13 +68,13 @@
 						<div id="applyArea">
 						<c:choose>
 							<c:when test="${ loginuser.memberNo eq volApply.memberNo }">
-								<button class="nonbutton" id="alogin" type="button" disabled>
+								<button class="nonbutton btn btn-orange" id="alogin" type="button" style="border:0;" disabled>
 							</c:when>
 							<c:when	test="${nowTime <= endTime && loginuser ne null && loginuser.memberNo ne vDetail.memberNo}">
-								<button class="nonbutton" id="apply" type="button" data-toggle="modal" data-target="#applyModal">
+								<button class="nonbutton btn btn-orange" id="apply" type="button" style="border:0;" data-toggle="modal" data-target="#applyModal">
 							</c:when>
 							<c:otherwise>
-								<button class="nonbutton" id="alogin" type="button" disabled>
+								<button class="nonbuttonbtn btn-orange" id="alogin" type="button" style="border:0;" disabled>
 							</c:otherwise>
 						</c:choose>
  
@@ -117,7 +117,7 @@
 									</dl>
 									<dl>
 										<dt>신청인원</dt>
-										<dd>${applyCount}명</dd>
+										<dd id="appCount">${applyCount}명</dd>
 									</dl>
 								</div>
 								<div class="group">
@@ -173,10 +173,10 @@
 							<c:choose>
 								<c:when test="${ loginuser.memberNo eq vDetail.memberNo }">
 									<a href='/corona/volunteer/update/${vDetail.boardNo}' class='btn btn-success' id="volUpdate" type="button">수정</a>
-									<a href="/corona/volunteer/delete/${vDetail.boardNo}" class='btn btn-danger' id="volDelete" type="button">삭제</a>
+									<button class='btn btn-danger' id="volDelete" type="button">삭제</button>
 								</c:when>
 								<c:when test="${ loginuser.memberType eq 'ADMIN' }">
-									<a href="/corona/volunteer/delete/${vDetail.boardNo}" class='btn btn-danger' id="volDelete" type="button">삭제</a>
+									<button class='btn btn-danger' id="volDelete" type="button">삭제</button>
 								</c:when>
 								<c:otherwise></c:otherwise>
 							</c:choose>
@@ -233,7 +233,7 @@
 							</div>
 
 							<div align="right">
-								<button class="nonbutton" type="button" id="modalApply" class="btn btn-primary">신청하기</button>
+								<button class="nonbutton btn btn-primary" type="button" id="modalApply">신청하기</button>
 							</div>
 						</form>
 					</div>
@@ -287,10 +287,18 @@
 			});
 
 			$("#volDelete").on('click', function() {
-				var check = confirm("게시글을 삭제하시겠습니까?");
- 				if (!check) {
-					return false;
-				}
+				swal({ 
+					title: "게시글을 삭제하시겠습니까?",
+					text: "OK 버튼을 누르면 삭제됩니다!",
+					icon: "warning",
+					buttons: true,
+					dangerMode: true,
+				}).then(okay => {
+					if (okay) {
+						location.replace("/corona/volunteer/delete/${vDetail.boardNo}");
+					}
+				});
+
 			})
 			
 			for(var i = 1901; i <= ${year}; i++){
@@ -339,9 +347,9 @@
 							    "success": function(data, status, xhr) {
 									$('#applyModal').modal('hide');
 									if(data == "success") {
-										swal('완료','신청이 완료됐습니다.','success')
+										swal('완료','신청이 완료됐습니다.','success').then(okay => { if(okay) {location.reload();}})
 										$('#applyList').load("/corona/volunteer/apply/${vDetail.boardNo}");
-										$('#applyArea').html('<button class="nonbutton" id="alogin" type="button" disabled="">신청완료</button>');
+										//$('#applyArea').html('<button class="nonbutton btn btn-primary" id="alogin" type="button" disabled="">신청완료</button>');
 									} else {
 										swal('주의','이미 신청이 완료됐습니다.','warning')
 									}
@@ -380,8 +388,10 @@
 						    },
 							"success": function(data, status, xhr) {
 								if(data == "success") {
+									swal('완료','신청이 취소됐습니다.','success').then(okay => { if(okay) {
 									$('#applyList').load("/corona/volunteer/apply/${vDetail.boardNo}");
-									swal('완료','신청이 취소됐습니다.','success')
+									location.reload();
+									}})
 								} else {
 									swal('주의','모집이 종료된 글입니다.','warning')
 								}

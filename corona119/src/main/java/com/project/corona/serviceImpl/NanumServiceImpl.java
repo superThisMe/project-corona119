@@ -1,5 +1,6 @@
 package com.project.corona.serviceImpl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.project.corona.mapper.NanumMapper;
@@ -37,6 +38,42 @@ public class NanumServiceImpl implements NanumService{
 	public List<ReplyVO> findAllReply(int boardNo) {
 
 		return nanumMapper.selectAllReply(boardNo);
+	}
+
+	@Override
+	public void writeReplyByBoardNo(ReplyVO reply) {
+
+		nanumMapper.insertReplyByBoardNo(reply);
+	}
+
+	@Override
+	public String findReplyByBoardNoMemberNo(HashMap<String, Object> hashmap) {
+
+		return nanumMapper.selectReplyByBoardNoMemberNo(hashmap);
+	}
+
+	@Override
+	public List<String> findReplyMemByBoardNo(int boardNo) {
+
+		return nanumMapper.selectReplyMemByBoardNo(boardNo);
+	}
+
+	@Override
+	public String findMemberByMemberNo(String get) {
+
+		return nanumMapper.selectMemberByMemberNo(get);
+	}
+
+	@Override
+	public void exireBoardRegDate(int boardNo) {
+
+		nanumMapper.exireBoardRegDate(boardNo);
+	}
+
+	@Override
+	public void updateResult(HashMap<String, String> hashmap) {
+
+		nanumMapper.updateResult(hashmap);
 	}
 
 }

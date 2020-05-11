@@ -40,10 +40,12 @@
                                             <td>
                                             	<c:choose>
                                             		<c:when test="${!vol.volunteers.volConfirm}">
-                                            			<button onclick="volConfirm(${vol.boardNo});">${vol.volunteers.volConfirm}</button>
+                                            			<button class="btn btn-success btn-xs" onclick="volConfirm(${vol.boardNo});">승인하기</button>
+                                            			<%-- <button class="btn btn-success btn-xs" onclick="volConfirm(${vol.boardNo});">${vol.volunteers.volConfirm}</button> --%>
                                             		</c:when>
                                             		<c:otherwise>
-                                            			${vol.volunteers.volConfirm}
+                                            			승인됨
+                                            			<%-- ${vol.volunteers.volConfirm} --%>
                                             		</c:otherwise>
                                             	</c:choose>
                                             </td>

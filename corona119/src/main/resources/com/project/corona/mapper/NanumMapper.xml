@@ -19,6 +19,7 @@
 		<result property="boardNreco" column="board_nreco" />
 		<result property="boardTag" column="board_tag" />
 		<result property="boardSingo" column="board_singo" />
+		<result property="boardResult" column="board_result" />
 		<association property="volunteers" javaType="VolunteerVO">
 			<id property="volNo" column="vol_no" />
 			<result property="volLocation" column="vol_location" />
@@ -71,8 +72,10 @@
 	
 	
 	<resultMap type="ReplyVO" id="ReplyMap">
-		<id column="rno" property="rno" />
+		<id column="rno" property="rNo" />
 		<result column="reply" property="reply" />
+		<result column="board_no" property="boardNo" />
+		<result column="member_no" property="memberNo" />
 		<association property="member" column="member_no" javaType="MemberVO">
 			<id column="member_no" property="memberNo" />
 			<id column="member_id" property="memberId" />
@@ -89,6 +92,39 @@
 		WHERE board_no = #{board_no}
 	</select> 
 	
+	<insert id="insertReplyByBoardNo" parameterType="ReplyVO">
+		INSERT INTO REPLY(reply, board_no, member_no)
+		VALUES (#{reply}, #{boardNo}, #{memberNo})
+	</insert>
 	
+	<select id="selectReplyByBoardNoMemberNo" parameterType="hashmap" resultType="String">
+		SELECT COUNT(member_no)
+		FROM REPLY
+		WHERE member_no = #{memberNo} AND board_no = #{boardNo}
+	</select>
+	
+	<select id="selectReplyMemByBoardNo" parameterType="int" resultType="String">
+		SELECT member_no
+		FROM REPLY
+		WHERE board_no = #{boardNo}
+	</select>
 
+	<select id="selectMemberByMemberNo" parameterType="String" resultType="String">
+		SELECT member_nickname
+		FROM MEMBER
+		WHERE member_no = #{get}
+	</select>
+	
+	<update id="exireBoardRegDate" parameterType="int">
+		UPDATE BOARD
+		SET board_regdate = '2000-01-01 01:01:01'
+		WHERE board_no = #{boardNo}
+	</update>
+	
+	<update id="updateResult" parameterType="hashmap">
+		UPDATE BOARD
+		SET board_result = #{memberNickname}
+		WHERE board_no = #{boardNo}
+	</update>
+	
 </mapper>

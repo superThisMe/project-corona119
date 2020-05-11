@@ -13,7 +13,7 @@
 			${applyMember.applyId}님 ${nowTime - applyMember.applyBirth + 1}세 (${applyMember.applyPhone}) 의 내용으로 신청이 완료되었습니다.
 		</div>
 		<c:if test="${board.volunteers.volDuedate ge now}">
-			<div class="form-group col-md-2 applyDiv"><button id="applyCancel" type="button" name="applyCancel">신청 취소</button></div>
+			<div class="form-group col-md-2 applyDiv"><button id="applyCancel" class="btn btn-danger" type="button" name="applyCancel">신청 취소</button></div>
 		</c:if>
 	</div>
 	</c:when>

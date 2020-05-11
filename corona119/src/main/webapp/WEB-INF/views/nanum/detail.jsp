@@ -33,7 +33,8 @@
 </head>
 
 <body>
-
+	<jsp:useBean id="now" class="java.util.Date" scope="page" />
+	<fmt:formatDate var="nowTime" value="${now}" pattern="yyyy-MM-dd" /> 
 	<div class="d-flex" id="wrapper">
 
 		<jsp:include page="/WEB-INF/views/sidebar.jsp" />
@@ -55,13 +56,34 @@
 						<h6 style="float:right;">${nanumDetail.member.memberNickname}</h6>
 					</div>
 					<div class="card-body">
-													
+						<fmt:parseDate var="cSetDate" value="${ nowTime }" pattern="yyyy-MM-dd"/>
+						<fmt:formatDate var="endTime" value="${nanumDetail.boardRegdate}" pattern="yyyy-MM-dd" />
+						<fmt:parseDate var="eSetDate" value="${ endTime }" pattern="yyyy-MM-dd"/>
+						<fmt:parseNumber var="cDate" value="${ cSetDate.time/(1000*60*60*24) }" integerOnly="true" />
+						<fmt:parseNumber var="eDate" value="${ eSetDate.time/(1000*60*60*24) + 3 }" integerOnly="true" />
+					
+						<c:if test="${ cDate <= eDate }">
+						<c:if test="${loginuser.memberNo eq nanumDetail.memberNo}">
+							<div id="randomselect" style="text-align:center;">
+								<button class="btn btn-info" id="lotto">추첨하기</button>
+							</div>
+						</c:if>
+						</c:if>
+							
 						<div>
 						
 							${nanumDetail.boardContent}
 											
 						</div>
 						<hr>
+						
+						<c:if test="${nanumDetail.boardResult ne null || !empty nanumDetail.boardResult }">
+						<div id="resultArea" style="text-align:center;">
+							축하합니다! 당첨자는 ${nanumDetail.boardResult}님 입니다!
+						</div>
+						<hr>
+						</c:if>
+						
 						<div style="padding-top: 10px">
 							<button class='btn btn-primary' id="nanumList" type="button">목록</button>
 						</div>
@@ -69,8 +91,34 @@
 					</div>
 				</div>
 
+				<c:if test="${ cDate <= eDate }">
+				<div class="card shadow mb-4" id="replyOne">
+					<div class="my-3 p-3 bg-white rounded shadow-sm" style="margin-top:0 !important;margin-bottom:0 !important;">
+						<div class="form-group">
+							<form id="writeReply" name="writeReply">
+                        	<label class="form-label" for="field-4" style="margin-bottom:0 !important;">한 줄 신청란</label>
+                            <span class="desc">"신청 하시려면 한 줄 댓글을 남겨주세요."</span>
+                            <div class="controls">
+                            	<input type="text" id="field-4" name="reply" placeholder="" class="form-control" style="width:90%;float:left;">
+                            	<c:choose>
+                            		<c:when test="${ loginuser eq null || nanumDetail.memberNo eq loginuser.memberNo || reply ne 0 }">
+                            			<input type="button" class="btn btn-info" value="신청하기" style="width:10%;" disabled>
+                            		</c:when>
+                            		<c:otherwise>
+										<input type="button" class="btn btn-info" value="신청하기" style="width:10%;">
+									</c:otherwise>
+                            	</c:choose>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                </c:if>
+
 				<div class="card shadow mb-4">
+
 					<div class="card-body">
+
 						<div id="replyList">
 							<jsp:include page="/WEB-INF/views/nanum/reply/reply.jsp"></jsp:include>
 						</div>
@@ -104,6 +152,8 @@
 
 	<!-- Page level custom scripts -->
 	<script src="/corona/resources/js/common.js"></script>
+	
+	<script src="/corona/resources/plugins/sweetalert.min.js"></script>
 
 	<!-- Menu Toggle Script -->
 	<script>
@@ -118,11 +168,77 @@
 				}
 			});
 
+			if(${reply ne 0}){
+				$('#replyOne').empty().remove();
+			}
+
+			$('#lotto').on('click', function(){
+				$.ajax({
+					"url": "/corona/nanum/lotto/${nanumDetail.boardNo}",
+					"method": "POST",
+					"success": function(data, status, xhr) {
+						if (data == "failure"){
+							swal('주의','신청자가 없습니다','warning')
+						} else {
+						swal('완료','추첨된 회원은 ' + data + '님 입니다','success').then(okay => {
+							 if(okay) {
+								 location.reload();
+							 }})
+						}
+					},
+					"error": function(xhr, status, err) {
+						alert('추첨 실패');
+					}
+				})
+			});
+			
 			$("#nanumList").on('click', function() {
-				location.href = "/corona/nanum";
+				//location.href = "/corona/nanum";
+				history.back();
 			});
 
 			$('#replyList').load("/corona/nanum/reply/${nanumDetail.boardNo}");
+
+			$('#field-4').focus(function(){
+				if(${loginuser eq null}){
+					swal('주의','로그인 된 회원만 가능합니다.','warning')
+				} else if (${nanumDetail.memberNo eq loginuser.memberNo}){
+					swal('주의','본인 글에 신청은 불가합니다.','warning')
+				}
+			});
+
+			$('input[value="신청하기"]').on('click', function(){
+				if($('#field-4').val() == "") {
+					swal('주의','댓글을 입력해주세요.','warning')
+				} else {
+					var data = $('#writeReply').serializeArray();
+					$.ajax({
+						"url": "/corona/nanum/reply/write/${nanumDetail.boardNo}",
+						"method": "POST",
+						"data": data,
+					    "beforeSend" : function(xhr, opts) {
+					    	if (${loginuser eq null || loginuser.memberNo eq nanumDetail.memberNo}) {
+						        alert("잘못된 접근입니다.");
+					            xhr.abort();
+					        }
+					    },
+					    "success": function(data, status, xhr) {
+							if(data == "success") {
+								swal('완료','신청이 완료됐습니다.','success')
+								$('#replyList').load("/corona/nanum/reply/${nanumDetail.boardNo}");
+								
+							} else {
+								swal('주의','이미 신청이 완료됐습니다.','warning')
+							}
+						},
+						"error": function(xhr, status, err) {
+							alert('전송 실패');
+						}
+					});
+					$('#replyOne').empty().remove();	
+					
+				}
+			});
 		});
 	</script>
 
