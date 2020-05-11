@@ -42,4 +42,10 @@ public class AccountServiceImpl implements AccountService{
 		
 	}
 
+	@Override
+	public void updateRegist(MemberVO member) {
+		accountMapper.updateRegist(member);
+		
+	}
+
 }

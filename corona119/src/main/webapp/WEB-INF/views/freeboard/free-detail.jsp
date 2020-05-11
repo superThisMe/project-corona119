@@ -13,24 +13,14 @@
 
     <title>코로나 119 - 신종 코로나 바이러스 종합 정보 포털</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="/corona/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="/corona/resources/css/simple-sidebar.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="/corona/resources/css/sb-admin-2.min.css" rel="stylesheet">
+     <jsp:include page="/WEB-INF/views/ccss.jsp" />
 
     <!-- Custom styles for this page -->
     <link href="/corona/resources/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     
     <link href="/corona/resources/datatables/jquery.tap.css" rel="stylesheet">
     
-    <style>
-    .show {display: block}
-    </style>
-
+   
 </head>
 
 <body>

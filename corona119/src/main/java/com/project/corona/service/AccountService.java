@@ -14,4 +14,6 @@ public interface AccountService {
 
 	void memberDel(int memberNo);
 
+	void updateRegist(MemberVO member);
+
 }

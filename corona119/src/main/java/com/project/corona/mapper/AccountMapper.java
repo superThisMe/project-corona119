@@ -16,5 +16,7 @@ public interface AccountMapper {
 	String selectMemberNick(String memberNick);
 
 	void deleteMember(int memberNo);
+
+	void updateRegist(MemberVO member);
 	
 }

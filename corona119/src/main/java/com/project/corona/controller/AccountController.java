@@ -90,5 +90,14 @@ public class AccountController {
 		return "redirect:/";
 	}
 	
+	@PostMapping(path = {"/account/upReg"})
+	public String upReg(MemberVO member) {
+		String encryPassword = Sha256.encrypt(member.getMemberPsw());
+		member.setMemberPsw(encryPassword);
+
+		accountService.updateRegist(member);
+		
+		return "redirect:/";
+	}
 	
 }

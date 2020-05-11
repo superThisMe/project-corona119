@@ -34,5 +34,11 @@
 		SET member_deleted = 1
 		WHERE member_no = #{memeberNo};
 	</update>
+	
+	<update id="updateRegist" parameterType="MemberVO">
+		UPDATE MEMBER
+		SET member_psw = #{memberPsw}, member_email = #{memberEmail}, member_name = #{ memberName }, member_nickname = #{memberNickname}, member_addr = #{memberAddr}, member_addr_detail = #{memberAddrDetail} 
+		WHERE member_no = #{memberNo};
+	</update>
 		
 </mapper>

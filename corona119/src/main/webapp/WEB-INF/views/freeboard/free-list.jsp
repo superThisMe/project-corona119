@@ -15,11 +15,6 @@
     
     <jsp:include page="/WEB-INF/views/ccss.jsp" />
 
-    
-
-    <!-- Custom styles for this template -->
-    <!-- <link href="/corona/resources/css/sb-admin-2.min.css" rel="stylesheet"> -->
-
     <!-- Custom styles for this page -->
     <link href="/corona/resources/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     
