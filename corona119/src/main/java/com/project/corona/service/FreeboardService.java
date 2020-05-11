@@ -58,5 +58,9 @@ public interface FreeboardService {
 
 	void insertSingo(HashMap<String, Integer> hashmap);
 
+	List<BoardVO> freeNormal();
+	
+	List<BoardVO> freeSisa();
+
 
 }

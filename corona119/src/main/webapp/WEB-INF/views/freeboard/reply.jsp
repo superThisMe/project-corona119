@@ -28,10 +28,11 @@
 	    <div id="rid_${reply.RNo}" class="rid" style="display: none" data-rno="${reply.RNo}" >
 	    
 	     	
-	        <table style="width: 100%; font-size: 9pt">
+	        <table style="width: 100%; font-size: 9pt">	
 			                    <tr>	
 			                        <td style="width: 95%" 	>
 			                        <form id="updateReplyForm_${reply.RNo }">
+			                        	<input hidden="hidden">
 			                            <input id="upReply" name="upReply" style="width: 100%" value="${reply.reply}">
 			                        </form>
 			                        </td>

@@ -101,7 +101,7 @@
 			                        </td>
 			                        <td width="5%" align="center">
 			                            <a id="saveReplyBttn" href="#" class="btn btn-success btn-circle btn-lg">
-			                                <i class="fas fa-check"></i>
+			                                <i class="fas fa-check" style="font-size: x-small;">작성</i>
 			                            </a>
 			
 			                        </td>

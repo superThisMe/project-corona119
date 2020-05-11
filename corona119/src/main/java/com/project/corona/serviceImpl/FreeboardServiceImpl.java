@@ -161,6 +161,18 @@ public class FreeboardServiceImpl implements FreeboardService{
 		freeboardMapper.insertSingo(hashmap);
 	}
 
+	@Override
+	public List<BoardVO> freeNormal() {
+		
+		return freeboardMapper.freeNormal();
+	}
+	
+	@Override
+	public List<BoardVO> freeSisa() {
+		
+		return freeboardMapper.freeSisa();
+	}
+
 
 
 

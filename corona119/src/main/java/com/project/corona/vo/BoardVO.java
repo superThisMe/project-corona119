@@ -28,5 +28,6 @@ public class BoardVO {
 	
 	private List<ImageVO> image;
 	private List<FileVO> file;
+	private CategoryVO category;
 	
 }

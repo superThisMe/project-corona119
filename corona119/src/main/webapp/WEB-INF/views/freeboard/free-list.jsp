@@ -50,9 +50,9 @@
                 <div class="card shadow mb-4">
                                         
                     <ul class="tabs" id="tabs">
-						<li class="tab-link current" data-tab="tab-1">메뉴_하나</li>
-						<li class="tab-link" data-tab="tab-2">메뉴_둘</li>
-						<li class="tab-link" data-tab="tab-3">메뉴_셋</li>
+						<li class="tab-link current" data-tab="tab-1">전체</li>
+						<li class="tab-link" data-tab="tab-2">일반</li>
+						<li class="tab-link" data-tab="tab-3">시사</li>
 						<c:if test="${sessionScope.loginuser != null }" >
 							<a href="/corona/freeboard/free-write" class="btn btn-success btn-sm" style="float:right; margin:8px;"> 
 		              			<span class="text">글 쓰기</span>
@@ -93,8 +93,7 @@
 
     <!-- Bootstrap core JavaScript -->
     <script src="/corona/resources/vendor/jquery/jquery.min.js"></script>
-    <script src="/corona/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="/corona/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>	
 
     <!-- Core plugin JavaScript-->
     <script src="/corona/resources/datatables/jquery.easing.min.js"></script>
@@ -136,21 +135,15 @@
 			$("#"+tab_id).addClass('current');
 		})
 		
-		$('table').DataTable();
+		var test = $('table').DataTable({
+			"order":  [[0, 'desc']]
+		});
+
 
 	})
 		
 	</script>
-	<script type="text/javascript">
 	
-	 $(document).ready(function() {
-		       var noSort = $('#dataTable1').dataTable();
-		 
-		       noSort.fnSort( [ [0,'desc'] ] );
-		     } );
-	
-		
-	</script>
 	
 	 
 

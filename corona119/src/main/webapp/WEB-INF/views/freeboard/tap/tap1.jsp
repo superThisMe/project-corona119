@@ -9,6 +9,7 @@
                                 <thead>
                                     <tr>
                                         <th width="7%">번호</th>
+                                        <th width="7%">분류</th>
                                         <th width="59%">제목</th>
                                         <th width="10%">글쓴이</th>
                                         <th width="10%">날짜</th>
@@ -22,6 +23,7 @@
                                 
                                     <tr>
                                         <td>${ freeList.boardNo }</td>
+                                        <td>${ freeList.category.category }</td>
                                         <td><a href="/corona/freeboard/freeDetail?boardNo=${ freeList.boardNo }">${ freeList.boardTitle }</a></td>
                                         <td>${ freeList.member.memberNickname }</td>
                                         <td><fmt:formatDate value="${ freeList.boardRegdate }" pattern="yyyy.MM.dd"/></td>
@@ -30,7 +32,7 @@
                                     </tr>
                                 
                                 </c:forEach>
-                                
+                                	
                                 </tbody>
                             </table>
                         </div>

@@ -40,6 +40,12 @@ public class FreeboardController {
 		List<BoardVO> freeList = freeboardService.freeList();
 		model.addAttribute("freeList", freeList);
 		
+		List<BoardVO> freeNormal = freeboardService.freeNormal();
+		model.addAttribute("freeNormal", freeNormal);
+		
+		List<BoardVO> freeSisa = freeboardService.freeSisa();
+		model.addAttribute("freeSisa", freeSisa);
+		System.out.println(model);		
 		return "/freeboard/free-list";
 	}
 	
@@ -50,7 +56,7 @@ public class FreeboardController {
 	
 	@PostMapping(path= {"/freeSave"} )
 	public String saveFreeboard(BoardVO board, ImageVO image, FileVO file) {
-		
+		System.out.println(board);
 		freeboardService.freeSave(board);
 		int boardNo = board.getBoardNo();
 		

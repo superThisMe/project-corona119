@@ -60,6 +60,10 @@ public interface FreeboardMapper {
 	int selectSingoByBoardNoMemberNo(HashMap<String, Integer> hashmap);
 
 	void insertSingo(HashMap<String, Integer> hashmap);
+
+	List<BoardVO> freeNormal();
+	
+	List<BoardVO> freeSisa();
 	
 	
 

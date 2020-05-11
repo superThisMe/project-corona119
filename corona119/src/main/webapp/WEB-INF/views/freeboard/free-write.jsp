@@ -48,7 +48,7 @@
             <div class="container-fluid">
 
                 <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">자유게시판 글쓰기</h1>
+                <h1 class="h3 mb-2 text-gray-800">글 수정하기</h1>
 
                 <form name="write-form" id="write-form" action="/corona/freeboard/freeSave" method="post"
 							accept-charset="utf-8">
@@ -57,12 +57,21 @@
                     <table>
                         <tbody>
                             <tr>
-                                <td style="width:10%;">제목 : </td>
-                                <td><input style="width: 95%;" name="boardTitle" id="title" />
+                            	
+                                <td style="width:50px;">제목 : </td>
+                                <td style="width:10%;">
+                            		<select id="catNo" name="catNo">
+                            			<option value="">선택하세요</option>
+                            			<option value="5">일반</option>
+                            			<option value="6">시사</option>	
+                            		</select> 
+                            	</td>
+                                <td>
+                                	<input style="width: 100%;" name="boardTitle" id="boardTitle" />
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="2">
+                                <td colspan="3">
 
                                     <jsp:include page="/WEB-INF/views/freeboard/daumEditor.jsp" />
 
@@ -76,7 +85,7 @@
 
 
 					<input name="memberNo" type="hidden" value="${ loginuser.memberNo }">
-					<input name="catNo" type="hidden" value="3">
+					
                 </form>
 
             </div>
@@ -184,7 +193,7 @@
 
     <script>
         $(function (event) {
-            $("#save").click(function (event) {
+            $("#save").click(function (event) {                
                 Editor.save();
             });
         });
@@ -192,6 +201,17 @@
         function validForm(editor) {
             var validator = new Trex.Validator();
             var content = editor.getContent();
+                        
+			if ($('#catNo').val() == '') {
+				alert('분류를 선택 하세요');
+				$('#catNo').focus();
+				return;
+			}
+			if ($('#boardTitle').val() == '') {
+				alert('제목을 입력하세요');
+				$('#boardTitle').focus();
+				return;
+			}            
             if (!validator.exists(content)) {
                 alert('내용을 입력하세요');
                 return false;

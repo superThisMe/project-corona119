@@ -56,12 +56,21 @@
                     <table>
                         <tbody>
                             <tr>
-                                <td style="width:10%;">제목 : </td>
-                                <td><input style="width: 95%;" name="boardTitle" id="title" value="${ board.boardTitle }" />
+                                <td style="width:50px;">제목 : </td>
+                                <td style="width:10%;">
+                            		<select id="catNo" name="catNo">
+                            			<option value="">선택하세요</option>
+                            			<option value="5">일반</option>
+                            			<option value="6">시사</option>	
+                            		</select> 
+                            		
+                            	</td>
+                                <td>
+                               		<input style="width: 100%;" name="boardTitle" id="boardTitle" value="${ board.boardTitle }"/> 
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="2">
+                                <td colspan="3">
 									<textarea id="item_content" name="item_content" style="width:99%; height:180px; display: none" rows="15" cols="50" >
 									${ board.boardContent }
 									</textarea >
@@ -76,7 +85,7 @@
 
 
 					<input name="boardNo" type="hidden" value="${ board.boardNo }">
-					<input name="catNo" type="hidden" value="3">
+					
                 </form>
 
             </div>
@@ -190,6 +199,16 @@
     <script>
         $(function (event) {
             $("#update").click(function (event) {
+            	if ($('#catNo').val() == '') {
+    				alert('분류를 선택 하세요');
+    				$('#catNo').focus();
+    				return;
+    			}
+    			if ($('#boardTitle').val() == '') {
+    				alert('제목을 입력하세요');
+    				$('#boardTitle').focus();
+    				return;
+    			}      
                 Editor.save();
             });
         });
@@ -198,7 +217,11 @@
             var validator = new Trex.Validator();
             var content = editor.getContent();
             if (!validator.exists(content)) {
-                alert('내용을 입력하세요');
+            	        
+                if (!validator.exists(content)) {
+                    alert('내용을 입력하세요');
+                    return false;
+                }
                 return false;
             }
 
