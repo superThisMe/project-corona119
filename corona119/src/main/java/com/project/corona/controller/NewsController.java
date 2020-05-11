@@ -54,7 +54,7 @@ public class NewsController {
 	public String newsDetail(Model model, int bno) {
 		
 		NewsVO newsDetail = newsService.findBoardByBno(bno);
-		System.out.println(newsDetail);
+		//System.out.println(newsDetail);
 		if (newsDetail == null) {
 			return "redirect:/news/list";
 		}
