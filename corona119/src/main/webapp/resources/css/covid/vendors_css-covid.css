@@ -1,7 +1,7 @@
 /****************************/
 /** Imports Plugin css **/
 /****************************/
-@import url(../../assets/vendor_components/bootstrap/dist/css/bootstrap.css);
+/* @import url(../../assets/vendor_components/bootstrap/dist/css/bootstrap.css); */
 @import url(../../assets/vendor_components/morris.js/morris.css);
 @import url(../../assets/vendor_components/datatable/datatables.min.css);
 @import url(../../assets/vendor_components/jvectormap/lib2/jquery-jvectormap-2.0.2.css);
