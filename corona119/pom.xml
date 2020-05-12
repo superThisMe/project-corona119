@@ -32,7 +32,8 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-				
+		
+			
 		<!-- AspectJ -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
@@ -207,6 +208,8 @@
 		    <artifactId>thumbnailator</artifactId>
 		    <version>0.4.11</version>
 		</dependency>
+		
+
 		
 		<!-- Jsoup -->
 		<dependency>
